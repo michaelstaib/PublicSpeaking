@@ -1,11 +1,11 @@
-using HotChocolate;
-using HotChocolate.AspNetCore;
-using HotChocolate.Execution;
-using HotChocolate.Subscriptions;
-using HotChocolate.PersistedQueries.FileSystem;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using HotChocolate;
+using HotChocolate.AspNetCore;
+using HotChocolate.Execution;
+using HotChocolate.PersistedQueries.FileSystem;
+using HotChocolate.Subscriptions;
 using StarWars.Data;
 using StarWars.Types;
 
@@ -24,8 +24,6 @@ namespace StarWars
             // Add in-memory event provider
             services.AddInMemorySubscriptionProvider();
 
-            services.AddReadOnlyFileSystemQueryStorage("./queries");
-
             // Add GraphQL Services
             services.AddGraphQL(sp => SchemaBuilder.New()
                 .AddServices(sp)
@@ -35,8 +33,7 @@ namespace StarWars
                 .AddType<HumanType>()
                 .AddType<DroidType>()
                 .AddType<EpisodeType>()
-                .Create(),
-                builder => builder.UsePersistedQueryPipeline());
+                .Create());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
