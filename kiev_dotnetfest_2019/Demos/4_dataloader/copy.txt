@@ -1,0 +1,23 @@
+MessageType
+
+descriptor.Field("createdBy").Type<NonNullType<UserType>>().Resolver(ctx =>
+{
+    UserRepository repository = ctx.Service<UserRepository>();
+
+    IDataLoader<ObjectId, User> dataLoader = ctx.BatchDataLoader<ObjectId, User>(
+        "UserById",
+        repository.GetUsersAsync);
+
+    return dataLoader.LoadAsync(ctx.Parent<Message>().UserId);
+});
+
+
+IDataLoader<ObjectId, Message> dataLoader = ctx.CacheDataLoader<ObjectId, Message>(
+    "MessageById",
+    repository.GetMessageById);
+
+return await dataLoader.LoadAsync(ctx.Parent<Message>().ReplyToId.Value);
+
+.UsePaging<MessageType>()
+
+docker run --name mongo -p 27017:27017 -d mongo mongod

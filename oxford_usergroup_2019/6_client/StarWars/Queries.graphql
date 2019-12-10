@@ -1,0 +1,24 @@
+query GetHero($episode: Episode = NEWHOPE) {
+  hero(episode: $episode) {
+    ...HasName
+    ...HasFriends
+  }
+}
+
+subscription OnNewReview($episode: Episode = NEWHOPE) {
+  onReview(episode: $episode) {
+    stars
+  }
+}
+
+fragment HasName on Character {
+  name
+}
+
+fragment HasFriends on Character {
+  friends {
+    nodes {
+      ...HasName
+    }
+  }
+}

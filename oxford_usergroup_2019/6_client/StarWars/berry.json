@@ -1,0 +1,11 @@
+{
+  "Schemas": [
+    {
+      "Name": "StarWars",
+      "Type": "http",
+      "File": "StarWars.graphql",
+      "Url": "http://localhost:5000/graphql"
+    }
+  ],
+  "ClientName": "StarWarsClient"
+}

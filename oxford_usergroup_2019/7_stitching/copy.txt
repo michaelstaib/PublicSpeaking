@@ -1,0 +1,60 @@
+services.AddStitchedSchema(builder => builder
+                .AddSchemaFromHttp("customer")
+                .AddSchemaFromHttp("contract")
+                .AddExtensionsFromFile("./Extensions.graphql")
+                .AddSchemaConfiguration(c =>
+                {
+
+                }));
+
+// .IgnoreRootTypes()
+                .RenameType("LifeInsuranceContract", "LifeInsurance")
+
+extend type Query {
+  me: Customer
+    @delegate(
+      schema: "customer"
+      path: "customer(id:$contextData:currentUserId)"
+    )
+}
+
+extend type Customer {
+  contracts: [Contract!]
+    @delegate(schema: "contract", path: "contracts(customerId:$fields:id)")
+}
+
+services.AddQueryRequestInterceptor((context, builder, cancellationToken) =>
+{
+    builder.AddProperty("currentUserId", "Q3VzdG9tZXIKZDE=");
+    return Task.CompletedTask;
+});
+
+c.RegisterType<SomeOtherContractExtension>();
+// custom resolver that depends on data from a remote schema.
+c.Map(new FieldReference("Customer", "foo"), next => context =>
+{
+    OrderedDictionary obj = context.Parent<OrderedDictionary>();
+    context.Result = obj["name"] + "_" + obj["id"];
+    return Task.CompletedTask;
+});
+
+
+public class SomeOtherContractExtension
+        : ObjectTypeExtension
+    {
+        protected override void Configure(IObjectTypeDescriptor descriptor)
+        {
+            descriptor.Name("SomeOtherContract");
+            descriptor.Field("expiresInDays")
+                .Type<NonNullType<IntType>>()
+                .Directive(new ComputedDirective { DependantOn = new NameString[] { "expiryDate" } })
+                .Resolver(context =>
+                {
+                    var obj = context.Parent<IReadOnlyDictionary<string, object>>();
+                    var serializedExpiryDate = obj["expiryDate"];
+                    var dateType = (ISerializableType)context.ObjectType.Fields["expiryDate"].Type;
+                    var offset = (DateTimeOffset)dateType.Deserialize(serializedExpiryDate);
+                    return offset.DateTime.Subtract(DateTime.UtcNow).Days;
+                });
+        }
+    }

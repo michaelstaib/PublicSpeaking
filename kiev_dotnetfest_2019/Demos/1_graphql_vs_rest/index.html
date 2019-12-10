@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>GraphQL vs. REST</title>
+    <style>
+      body,
+      html {
+        width: 100vw;
+        height: 100vh;
+        font-size: 12px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        user-select: none;
+        font-family: system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+          sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        font-size: 1em;
+        font-weight: normal;
+      }
+
+      *:focus {
+        outline: none;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+
+      button {
+        cursor: pointer;
+        padding: 5px;
+        margin: 0 10px;
+      }
+
+      strong {
+        font-weight: bold;
+      }
+
+      #buttons {
+        display: flex;
+        flex: 0 0 auto;
+        flex-direction: row;
+        padding: 50px 0 0;
+        font-size: 1.5em;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #loading,
+      #result {
+        display: none;
+        flex-direction: column;
+        flex: 1 1 auto;
+        font-size: 1.25em;
+      }
+
+      #loading {
+        flex-direction: row !important;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #result {
+        padding-top: 50px;
+        text-align: center;
+      }
+
+      #result > h1,
+      #result > p {
+        flex: 0 0 auto;
+        font-size: 1.25em;
+        margin-bottom: 15px;
+      }
+
+      #result > h1 {
+        font-size: 1.25em;
+        font-weight: bold;
+      }
+
+      #names {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        overflow-y: scroll;
+      }
+
+      #names > li {
+        flex: 0 0 auto;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="buttons">
+      <button id="graphql" onclick="graphql();">GraphQL</button>
+      vs.
+      <button id="rest" onclick="rest();">REST</button>
+    </div>
+    <div id="loading">
+      <span>Loading...</span>
+    </div>
+    <div id="result">
+      <h1>
+        An unsorted list of characters who played in the same films where Luke
+        Skywalker were present
+      </h1>
+      <p>
+        Used <strong id="tech"></strong> and returned
+        <strong id="totalCount"></strong> characters which took
+        <strong id="took"></strong> ms.
+      </p>
+      <ul id="names"></ul>
+    </div>
+    <script>
+      const fetcher = (url, method) =>
+        fetch(url, {
+          method: method || "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(response => {
+          return response.json();
+        });
+
+      function start() {
+        const startedAt = Date.now();
+
+        console.log("Preparing request...");
+
+        document.querySelector("#graphql").disabled = true;
+        document.querySelector("#rest").disabled = true;
+        document.querySelector("#loading").style.display = "flex";
+        document.querySelector("#result").style.display = "none";
+        document.querySelector("#names").innerHTML = "";
+        document.querySelector("#tech").innerHTML = "";
+        document.querySelector("#totalCount").innerHTML = "";
+        document.querySelector("#took").innerHTML = "";
+
+        return startedAt;
+      }
+
+      function end(tech, characters, startedAt) {
+        const took = Date.now() - startedAt;
+
+        console.log("Took %sms", took);
+        console.log("Updating UI...");
+
+        const characterNodes = characters.map(c => {
+          const nameNode = document.createElement("li");
+          const textNode = document.createTextNode(c.name);
+
+          nameNode.appendChild(textNode);
+
+          return nameNode;
+        });
+        const namesNode = document.querySelector("#names");
+
+        for (let characterNode of characterNodes) {
+          namesNode.appendChild(characterNode);
+        }
+
+        document.querySelector("#tech").innerHTML = tech;
+        document.querySelector("#totalCount").innerHTML = characters.length;
+        document.querySelector("#took").innerHTML = took;
+        document.querySelector("#loading").style.display = "none";
+        document.querySelector("#result").style.display = "flex";
+        document.querySelector("#graphql").disabled = false;
+        document.querySelector("#rest").disabled = false;
+
+        window.setTimeout(() => {
+          namesNode.scrollTop = 0;
+        }, 0);
+
+        console.log("Updated UI");
+      }
+
+      // Usually this function would also conatain logic to handle errors/retry
+      // logic properly; Just for Demo purpose and not production ready.
+      function graphql() {
+        const baseUri = "http://swapigraphqldemo.azurewebsites.net";
+        const request =
+          "query={ character(id: 1) { name movies { title characters { name } } } }";
+        const characters = [];
+        const startedAt = start();
+
+        console.log("Fetching...");
+
+        // One HTTP GET request to fetch the required character names.
+        fetcher(baseUri + "?" + request).then(response => {
+          console.log("Fetched...");
+
+          const luke = response.data.character;
+
+          for (var i = 0; i < luke.movies.length; i++) {
+            for (var j = 0; j < luke.movies[i].characters.length; j++) {
+              const character = luke.movies[i].characters[j];
+
+              if (
+                characters.filter(c => c.name === character.name).length === 0
+              ) {
+                characters.push(character);
+              }
+            }
+          }
+
+          end("GraphQL", characters, startedAt);
+        });
+      }
+
+      // Usually this method would be split up into smaller functions and would
+      // also contain logic to handle errors/retry logic properly; Just for Demo
+      // purpose and not production ready.
+      function rest() {
+        const baseUri = "https://swapi.co/";
+        const characterUris = []; // Needed to avoid duplicate requests and data
+        const characters = []; // Needed to have a complete list of characters
+        const startedAt = start();
+
+        console.log("Fetching Luke Skywalker...");
+
+        // Fetch Luke Skywalker
+        fetcher(baseUri + "api/people/1/").then(luke => {
+          // Client-side logic to avoid duplicates
+          characterUris.push(luke.url);
+          characters.push(luke);
+
+          console.log("Fetched Luke Skywalker");
+          console.log("Fetching films where Luke Skywalker was present...");
+
+          for (let filmUri of luke.films) {
+            console.log('Fetching film "%s"...', filmUri);
+
+            // Fetch films where Luke Skywalker were present
+            fetcher(filmUri).then(film => {
+              console.log('Fetched film "%s"...', filmUri);
+
+              for (let characterUri of film.characters) {
+                // Client-side logic to avoid duplicates
+                if (characterUris.indexOf(characterUri) === -1) {
+                  characterUris.push(characterUri);
+
+                  console.log('Fetching character "%s"...', characterUri);
+
+                  // Fetch all characters related to on particular film
+                  fetcher(characterUri).then(character => {
+                    console.log('Fetched character "%s"...', characterUri);
+                    characters.push(character);
+
+                    // Client-side logic to verify whether all characters have
+                    // been successfully loaded
+                    if (characterUris.length === characters.length) {
+                      end("REST", characters, startedAt);
+                    }
+                  });
+                }
+              }
+            });
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
