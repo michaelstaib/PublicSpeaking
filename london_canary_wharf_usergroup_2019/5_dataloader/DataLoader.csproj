@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
 
@@ -20,8 +20,7 @@
     <PackageReference Include="HotChocolate.AspNetCore" Version="10.1.1" />
     <PackageReference Include="HotChocolate.Types.Filters" Version="10.1.1" />
     <PackageReference Include="HotChocolate.Types.Sorting" Version="10.1.1" />
-    <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.1.1" />
-    <PackageReference Include="MongoDB.Driver" Version="2.7.3" />
+    <PackageReference Include="MongoDB.Driver" Version="2.9.3" />
   </ItemGroup>
 
 </Project>

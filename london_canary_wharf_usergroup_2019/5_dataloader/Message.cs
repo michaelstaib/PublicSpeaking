@@ -1,6 +1,5 @@
 ﻿using System;
 using MongoDB.Bson;
-using HotChocolate.Language;
 
 namespace HotChocolate.Examples.Paging
 {
