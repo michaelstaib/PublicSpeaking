@@ -15,7 +15,12 @@ namespace HotChocolate.Examples.Paging
             descriptor.Field("createdBy").Type<NonNullType<UserType>>().Resolver(ctx =>
             {
                 UserRepository repository = ctx.Service<UserRepository>();
-                return repository.GetUserAsync(ctx.Parent<Message>().UserId, ctx.RequestAborted);
+
+                IDataLoader<ObjectId, User> dataLoader = ctx.BatchDataLoader<ObjectId, User>(
+                    "UserById",
+                    repository.GetUsersAsync);
+
+                return dataLoader.LoadAsync(ctx.Parent<Message>().UserId, ctx.RequestAborted);
             });
             descriptor.Field("replyTo").Type<MessageType>().Resolver(async ctx =>
             {

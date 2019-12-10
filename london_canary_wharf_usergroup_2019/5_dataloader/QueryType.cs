@@ -11,8 +11,10 @@ namespace HotChocolate.Examples.Paging
         protected override void Configure(IObjectTypeDescriptor descriptor)
         {
             descriptor.Field("messages")
-                .Type<ListType<MessageType>>()
-                .Resolver(ctx => ctx.Service<MessageRepository>().GetAllMessages());
+                .Resolver(ctx => ctx.Service<MessageRepository>().GetAllMessages())
+                .UsePaging<MessageType>()
+                .UseFiltering()
+                .UseSorting();
 
             descriptor.Field("usersByCountry")
                 .Argument("country", a => a.Type<NonNullType<StringType>>())

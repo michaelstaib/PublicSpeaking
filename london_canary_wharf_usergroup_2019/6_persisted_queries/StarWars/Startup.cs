@@ -24,6 +24,8 @@ namespace StarWars
             // Add in-memory event provider
             services.AddInMemorySubscriptionProvider();
 
+            services.AddReadOnlyFileSystemQueryStorage("./queries");
+
             // Add GraphQL Services
             services.AddGraphQL(sp => SchemaBuilder.New()
                 .AddServices(sp)
@@ -33,7 +35,8 @@ namespace StarWars
                 .AddType<HumanType>()
                 .AddType<DroidType>()
                 .AddType<EpisodeType>()
-                .Create());
+                .Create(),
+                builder => builder.UsePersistedQueryPipeline());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
