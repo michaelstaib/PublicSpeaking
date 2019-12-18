@@ -1,0 +1,10 @@
+public class Query
+{
+    public string Hello() => "World";
+}
+
+services.AddGraphQL(sp => SchemaBuilder.New()
+    .AddQueryType<Query>()
+    .Create());
+
+app.UseGraphQL();
