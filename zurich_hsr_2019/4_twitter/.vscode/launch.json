@@ -8,7 +8,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/netcoreapp2.2/DataLoader.dll",
+            "program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/twitter.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,

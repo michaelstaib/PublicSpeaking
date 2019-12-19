@@ -1,4 +1,5 @@
 ﻿
+using System.Linq;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.Types;
@@ -30,12 +31,24 @@ namespace Twitter
             services.AddSingleton<UserRepository>();
 
             // Add GraphQL Services
+            services.AddGraphQL(
+                SchemaBuilder.New()
+                    .AddQueryType<Query>()
+                    .BindClrType<ObjectId, StringType>());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            
+            app.UseGraphQL();
         }
+    }
+
+    public class Query
+    {
+        public IQueryable<Message> GetMessages(
+            [Service]MessageRepository repository) => 
+            repository.GetAllMessages();
     }
 }
