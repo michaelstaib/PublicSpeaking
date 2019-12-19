@@ -18,9 +18,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="HotChocolate.AspNetCore" Version="10.3.0-preview.12" />
-    <PackageReference Include="HotChocolate.Types.Filters" Version="10.3.0-preview.12" />
-    <PackageReference Include="HotChocolate.Types.Sorting" Version="10.3.0-preview.12" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="10.3.0-preview.13" />
+    <PackageReference Include="HotChocolate.Types.Filters" Version="10.3.0-preview.13" />
+    <PackageReference Include="HotChocolate.Types.Sorting" Version="10.3.0-preview.13" />
+    <PackageReference Include="HotChocolate.PersistedQueries.FileSystem" Version="10.3.0-preview.13" />
     <PackageReference Include="System.Threading.Channels" Version="4.6.0" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.9.3" />
