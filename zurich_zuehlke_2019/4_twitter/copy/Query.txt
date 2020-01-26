@@ -1,0 +1,15 @@
+using System.Linq;
+using HotChocolate;
+using HotChocolate.Types;
+using HotChocolate.Types.Relay;
+
+namespace Twitter
+{
+    public class Query
+    {
+        [UsePaging(typeof(ObjectType<Message>))]
+        public IQueryable<Message> GetAllMessages(
+            [Service]MessageRepository repository) => 
+            repository.GetAllMessages();
+    }
+}

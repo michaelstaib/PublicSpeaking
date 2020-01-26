@@ -1,0 +1,6 @@
+<PackageReference Include="HotChocolate.PersistedQueries.FileSystem" Version="10.1.1" />
+
+services.AddReadOnlyFileSystemQueryStorage("./queries");
+
+,
+                b => b.UsePersistedQueryPipeline())
