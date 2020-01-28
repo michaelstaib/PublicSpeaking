@@ -1,0 +1,4 @@
+
+                SchemaBuilder.New()
+                    .AddQueryType<Query>()
+                    .BindClrType<ObjectId, StringType>()

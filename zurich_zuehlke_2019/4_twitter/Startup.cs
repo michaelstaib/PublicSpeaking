@@ -31,11 +31,7 @@ namespace Twitter
             services.AddSingleton<UserRepository>();
 
             // Add GraphQL Services
-            services.AddGraphQL(
-                SchemaBuilder.New()
-                    .AddQueryType<Query>()
-                    .BindClrType<ObjectId, StringType>());
-
+            services.AddGraphQL();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,12 +39,5 @@ namespace Twitter
         {
             app.UseGraphQL();
         }
-    }
-
-    public class Query
-    {
-        public IQueryable<Message> GetMessages(
-            [Service]MessageRepository repository) => 
-            repository.GetAllMessages();
     }
 }
