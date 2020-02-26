@@ -1,0 +1,94 @@
+@using System.Collections.Immutable;
+@inject IChatClient ChatClient
+@inject ISessionStorageService SessionStore
+
+<PeopleList
+  IsLoading="@_isLoadingPeople"
+  People="@_people"
+  ClickPerson="OnClickPerson"
+/>
+
+@code {
+    private bool _isLoadingPeople = true;
+    // private bool _isLoadingRecipient = false;
+    private IPersonConnection? _people;
+    private IRecipient? _recipient;
+    private ImmutableList<IMessage> _messages = ImmutableList<IMessage>.Empty;
+
+    [Parameter]
+    public EventCallback ClickSignOut { get; set; }
+
+    [Parameter]
+    public IPerson User { get; set; } = default(IPerson);
+
+    protected override async Task OnInitializedAsync()
+    {
+        var recipientId = await SessionStore.GetItemAsync<string>("RecipientId");
+
+        if (string.IsNullOrWhiteSpace(recipientId))
+        {
+            await LoadPeople(User.Id);
+        }
+        else
+        {
+            await LoadPeopleAndRecipient(User.Id, recipientId);
+        }
+
+        _isLoadingPeople = false;
+        StateHasChanged();
+    }
+
+    private async Task OnClickPerson(IPerson person)
+    {
+        var operation = await ChatClient.GetRecipientAsync(person.Id);
+
+        if (operation.IsNotAuthenticted() && ClickSignOut.HasDelegate)
+        {
+            await ClickSignOut.InvokeAsync(null);
+        }
+
+        _recipient = operation.Data?.PersonById;
+        _messages = ImmutableList<IMessage>.Empty;
+
+        if (_recipient == null)
+        {
+            await SessionStore.RemoveItemAsync("RecipientId");
+        }
+        else
+        {
+            _messages = ImmutableList.CreateRange<IMessage>(_recipient.Messages.Nodes);
+            await SessionStore.SetItemAsync("RecipientId", _recipient.Id);
+        }
+    }
+
+    private async Task LoadPeople(string userId)
+    {
+        var operation = await ChatClient.GetPeopleAsync(userId);
+
+        if (operation.IsNotAuthenticted() && ClickSignOut.HasDelegate)
+        {
+            await ClickSignOut.InvokeAsync(null);
+        }
+
+        _people = operation.Data?.People;
+    }
+
+    private async Task LoadPeopleAndRecipient(string userId, string recipientId)
+    {
+        var operation = await ChatClient.GetPeopleAndRecipientAsync(userId, recipientId);
+
+        if (operation.IsNotAuthenticted() && ClickSignOut.HasDelegate)
+        {
+            await ClickSignOut.InvokeAsync(null);
+        }
+
+        if (operation.IsNonNullViolation())
+        {
+            await SessionStore.RemoveItemAsync("RecipientId");
+            await LoadPeople(string.Empty);
+        }
+
+        _people = operation.Data?.People;
+        _recipient = operation.Data?.PersonById;
+    }
+}

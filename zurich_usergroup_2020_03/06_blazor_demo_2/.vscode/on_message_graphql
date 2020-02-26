@@ -1,0 +1,5 @@
+subscription onMessageReceived {
+  message: onMessageReceived {
+    ...message
+  }
+}
