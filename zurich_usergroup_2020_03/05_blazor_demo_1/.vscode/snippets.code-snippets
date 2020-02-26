@@ -1,40 +1,37 @@
 {
-	"abc": {
+	"s1": {
 		"scope": "csharp",
-		"prefix": "snippet_0",
+		"prefix": "s1",
 		"body": [
-			"protected override async Task OnInitializedAsync()",
-			"{",
-			"}"
+			"[Parameter]",
+			"public IPerson User { get; set; }"
 		]
 	},
-	"Print to console": {
+	"s2": {
 		"scope": "csharp",
-		"prefix": "snippet_1",
+		"prefix": "s2",
+		"body": [
+			"[Parameter]",
+			"public bool IsLoading { get; set; }"
+		]
+	},
+	"s3": {
+		"scope": "csharp",
+		"prefix": "s3",
 		"body": [
 			"[Parameter]",
 			"public IPersonConnection People { get; set; }"
 		]
 	},
-	"s": {
-		"scope": "csharp",
-		"prefix": "snippet_2",
-		"body": [
-			"[Parameter]",
-			"public EventCallback<IPerson> ClickPerson { get; set; }"
-		]
-	},
-	"ss": {
-		"scope": "csharp",
-		"prefix": "snippet_3",
+	"s4": {
+		"scope": "html",
+		"prefix": "s4",
 		"body": [
 			"else if (People?.Nodes is { })",
 			"{",
 			"    @foreach (var person in People.Nodes)",
 			"    {",
-			"        <PersonItem",
-			"        @key=\"person.Id\"",
-			"        User=\"@person\" />",
+			"        <PersonItem User=\"@person\" />",
 			"    }",
 			"}"
 		]
