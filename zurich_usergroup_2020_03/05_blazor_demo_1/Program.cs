@@ -10,7 +10,6 @@ namespace Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            builder.Services.AddBlazoredSessionStorage();
             builder.RootComponents.Add<App>("app");
 
             await builder.Build().RunAsync();
