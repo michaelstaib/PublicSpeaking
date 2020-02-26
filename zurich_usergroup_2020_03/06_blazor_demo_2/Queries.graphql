@@ -2,11 +2,6 @@ query getPeople($userId: ID!) {
   ...people
 }
 
-query getPeopleAndRecipient($userId: ID!, $recipientId: ID!) {
-  ...people
-  ...recipientById
-}
-
 query getRecipient($recipientId: ID!) {
   ...recipientById
 }
@@ -27,25 +22,6 @@ mutation signUp($newUser: CreateUserInput!) {
       email
     }
   }
-}
-
-fragment message on Message {
-  direction
-  id
-  recipient {
-    ...participant
-  }
-  sender {
-    ...participant
-  }
-  sent
-  text
-}
-
-fragment participant on Person {
-  id
-  name
-  isOnline
 }
 
 fragment people on Query {

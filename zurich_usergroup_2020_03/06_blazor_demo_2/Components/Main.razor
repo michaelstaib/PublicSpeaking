@@ -19,7 +19,7 @@
     public EventCallback ClickSignOut { get; set; }
 
     [Parameter]
-    public IPerson User { get; set; } = default(IPerson);
+    public IPerson User { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
