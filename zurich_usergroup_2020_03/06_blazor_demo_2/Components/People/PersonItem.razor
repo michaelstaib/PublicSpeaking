@@ -6,10 +6,10 @@
     <div class="person-about">
         <div class="person-name">@User.Name</div>
         <div class="person-status">
-            <span class="status-icon--@User.GetStatus() fa fa-circle"></span>
+            <span class="status-icon--@GetStatus(User) fa fa-circle"></span>
             @if (@User.IsOnline)
             {
-                <span class="status-text">@User.GetStatus()</span>
+                <span class="status-text">@GetStatus(User)</span>
             }
             else
             {
@@ -32,5 +32,12 @@
         {
             await ClickPerson.InvokeAsync(User);
         }
+    }
+
+    private static string GetStatus(IPerson? person)
+    {
+        return person != null && person.IsOnline == true
+            ? "online"
+            : "offline";
     }
 }

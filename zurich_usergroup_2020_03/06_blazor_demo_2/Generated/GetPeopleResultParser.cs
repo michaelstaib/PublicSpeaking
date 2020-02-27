@@ -11,77 +11,101 @@ using StrawberryShake.Transport;
 namespace Client
 {
     [System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.0.0")]
-    public partial class SignInResultParser
-        : JsonResultParserBase<ISignIn>
+    public partial class GetPeopleResultParser
+        : JsonResultParserBase<IGetPeople>
     {
-        private readonly IValueSerializer _stringSerializer;
         private readonly IValueSerializer _iDSerializer;
+        private readonly IValueSerializer _stringSerializer;
         private readonly IValueSerializer _urlSerializer;
         private readonly IValueSerializer _booleanSerializer;
         private readonly IValueSerializer _dateTimeSerializer;
 
-        public SignInResultParser(IValueSerializerCollection serializerResolver)
+        public GetPeopleResultParser(IValueSerializerCollection serializerResolver)
         {
             if (serializerResolver is null)
             {
                 throw new ArgumentNullException(nameof(serializerResolver));
             }
-            _stringSerializer = serializerResolver.Get("String");
             _iDSerializer = serializerResolver.Get("ID");
+            _stringSerializer = serializerResolver.Get("String");
             _urlSerializer = serializerResolver.Get("Url");
             _booleanSerializer = serializerResolver.Get("Boolean");
             _dateTimeSerializer = serializerResolver.Get("DateTime");
         }
 
-        protected override ISignIn ParserData(JsonElement data)
+        protected override IGetPeople ParserData(JsonElement data)
         {
-            return new SignIn
+            return new GetPeople
             (
-                ParseSignInLogin(data, "login")
+                ParseGetPeoplePeople(data, "people")
             );
 
         }
 
-        private global::Client.ILoginPayload ParseSignInLogin(
+        private global::Client.IPersonConnection? ParseGetPeoplePeople(
             JsonElement parent,
             string field)
         {
-            JsonElement obj = parent.GetProperty(field);
+            if (!parent.TryGetProperty(field, out JsonElement obj))
+            {
+                return null;
+            }
 
-            return new LoginPayload
+            if (obj.ValueKind == JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            return new PersonConnection
             (
-                ParseSignInLoginMe(obj, "me"),
-                DeserializeString(obj, "scheme"),
-                DeserializeString(obj, "token")
+                ParseGetPeoplePeopleNodes(obj, "nodes")
             );
         }
 
-        private global::Client.IPerson ParseSignInLoginMe(
+        private global::System.Collections.Generic.IReadOnlyList<global::Client.IPerson>? ParseGetPeoplePeopleNodes(
             JsonElement parent,
             string field)
         {
-            JsonElement obj = parent.GetProperty(field);
+            if (!parent.TryGetProperty(field, out JsonElement obj))
+            {
+                return null;
+            }
 
-            return new Person
-            (
-                DeserializeID(obj, "id"),
-                DeserializeString(obj, "name"),
-                DeserializeString(obj, "email"),
-                DeserializeNullableUrl(obj, "imageUri"),
-                DeserializeBoolean(obj, "isOnline"),
-                DeserializeDateTime(obj, "lastSeen")
-            );
+            if (obj.ValueKind == JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            int objLength = obj.GetArrayLength();
+            var list = new global::Client.IPerson[objLength];
+            for (int objIndex = 0; objIndex < objLength; objIndex++)
+            {
+                JsonElement element = obj[objIndex];
+                list[objIndex] = new Person
+                (
+                    DeserializeID(element, "id"),
+                    DeserializeString(element, "name"),
+                    DeserializeString(element, "email"),
+                    DeserializeNullableUrl(element, "imageUri"),
+                    DeserializeBoolean(element, "isOnline"),
+                    DeserializeDateTime(element, "lastSeen")
+                );
+
+            }
+
+            return list;
+        }
+
+        private string DeserializeID(JsonElement obj, string fieldName)
+        {
+            JsonElement value = obj.GetProperty(fieldName);
+            return (string)_iDSerializer.Deserialize(value.GetString())!;
         }
 
         private string DeserializeString(JsonElement obj, string fieldName)
         {
             JsonElement value = obj.GetProperty(fieldName);
             return (string)_stringSerializer.Deserialize(value.GetString())!;
-        }
-        private string DeserializeID(JsonElement obj, string fieldName)
-        {
-            JsonElement value = obj.GetProperty(fieldName);
-            return (string)_iDSerializer.Deserialize(value.GetString())!;
         }
 
         private System.Uri? DeserializeNullableUrl(JsonElement obj, string fieldName)

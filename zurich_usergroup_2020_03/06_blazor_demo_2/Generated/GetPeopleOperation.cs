@@ -7,7 +7,7 @@ namespace Client
 {
     [System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.0.0")]
     public partial class GetPeopleOperation
-        : IOperation<IPeople>
+        : IOperation<IGetPeople>
     {
         public string Name => "getPeople";
 
@@ -15,20 +15,11 @@ namespace Client
 
         public OperationKind Kind => OperationKind.Query;
 
-        public Type ResultType => typeof(IPeople);
-
-        public Optional<string> UserId { get; set; }
+        public Type ResultType => typeof(IGetPeople);
 
         public IReadOnlyList<VariableValue> GetVariableValues()
         {
-            var variables = new List<VariableValue>();
-
-            if (UserId.HasValue)
-            {
-                variables.Add(new VariableValue("userId", "ID", UserId.Value));
-            }
-
-            return variables;
+            return Array.Empty<VariableValue>();
         }
     }
 }

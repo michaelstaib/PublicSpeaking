@@ -6,10 +6,10 @@ using StrawberryShake;
 namespace Client
 {
     [System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.0.0")]
-    public partial class People1
-        : IPeople
+    public partial class GetPeople
+        : IGetPeople
     {
-        public People1(
+        public GetPeople(
             global::Client.IPersonConnection? people)
         {
             People = people;

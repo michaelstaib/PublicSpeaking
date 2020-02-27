@@ -6,12 +6,8 @@ using StrawberryShake;
 namespace Client
 {
     [System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.0.0")]
-    public partial interface ILoginPayload
+    public partial interface IGetPeople
     {
-        global::Client.IPerson Me { get; }
-
-        string Scheme { get; }
-
-        string Token { get; }
+        global::Client.IPersonConnection? People { get; }
     }
 }

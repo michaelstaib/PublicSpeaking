@@ -1,57 +1,12 @@
-query getPeople($userId: ID!) {
-  ...people
-}
-
-query getRecipient($recipientId: ID!) {
-  ...recipientById
-}
-
-mutation signIn($signIn: LoginInput!) {
-  login(input: $signIn) {
-    me {
-      ...person
-    }
-    scheme
-    token
-  }
-}
-
-mutation signUp($newUser: CreateUserInput!) {
-  createUser(input: $newUser) {
-    user {
+query getPeople {
+  people(order_by: { name: ASC }) {
+    nodes {
+      id
+      name
       email
-    }
-  }
-}
-
-fragment people on Query {
-  people(where: { id_not: $userId }) {
-    nodes {
-      ...person
-    }
-  }
-}
-
-fragment person on Person {
-  id
-  name
-  email
-  imageUri
-  isOnline
-  lastSeen
-}
-
-fragment recipientById on Query {
-  personById(id: $recipientId) {
-    ...recipient
-  }
-}
-
-fragment recipient on Person {
-  ...person
-  messages (order_by: { sent: ASC }) {
-    nodes {
-      ...message
+      imageUri
+      isOnline
+      lastSeen
     }
   }
 }
