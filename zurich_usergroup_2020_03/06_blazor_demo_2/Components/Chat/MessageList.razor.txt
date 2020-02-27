@@ -53,5 +53,4 @@
 
     [Parameter]
     public ImmutableList<IMessage> Messages { get; set; } = ImmutableList<IMessage>.Empty;
-
 }

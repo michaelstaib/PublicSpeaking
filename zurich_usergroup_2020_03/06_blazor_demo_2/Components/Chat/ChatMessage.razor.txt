@@ -2,7 +2,7 @@
   <div class="message-data">
     @if (@Message.Direction == Direction.Incoming)
     {
-      <span class="status-icon--@Sender.GetStatus() fa fa-circle"></span>
+      <span class="status-icon--GetStatus(Sender) fa fa-circle"></span>
       <span class="message-data-name">@Sender.Name</span>
       <span class="message-data-time">@Message.Sent</span>
     }
@@ -24,4 +24,11 @@
 
     [Parameter]
     public IParticipant Sender { get; set; }
+
+    public static string GetStatus(IParticipant participant)
+    {
+        return participant.IsOnline == true
+            ? "online"
+            : "offline";
+    }
 }
