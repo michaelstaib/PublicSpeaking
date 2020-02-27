@@ -1,12 +1,132 @@
 {
-	"s1": {
-		"scope": "csharp",
-		"prefix": "s1",
+	"Qry 2 get Data": {
+		"prefix": "s00qry2",
 		"body": [
-			"[Parameter]",
-			"public IPerson User { get; set; }"
-		]
-	},
+		  "query getPeople {",
+		  "  people(order_by: { name: ASC }) {",
+		  "    nodes {",
+		  "      name",
+		  "      lastSeen",
+		  "    }",
+		  "  }",
+		  "}"
+		],
+		"description": "Qry 2 get Data"
+	  },
+	  "pers code": {
+		"prefix": "s01perscode",
+		"body": [
+		  "@code {",
+		  "    [Parameter]",
+		  "    public IPerson User { get; set; }",
+		  "}"
+		],
+		"description": "pers code"
+	  },
+	  "ppl param": {
+		"prefix": "s03pplcode",
+		"body": [
+		  "@code {",
+		  "    [Parameter]",
+		  "    public bool IsLoading { get; set; }",
+		  "",
+		  "    [Parameter]",
+		  "    public IPersonConnection? People { get; set; }",
+		  "}"
+		],
+		"description": "ppl param"
+	  },
+	  "ppl html": {
+		"prefix": "s04pplhtml",
+		"body": [
+		  "<div class=\"people\">",
+		  "  <div class=\"people-filter\">",
+		  "    <input class=\"people-filter-input\" type=\"text\" placeholder=\"search\" />",
+		  "    <span class=\"people-filter-icon fa fa-search\"></span>",
+		  "  </div>",
+		  "  <ul class=\"people-list\">",
+		  "    @if(IsLoading) {",
+		  "      <PersonPlaceholder />",
+		  "      <PersonPlaceholder />",
+		  "      <PersonPlaceholder />",
+		  "    }",
+		  "    else if (People?.Nodes is { }) ",
+		  "    {",
+		  "        @foreach (var person in People.Nodes)",
+		  "        {",
+		  "            <PersonItem User=\"@person\" />",
+		  "        }",
+		  "    }",
+		  "  </ul>",
+		  "</div>"
+		],
+		"description": "ppl html"
+	  },
+	  "main full": {
+		"prefix": "s05main",
+		"body": [
+		  "@inject IChatClient ChatClient;",
+		  "",
+		  "<PeopleList People=\"@_people\" IsLoading=\"@_isLoading\" />",
+		  "",
+		  "@code {",
+		  "  private bool _isLoading = true;",
+		  "  private IPersonConnection? _people;",
+		  "",
+		  "  protected override async Task OnInitializedAsync()",
+		  "  {",
+		  "      var result = await ChatClient.GetPeopleAsync();",
+		  "      result.EnsureNoErrors();",
+		  "",
+		  "      _people = result.Data!.People;",
+		  "",
+		  "      _isLoading = false;",
+		  "        StateHasChanged();",
+		  "  }",
+		  "}"
+		],
+		"description": "main full"
+	  },
+	  "ProgramCs": {
+		"prefix": "s06progrm",
+		"body": [
+		  "using System.Threading.Tasks;",
+		  "using Microsoft.AspNetCore.Blazor.Hosting;",
+		  "using Blazored.SessionStorage;",
+		  "using Microsoft.Extensions.DependencyInjection;",
+		  "using System;",
+		  "using System.Net.Http.Headers;",
+		  "",
+		  "namespace Client",
+		  "{",
+		  "    public class Program",
+		  "    {",
+		  "        public static async Task Main(string[] args)",
+		  "        {",
+		  "            var builder = WebAssemblyHostBuilder.CreateDefault(args);",
+		  "",
+		  "            builder.Services.AddBlazoredSessionStorage();",
+		  "            ",
+		  "            builder.Services.AddChatClient();",
+		  "            builder.Services.AddHttpClient(",
+		  "                \"ChatClient\",",
+		  "                client => ",
+		  "                {",
+		  "                    client.BaseAddress = new Uri(\"http://localhost:5000\");",
+		  "                    client.DefaultRequestHeaders.Authorization = ",
+		  "                        new AuthenticationHeaderValue(\"bearer\", \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWxAY2hpbGxpY3JlYW0uY29tIiwiZW1haWwiOiJtaWNoYWVsQGNoaWxsaWNyZWFtLmNvbSIsIkNoYXQuVXNlcklkIjoiODA4YTE1MGYtNDliOC00MjFhLTgxNGEtZmRkMjlmMzYxZTg2IiwibmJmIjoxNTgyNzE3MDI5LCJleHAiOjE1ODI3NjAyMjksImlhdCI6MTU4MjcxNzAyOX0.beTKSooYKp0iZ-iSsnWVPRvXBANsfBtns71yStKhYLY\");",
+		  "                });",
+		  "",
+		  "            builder.RootComponents.Add<App>(\"app\");",
+		  "",
+		  "            await builder.Build().RunAsync();",
+		  "        }",
+		  "    }",
+		  "}",
+		  ""
+		],
+		"description": "ProgramCs"
+	  },
 	"s2": {
 		"scope": "csharp",
 		"prefix": "s2",
