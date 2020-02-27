@@ -1,7 +1,7 @@
 {
 	"user": {
 		"scope": "csharp",
-		"prefix": "s2",
+		"prefix": "user",
 		"body": [
 			"[Parameter]",
 			"public IPerson User { get; set; }"
@@ -9,7 +9,7 @@
 	},
 	"isLoading": {
 		"scope": "csharp",
-		"prefix": "s2",
+		"prefix": "isLoading",
 		"body": [
 			"[Parameter]",
 			"public bool IsLoading { get; set; }"
@@ -17,7 +17,7 @@
 	},
 	"people": {
 		"scope": "csharp",
-		"prefix": "s3",
+		"prefix": "people",
 		"body": [
 			"[Parameter]",
 			"public IPersonConnection People { get; set; }"
@@ -25,13 +25,25 @@
 	},
 	"personItem": {
 		"scope": "html",
-		"prefix": "s4",
+		"prefix": "personItem",
 		"body": [
 			"else if (People?.Nodes is { })",
 			"{",
 			"    @foreach (var person in People.Nodes)",
 			"    {",
 			"        <PersonItem User=\"@person\" />",
+			"    }",
+			"}"
+		]
+	},
+	"initialize": {
+		"scope": "csharp",
+		"prefix": "initialize",
+		"body": [
+			"@code {",
+			"    protected override async Task OnInitializedAsync() ",
+			"    {",
+			"        ",
 			"    }",
 			"}"
 		]
