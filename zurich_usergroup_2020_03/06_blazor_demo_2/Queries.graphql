@@ -16,6 +16,20 @@ query getMessages($email: String!) {
   }
 }
 
+mutation sendMessage($to: String!, $message: String!) {
+  sendMessage(input: { recipientEmail: $to, text: $message }) {
+    message {
+      ...message
+    }
+  }
+}
+
+subscription readMessages {
+  message: onMessageReceived {
+    ...message
+  }
+}
+
 fragment message on Message {
   id
   direction
@@ -36,7 +50,7 @@ fragment participant on Person {
 }
 
 fragment person on Person {
-  ... participant
+  ...participant
   imageUri
   lastSeen
 }

@@ -24,5 +24,21 @@ namespace Client
         Task<IOperationResult<global::Client.IGetMessages>> GetMessagesAsync(
             GetMessagesOperation operation,
             CancellationToken cancellationToken = default);
+
+        Task<IOperationResult<global::Client.ISendMessage>> SendMessageAsync(
+            Optional<string> to = default,
+            Optional<string> message = default,
+            CancellationToken cancellationToken = default);
+
+        Task<IOperationResult<global::Client.ISendMessage>> SendMessageAsync(
+            SendMessageOperation operation,
+            CancellationToken cancellationToken = default);
+
+        global::System.Threading.Tasks.Task<global::StrawberryShake.IResponseStream<global::Client.IReadMessages>> ReadMessagesAsync(
+            CancellationToken cancellationToken = default);
+
+        global::System.Threading.Tasks.Task<global::StrawberryShake.IResponseStream<global::Client.IReadMessages>> ReadMessagesAsync(
+            ReadMessagesOperation operation,
+            CancellationToken cancellationToken = default);
     }
 }

@@ -13,7 +13,6 @@ namespace Client
 
         public static async Task Main(string[] args)
         {
-            try {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
             builder.Services.AddHttpClient(
@@ -24,15 +23,17 @@ namespace Client
                     client.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("bearer", _token);
                 });
+            builder.Services.AddWebSocketClient(
+                "ChatClient",
+                (service, client) => 
+                {
+                    client.Uri = new Uri("ws://localhost:5000?token=" + _token);
+                });
             builder.Services.AddChatClient();
 
             builder.RootComponents.Add<App>("app");
 
             await builder.Build().RunAsync();
-            }
-            catch (Exception ex) {
-                Console.WriteLine(ex.Message);
-            }
         }
     }
 }
