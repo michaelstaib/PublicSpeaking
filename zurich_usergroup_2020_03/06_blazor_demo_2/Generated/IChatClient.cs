@@ -16,5 +16,13 @@ namespace Client
         Task<IOperationResult<global::Client.IGetPeople>> GetPeopleAsync(
             GetPeopleOperation operation,
             CancellationToken cancellationToken = default);
+
+        Task<IOperationResult<global::Client.IGetMessages>> GetMessagesAsync(
+            Optional<string> email = default,
+            CancellationToken cancellationToken = default);
+
+        Task<IOperationResult<global::Client.IGetMessages>> GetMessagesAsync(
+            GetMessagesOperation operation,
+            CancellationToken cancellationToken = default);
     }
 }

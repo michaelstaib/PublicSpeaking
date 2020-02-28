@@ -1,10 +1,6 @@
-﻿using Internal;
-using System;
+﻿using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Blazored.SessionStorage;
-using Client.Extensions;
-using Client.Services;
 using Microsoft.AspNetCore.Blazor.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using StrawberryShake.Transport.WebSockets;

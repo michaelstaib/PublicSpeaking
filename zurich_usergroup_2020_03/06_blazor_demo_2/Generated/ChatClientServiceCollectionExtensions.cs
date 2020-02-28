@@ -38,7 +38,9 @@ namespace Client
                     sp.GetRequiredService<IClientOptions>().GetResultParsers(_clientName)));
 
             IOperationClientBuilder builder = serviceCollection.AddOperationClientOptions(_clientName)
+                .AddValueSerializer(() => new DirectionValueSerializer())
                 .AddResultParser(serializers => new GetPeopleResultParser(serializers))
+                .AddResultParser(serializers => new GetMessagesResultParser(serializers))
                 .AddOperationFormatter(serializers => new JsonOperationFormatter(serializers))
                 .AddHttpOperationPipeline(builder => builder.UseHttpDefaultPipeline());
 

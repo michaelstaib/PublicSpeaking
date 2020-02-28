@@ -1,4 +1,4 @@
-﻿<li class="message--@Message.GetDirection()">
+﻿<li class="message--@GetDirection(Message)">
   <div class="message-data">
     @if (@Message.Direction == Direction.Incoming)
     {
@@ -25,10 +25,17 @@
     [Parameter]
     public IParticipant Sender { get; set; }
 
-    public static string GetStatus(IParticipant participant)
+    private static string GetStatus(IParticipant participant)
     {
         return participant.IsOnline == true
             ? "online"
             : "offline";
+    }
+
+    private static string GetDirection(IMessage message)
+    {
+        return message.Direction == Direction.Incoming
+            ? "incoming"
+            : "outgoing";
     }
 }

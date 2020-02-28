@@ -15,7 +15,7 @@
       @foreach (var person in People.Nodes)
       {
         <PersonItem
-          @key="person.Id"
+          @key="person.Email"
           User="@person"
           ClickPerson="ClickPerson" />
       }

@@ -40,5 +40,31 @@ namespace Client
 
             return _executor.ExecuteAsync(operation, cancellationToken);
         }
+
+        public global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<global::Client.IGetMessages>> GetMessagesAsync(
+            global::StrawberryShake.Optional<string> email = default,
+            global::System.Threading.CancellationToken cancellationToken = default)
+        {
+            if (email.HasValue && email.Value is null)
+            {
+                throw new ArgumentNullException(nameof(email));
+            }
+
+            return _executor.ExecuteAsync(
+                new GetMessagesOperation { Email = email },
+                cancellationToken);
+        }
+
+        public global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<global::Client.IGetMessages>> GetMessagesAsync(
+            GetMessagesOperation operation,
+            global::System.Threading.CancellationToken cancellationToken = default)
+        {
+            if (operation is null)
+            {
+                throw new ArgumentNullException(nameof(operation));
+            }
+
+            return _executor.ExecuteAsync(operation, cancellationToken);
+        }
     }
 }

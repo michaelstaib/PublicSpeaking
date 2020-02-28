@@ -1,12 +1,42 @@
 query getPeople {
   people(order_by: { name: ASC }) {
     nodes {
-      id
-      name
-      email
-      imageUri
-      isOnline
-      lastSeen
+      ...person
     }
   }
+}
+
+query getMessages($email: String!) {
+  personByEmail(email: $email) {
+    messages {
+      nodes {
+        ...message
+      }
+    }
+  }
+}
+
+fragment message on Message {
+  id
+  direction
+  sender {
+    ...participant
+  }
+  recipient {
+    ...participant
+  }
+  sent
+  text
+}
+
+fragment participant on Person {
+  name
+  email
+  isOnline
+}
+
+fragment person on Person {
+  ... participant
+  imageUri
+  lastSeen
 }
