@@ -1,5 +1,0 @@
-query getMe {
-  me {
-    name
-  }
-}
