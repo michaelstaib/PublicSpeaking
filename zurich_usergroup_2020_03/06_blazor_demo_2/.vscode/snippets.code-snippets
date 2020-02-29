@@ -1,0 +1,74 @@
+{
+	"AddWebSocketClient": {
+		"prefix": "AddWebSocketClient",
+		"body": [
+		  "builder.Services.AddWebSocketClient(",
+		  "    \"ChatClient\",",
+		  "    (service, client) => ",
+		  "    {",
+		  "        client.Uri = new Uri(\"ws://localhost:5000?token=\" + _token);",
+		  "    });"
+		],
+		"description": ""
+	  },
+	  "BeginReceiveMessages": {
+		"prefix": "BeginReceiveMessages",
+		"body": [
+		  "private void BeginReceiveMessages() ",
+		  "{",
+		  "    Task.Run(async () => ",
+		  "    {",
+		  "        var messageStream = await ChatClient.ReadMessagesAsync();",
+		  "",
+		  "        await foreach(var result in messageStream) ",
+		  "        {",
+		  "            if(!result.HasErrors",
+		  "                && _recipient is { }) ",
+		  "            {",
+		  "                _messages = _messages.Add(result.Data!.Message);",
+		  "                StateHasChanged();",
+		  "            }",
+		  "        }",
+		  "    });",
+		  "}"
+		],
+		"description": ""
+	  },
+	  "OnClickSend": {
+		"prefix": "OnClickSend",
+		"body": [
+		  "var result = await ChatClient.SendMessageAsync(_recipient!.Email, message);",
+		  "result.EnsureNoErrors();",
+		  "",
+		  "_messages = _messages.Add(result.Data!.SendMessage.Message);"
+		],
+		"description": ""
+	  },
+	  "OnClickPerson": {
+		"prefix": "OnClickPerson",
+		"body": [
+		  "var result = await ChatClient.GetMessagesAsync(person.Email);",
+		  "result.EnsureNoErrors();",
+		  "",
+		  "_recipient = person;",
+		  "Console.WriteLine(person.Email);",
+		  "",
+		  "_messages = ImmutableList.CreateRange<IMessage>(",
+		  "    result.Data!.PersonByEmail.Messages!.Nodes);",
+		  "Console.WriteLine(_messages.Count);"
+		],
+		"description": ""
+	  },
+	  "MessageList": {
+		"prefix": "MessageList",
+		"body": [
+		  "<MessageList",
+		  "  ClickSend=\"OnClickSend\"",
+		  "  IsLoading=\"@_isLoading\"",
+		  "  Recipient=\"@_recipient\"",
+		  "  Messages=\"@_messages\"",
+		  "/>"
+		],
+		"description": ""
+	  }
+}

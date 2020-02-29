@@ -23,7 +23,12 @@ namespace Client
                     client.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("bearer", _token);
                 });
-
+            builder.Services.AddWebSocketClient(
+                "ChatClient",
+                (service, client) => 
+                {
+                    client.Uri = new Uri("ws://localhost:5000?token=" + _token);
+                });
             builder.Services.AddChatClient();
 
             builder.RootComponents.Add<App>("app");

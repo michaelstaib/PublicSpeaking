@@ -6,18 +6,9 @@
   ClickPerson="OnClickPerson"
 />
 
-<MessageList
-  ClickSend="OnClickSend"
-  IsLoading="@_isLoading"
-  Recipient="@_recipient"
-  Messages="@_messages"
-/>
-
 @code {
     private bool _isLoading = true;
     private IPersonConnection? _people;
-    private IPerson? _recipient;
-    private ImmutableList<IMessage> _messages = ImmutableList<IMessage>.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -28,46 +19,15 @@
 
         _isLoading = false;
         StateHasChanged();
-
-        BeginReceiveMessages();
     }
 
     private async Task OnClickPerson(IPerson person)
     {
-        var result = await ChatClient.GetMessagesAsync(person.Email);
-        result.EnsureNoErrors();
 
-        _recipient = person;
-        Console.WriteLine(person.Email);
-
-        _messages = ImmutableList.CreateRange<IMessage>(
-            result.Data!.PersonByEmail.Messages!.Nodes);
-        Console.WriteLine(_messages.Count);
     }
 
     private async Task OnClickSend(string message)
     {
-        var result = await ChatClient.SendMessageAsync(_recipient!.Email, message);
-        result.EnsureNoErrors();
 
-        _messages = _messages.Add(result.Data!.SendMessage.Message);
-    }
-
-    private void BeginReceiveMessages() 
-    {
-        Task.Run(async () => 
-        {
-            var messageStream = await ChatClient.ReadMessagesAsync();
-
-            await foreach(var result in messageStream) 
-            {
-                if(!result.HasErrors
-                  && _recipient is { }) 
-                {
-                    _messages = _messages.Add(result.Data!.Message);
-                    StateHasChanged();
-                }
-            }
-        });
     }
 }

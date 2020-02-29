@@ -10,27 +10,27 @@ namespace Client
         : IPerson
     {
         public Person(
+            System.Uri? imageUri, 
+            System.DateTimeOffset lastSeen, 
             string name, 
             string email, 
-            bool isOnline, 
-            System.Uri? imageUri, 
-            System.DateTimeOffset lastSeen)
+            bool isOnline)
         {
+            ImageUri = imageUri;
+            LastSeen = lastSeen;
             Name = name;
             Email = email;
             IsOnline = isOnline;
-            ImageUri = imageUri;
-            LastSeen = lastSeen;
         }
+
+        public System.Uri? ImageUri { get; }
+
+        public System.DateTimeOffset LastSeen { get; }
 
         public string Name { get; }
 
         public string Email { get; }
 
         public bool IsOnline { get; }
-
-        public System.Uri? ImageUri { get; }
-
-        public System.DateTimeOffset LastSeen { get; }
     }
 }
