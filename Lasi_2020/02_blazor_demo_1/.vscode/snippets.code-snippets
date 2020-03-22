@@ -27,9 +27,9 @@
 		"scope": "html",
 		"prefix": "personItem",
 		"body": [
-			"else if (People?.Nodes is { })",
+			"else if (People?.Nodes is people)",
 			"{",
-			"    @foreach (var person in People.Nodes)",
+			"    @foreach (var person in people)",
 			"    {",
 			"        <PersonItem User=\"@person\" />",
 			"    }",
