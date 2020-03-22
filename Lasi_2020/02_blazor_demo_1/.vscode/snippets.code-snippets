@@ -40,12 +40,9 @@
 		"scope": "csharp",
 		"prefix": "initialize",
 		"body": [
-			"@code {",
-			"    protected override async Task OnInitializedAsync() ",
-			"    {",
-			"        ",
-			"    }",
-			"}"
+			"protected override async Task OnInitializedAsync() ",
+			"{",
+			"}",
 		]
 	}
 }
