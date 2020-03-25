@@ -20,7 +20,7 @@
 		"prefix": "people",
 		"body": [
 			"[Parameter]",
-			"public IPersonConnection People { get; set; }"
+			"public IPersonConnection? People { get; set; }"
 		]
 	},
 	"personItem": {
