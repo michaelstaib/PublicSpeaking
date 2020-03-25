@@ -21,9 +21,7 @@
       @*ul*@
       @foreach (var message in Messages)
       {
-          <ChatMessage 
-            Message="@message"
-            Sender="@message.Sender" />
+          <ChatMessage Message="@message" />
       }
 
       <div id="anchor"></div>

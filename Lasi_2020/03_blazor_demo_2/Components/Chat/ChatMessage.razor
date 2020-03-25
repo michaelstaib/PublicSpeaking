@@ -3,13 +3,13 @@
     @if (@Message.Direction == Direction.Incoming)
     {
       <span class="status-icon--GetStatus(Sender) fa fa-circle"></span>
-      <span class="message-data-name">@Sender.Name</span>
+      <span class="message-data-name">@Message.Sender.Name</span>
       <span class="message-data-time">@Message.Sent</span>
     }
     else
     {
       <span class="message-data-time">@Message.Sent</span>
-      <span class="message-data-name">@Sender.Name</span>
+      <span class="message-data-name">@Message.Sender.Name</span>
       <span class="status-icon-viewer fa fa-circle"></span>
     }
   </div>
@@ -21,9 +21,6 @@
 @code {
     [Parameter]
     public IMessage Message { get; set; }
-
-    [Parameter]
-    public IParticipant Sender { get; set; }
 
     private static string GetStatus(IParticipant participant)
     {
