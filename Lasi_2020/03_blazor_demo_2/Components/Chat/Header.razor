@@ -8,7 +8,7 @@
       @if(Recipient is { }) 
       {
       <div class="chat-with">Chat with @Recipient.Name</div>
-      <div class="chat-num-messages">already @Messages.Count messages</div>
+      <div class="chat-num-messages">already @MessageCount messages</div>
       }
   </div>
   <span class="favorite-icon fa fa-star"></span>
@@ -19,7 +19,7 @@
     public IPerson? Recipient { get; set; }
 
     [Parameter]
-    public ImmutableList<IMessage> Messages { get; set; } = ImmutableList<IMessage>.Empty;
+    public int MessageCount { get; set; }
 
     private static string GetStatus(IPerson? participant)
     {
