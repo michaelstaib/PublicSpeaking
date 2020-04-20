@@ -1,63 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using MongoDB.Driver;
 using StarWars.Characters;
 
 namespace StarWars.Repositories
 {
     public class CharacterRepository : ICharacterRepository
     {
-        private Dictionary<int, ICharacter> _characters;
-        private Dictionary<int, Starship> _starships;
+        private readonly IMongoCollection<ICharacter> _characters;
+        private readonly IMongoCollection<Starship> _starships;
 
-        public CharacterRepository()
+        public CharacterRepository(
+            IMongoCollection<ICharacter> characters,
+            IMongoCollection<Starship> starships)
         {
-            _characters = CreateCharacters().ToDictionary(t => t.Id);
-            _starships = CreateStarships().ToDictionary(t => t.Id);
+            _characters = characters;
+            _starships = starships;
         }
 
-        public IQueryable<ICharacter> GetCharacters() =>
-            _characters.Values.AsQueryable();
+        public IQueryable<ICharacter> GetCharacters() => _characters.AsQueryable();
 
-        public IEnumerable<ICharacter> GetCharacters(int[] ids)
+        public async Task<IReadOnlyDictionary<int, ICharacter>> GetCharacters(IReadOnlyList<int> ids)
         {
-            foreach (int id in ids)
-            {
-                if (_characters.TryGetValue(id, out ICharacter? c))
-                {
-                    yield return c;
-                }
-            }
-        }
-
-        public ICharacter GetHero(Episode episode)
-        {
-            if (episode == Episode.Empire)
-            {
-                return _characters[1000];
-            }
-            return _characters[2001];
-        }
-
-        public IEnumerable<ISearchResult> Search(string text)
-        {
-            IEnumerable<ICharacter> filteredCharacters = _characters.Values
-                .Where(t => t.Name.Contains(text,
-                    StringComparison.OrdinalIgnoreCase));
-
-            foreach (ICharacter character in filteredCharacters)
-            {
-                yield return character;
-            }
-
-            IEnumerable<Starship> filteredStarships = _starships.Values
-                .Where(t => t.Name.Contains(text,
-                    StringComparison.OrdinalIgnoreCase));
-
-            foreach (Starship starship in filteredStarships)
-            {
-                yield return starship;
-            }
+            FilterDefinition<ICharacter> filter = Builders<ICharacter>.Filter.Or(
+                ids.Select(id => Builders<ICharacter>.Filter.Eq(t => t.Id, id)));
+            List<ICharacter> characters = await _characters.Find(filter).ToListAsync();
+            return characters.ToDictionary(t => t.Id);
         }
 
         private static IEnumerable<ICharacter> CreateCharacters()
@@ -121,16 +91,6 @@ namespace StarWars.Repositories
                 new[] { 1000, 1002, 1003 },
                 new[] { Episode.NewHope, Episode.Empire, Episode.Jedi },
                 "Astromech"
-            );
-        }
-
-        private static IEnumerable<Starship> CreateStarships()
-        {
-            yield return new Starship
-            (
-                3000,
-                "TIE Advanced x1",
-                 9.2
             );
         }
     }

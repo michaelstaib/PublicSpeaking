@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
@@ -13,12 +16,21 @@ namespace StarWars.Characters
         /// Retrieve a hero by a particular Star Wars episode.
         /// </summary>
         /// <param name="episode">The episode to look up by.</param>
-        /// <param name="repository"></param>
+        /// <param name="charaterById"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>The character.</returns>
-        public ICharacter GetHero(
+        public Task<ICharacter> GetHeroAsync(
             Episode episode,
-            [Service]ICharacterRepository repository) =>
-            repository.GetHero(episode);
+            CharacterDataLoader charaterById,
+            CancellationToken cancellationToken)
+        {
+            if (episode == Episode.Empire)
+            {
+                return charaterById.LoadAsync(1000, cancellationToken);
+            }
+            return charaterById.LoadAsync(2001, cancellationToken);
+        }
+
 
         /// <summary>
         /// Gets all character.
@@ -28,24 +40,8 @@ namespace StarWars.Characters
         [UsePaging]
         [UseFiltering]
         [UseSorting]
-        public IEnumerable<ICharacter> GetCharacters(
+        public IQueryable<ICharacter> GetCharacters(
             [Service]ICharacterRepository repository) =>
             repository.GetCharacters();
-
-        /// <summary>
-        /// Gets a character by it`s id.
-        /// </summary>
-        /// <param name="ids">The ids of the human to retrieve.</param>
-        /// <param name="repository"></param>
-        /// <returns>The character.</returns>
-        public IEnumerable<ICharacter> GetCharacter(
-            int[] ids,
-            [Service]ICharacterRepository repository) =>
-            repository.GetCharacters(ids);
-
-        public IEnumerable<ISearchResult> Search(
-            string text,
-            [Service]ICharacterRepository repository) =>
-            repository.Search(text);
     }
 }

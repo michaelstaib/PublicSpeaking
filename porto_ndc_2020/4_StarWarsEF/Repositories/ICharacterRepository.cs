@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using StarWars.Characters;
 
 namespace StarWars.Repositories
@@ -8,10 +9,6 @@ namespace StarWars.Repositories
     {
         IQueryable<ICharacter> GetCharacters();
 
-        IEnumerable<ICharacter> GetCharacters(params int[] ids);
-
-        ICharacter GetHero(Episode episode);
-
-        IEnumerable<ISearchResult> Search(string text);
+        Task<IReadOnlyDictionary<int, ICharacter>> GetCharacters(IReadOnlyList<int> ids);
     }
 }
