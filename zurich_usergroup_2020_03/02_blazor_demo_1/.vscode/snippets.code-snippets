@@ -1,0 +1,51 @@
+{
+	"user": {
+		"scope": "csharp",
+		"prefix": "user",
+		"body": [
+			"[Parameter]",
+			"public IPerson User { get; set; }"
+		]
+	},
+	"isLoading": {
+		"scope": "csharp",
+		"prefix": "isLoading",
+		"body": [
+			"[Parameter]",
+			"public bool IsLoading { get; set; }"
+		]
+	},
+	"people": {
+		"scope": "csharp",
+		"prefix": "people",
+		"body": [
+			"[Parameter]",
+			"public IPersonConnection People { get; set; }"
+		]
+	},
+	"personItem": {
+		"scope": "html",
+		"prefix": "personItem",
+		"body": [
+			"else if (People?.Nodes is { })",
+			"{",
+			"    @foreach (var person in People.Nodes)",
+			"    {",
+			"        <PersonItem User=\"@person\" />",
+			"    }",
+			"}"
+		]
+	},
+	"initialize": {
+		"scope": "csharp",
+		"prefix": "initialize",
+		"body": [
+			"@code {",
+			"    protected override async Task OnInitializedAsync() ",
+			"    {",
+			"        ",
+			"    }",
+			"}"
+		]
+	}
+}

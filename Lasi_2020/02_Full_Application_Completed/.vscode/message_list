@@ -1,0 +1,6 @@
+<MessageList
+  IsLoading="@_isLoadingRecipient"
+  Recipient="@_recipient"
+  Messages="@_messages"
+  Typing="OnTyping"
+/>
