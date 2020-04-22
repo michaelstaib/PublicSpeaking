@@ -182,7 +182,7 @@
       // Usually this function would also conatain logic to handle errors/retry
       // logic properly; Just for Demo purpose and not production ready.
       function graphql() {
-        const baseUri = "http://swapigraphqldemo.azurewebsites.net";
+        const baseUri = "https://hotchocolatestarwarsrestdemo.azurewebsites.net";
         const request =
           "query={ character(id: 1) { name movies { title characters { name } } } }";
         const characters = [];
