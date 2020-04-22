@@ -1,0 +1,23 @@
+{
+	  "PropsCode": {
+		"scope": "csharp",
+		"prefix": "PropsCode",
+		"body": [
+		  "public int Id { get; set; } = 1;",
+		  "public string Name { get; set; } = \"Luke\""
+		],
+	  },
+	  "CharacterTypeCode": {
+		"scope": "csharp",
+		"prefix": "CharacterTypeCode",
+		"body": [
+		  "public class CharacterType : ObjectType<Character>",
+		  "{",
+		  "    protected override void Configure(IObjectTypeDescriptor<Character> descriptor)",
+		  "    {",
+		  "    }",
+		  "}"
+		],
+	  }
+
+}

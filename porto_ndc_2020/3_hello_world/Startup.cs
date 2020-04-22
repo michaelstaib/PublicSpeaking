@@ -1,5 +1,6 @@
 ﻿using HotChocolate;
 using HotChocolate.AspNetCore;
+using HotChocolate.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
