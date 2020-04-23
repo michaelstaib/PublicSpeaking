@@ -21,7 +21,8 @@ namespace ContosoUniversity
         {
             services.AddDbContext<SchoolContext>();
             services.AddGraphQL(
-                SchemaBuilder.New());
+                SchemaBuilder.New()
+                    .AddQueryType<Query>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,5 +76,15 @@ namespace ContosoUniversity
                 }
             }
         }
+    }
+
+    public class Query 
+    {
+        [UsePaging]
+        [UseSelection]
+        [UseFiltering]
+        [UseSorting]
+        public IQueryable<Student> GetStudents([Service]SchoolContext context) =>
+            context.Students;
     }
 }
