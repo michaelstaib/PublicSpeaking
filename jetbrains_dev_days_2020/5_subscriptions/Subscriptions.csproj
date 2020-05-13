@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HotChocolate.AspNetCore" Version="10.4.2" />
-    <PackageReference Include="HotChocolate.Subscriptions.Redis" Version="10.4.2" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="10.4.3" />
+    <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="10.4.3" />
   </ItemGroup>
 
 </Project>

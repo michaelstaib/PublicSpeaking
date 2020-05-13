@@ -23,9 +23,7 @@ namespace Subscriptions
 
             services.AddGraphQL(
                 SchemaBuilder.New()
-                    .AddQueryType(c => c.Name("Query").Field("some").Resolver("value"))
-                    .AddMutationType<Mutation>()
-                    .AddSubscriptionType<Subscription>());
+                    .AddQueryType(c => c.Name("Query").Field("some").Resolver("value")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,27 +48,5 @@ namespace Subscriptions
                 });
             });
         }
-    }
-
-    public class Mutation
-    {
-        public async Task<string> WriteMessage(string message, [Service]ITopicEventSender eventSender)
-        {
-            await eventSender.SendAsync("MESSAGES", message);
-
-            return message;
-        }
-    }
-
-    public class Subscription
-    {
-        [Subscribe(nameof(OnMessage))]
-        public async ValueTask<IAsyncEnumerable<string>> OnMessageSubscribe(
-            [Service]ITopicEventReceiver eventReceiver)
-        {
-            return await eventReceiver.SubscribeAsync<string, string>("MESSAGES");
-        }
-
-        public string OnMessage([EventMessage]string message) => message;
     }
 }
