@@ -1,17 +1,13 @@
 using System;
-using System.Linq;
+using HotChocolate;
+using HotChocolate.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using HotChocolate;
-using HotChocolate.AspNetCore;
-using HotChocolate.Execution.Configuration;
-using HotChocolate.Types;
-using HotChocolate.Types.Relay;
 
-namespace ContosoUniversity
+namespace ContosoUni
 {
     public class Startup
     {
@@ -21,8 +17,7 @@ namespace ContosoUniversity
         {
             services.AddDbContext<SchoolContext>();
             services.AddGraphQL(
-                SchemaBuilder.New()
-                    .AddQueryType<Query>());
+                SchemaBuilder.New());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,41 +45,29 @@ namespace ContosoUniversity
 
         private static void InitializeDatabase(IApplicationBuilder app)
         {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            var context = serviceScope.ServiceProvider.GetRequiredService<SchoolContext>();
+            if (context.Database.EnsureCreated())
             {
-                var context = serviceScope.ServiceProvider.GetRequiredService<SchoolContext>();
-                if (context.Database.EnsureCreated())
-                {
-                    var course = new Course { Credits = 10, Title = "Object Oriented Programming 1" };
+                var course = new Course { Credits = 10, Title = "Object Oriented Programming 1" };
 
-                    context.Enrollments.Add(new Enrollment
-                    {
-                        Course = course,
-                        Student = new Student { FirstMidName = "Rafael", LastName = "Foo", EnrollmentDate = DateTime.UtcNow }
-                    });
-                    context.Enrollments.Add(new Enrollment
-                    {
-                        Course = course,
-                        Student = new Student { FirstMidName = "Pascal", LastName = "Bar", EnrollmentDate = DateTime.UtcNow }
-                    });
-                    context.Enrollments.Add(new Enrollment
-                    {
-                        Course = course,
-                        Student = new Student { FirstMidName = "Michael", LastName = "Baz", EnrollmentDate = DateTime.UtcNow }
-                    });
-                    context.SaveChangesAsync();
-                }
+                context.Enrollments.Add(new Enrollment
+                {
+                    Course = course,
+                    Student = new Student { FirstMidName = "Rafael", LastName = "Foo", EnrollmentDate = DateTime.UtcNow }
+                });
+                context.Enrollments.Add(new Enrollment
+                {
+                    Course = course,
+                    Student = new Student { FirstMidName = "Pascal", LastName = "Bar", EnrollmentDate = DateTime.UtcNow }
+                });
+                context.Enrollments.Add(new Enrollment
+                {
+                    Course = course,
+                    Student = new Student { FirstMidName = "Michael", LastName = "Baz", EnrollmentDate = DateTime.UtcNow }
+                });
+                context.SaveChangesAsync();
             }
         }
-    }
-
-    public class Query 
-    {
-        [UsePaging]
-        [UseSelection]
-        [UseFiltering]
-        [UseSorting]
-        public IQueryable<Student> GetStudents([Service]SchoolContext context) =>
-            context.Students;
     }
 }

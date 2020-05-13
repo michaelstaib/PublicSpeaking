@@ -1,4 +1,4 @@
-namespace ContosoUniversity
+namespace ContosoUni
 {
     public enum Grade
     {

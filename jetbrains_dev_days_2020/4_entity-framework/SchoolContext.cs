@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace ContosoUniversity
+namespace ContosoUni
 {
     public class SchoolContext : DbContext
     {
