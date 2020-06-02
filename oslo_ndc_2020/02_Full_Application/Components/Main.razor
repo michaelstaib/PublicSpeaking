@@ -1,0 +1,33 @@
+@inject IChatClient ChatClient
+
+<PeopleList
+  IsLoading="@_isLoading"
+  People="@_people"
+  ClickPerson="OnClickPerson"
+/>
+
+@code {
+    private bool _isLoading = true;
+    private IPersonConnection? _people;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await ChatClient.GetPeopleAsync();
+        result.EnsureNoErrors();
+
+        _people = result.Data!.People;
+
+        _isLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task OnClickPerson(IPerson person)
+    {
+
+    }
+
+    private async Task OnClickSend(string message)
+    {
+
+    }
+}
