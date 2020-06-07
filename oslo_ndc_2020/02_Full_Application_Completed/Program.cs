@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Blazor.Hosting;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using StrawberryShake.Transport.WebSockets;
 
