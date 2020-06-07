@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Blazor.Hosting;
-using Blazored.SessionStorage;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 namespace Client
 {
@@ -13,8 +12,6 @@ namespace Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            builder.Services.AddBlazoredSessionStorage();
-            
             builder.Services.AddChatClient();
             builder.Services.AddHttpClient(
                 "ChatClient",
