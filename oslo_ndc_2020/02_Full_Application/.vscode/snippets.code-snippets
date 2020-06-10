@@ -6,7 +6,7 @@
 		  "    \"ChatClient\",",
 		  "    (service, client) => ",
 		  "    {",
-		  "        client.Uri = new Uri(\"ws://localhost:5000?token=\" + _token);",
+		  "        client.Uri = new Uri(\"wss://hotchocolate-chat.azurewebsites.net?token=\" + _token);",
 		  "    });"
 		],
 		"description": ""
@@ -23,9 +23,9 @@
 		  "        await foreach(var result in messageStream) ",
 		  "        {",
 		  "            if(!result.HasErrors",
-		  "                && _recipient is { }) ",
+		  "                && Recipient is { }) ",
 		  "            {",
-		  "                _messages = _messages.Add(result.Data!.Message);",
+		  "                Messages = Messages.Add(result.Data!.Message);",
 		  "                StateHasChanged();",
 		  "            }",
 		  "        }",
@@ -37,10 +37,10 @@
 	  "OnClickSend": {
 		"prefix": "OnClickSend",
 		"body": [
-		  "var result = await ChatClient.SendMessageAsync(_recipient!.Email, message);",
+		  "var result = await ChatClient.SendMessageAsync(Recipient!.Email, message);",
 		  "result.EnsureNoErrors();",
 		  "",
-		  "_messages = _messages.Add(result.Data!.SendMessage.Message);"
+		  "Messages = Messages.Add(result.Data!.SendMessage.Message);"
 		],
 		"description": ""
 	  },
@@ -50,12 +50,12 @@
 		  "var result = await ChatClient.GetMessagesAsync(person.Email);",
 		  "result.EnsureNoErrors();",
 		  "",
-		  "_recipient = person;",
+		  "Recipient = person;",
 		  "Console.WriteLine(person.Email);",
 		  "",
-		  "_messages = ImmutableList.CreateRange<IMessage>(",
+		  "Messages = ImmutableList.CreateRange<IMessage>(",
 		  "    result.Data!.PersonByEmail.Messages!.Nodes);",
-		  "Console.WriteLine(_messages.Count);"
+		  "Console.WriteLine(Messages.Count);"
 		],
 		"description": ""
 	  },
@@ -63,10 +63,10 @@
 		"prefix": "MessageList",
 		"body": [
 		  "<MessageList",
+		  "  IsLoading=\"@IsLoading\"",
+		  "  Recipient=\"@Recipient\"",
+		  "  Messages=\"@Messages\"",
 		  "  ClickSend=\"OnClickSend\"",
-		  "  IsLoading=\"@_isLoading\"",
-		  "  Recipient=\"@_recipient\"",
-		  "  Messages=\"@_messages\"",
 		  "/>"
 		],
 		"description": ""
