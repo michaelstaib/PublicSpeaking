@@ -9,7 +9,7 @@ namespace Client
 {
     public class Program
     {
-        private static readonly string _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWxAY2hpbGxpY3JlYW0uY29tIiwiZW1haWwiOiJtaWNoYWVsQGNoaWxsaWNyZWFtLmNvbSIsIkNoYXQuVXNlcklkIjoiODA4YTE1MGYtNDliOC00MjFhLTgxNGEtZmRkMjlmMzYxZTg2IiwibmJmIjoxNTg1MzI0OTM1LCJleHAiOjE1ODUzNjgxMzUsImlhdCI6MTU4NTMyNDkzNX0.G2YrW2F15av8vgd23G4t2otBSvmN2BV58uzRPHMlm5U";
+        private static readonly string _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWxAY2hpbGxpY3JlYW0uY29tIiwiZW1haWwiOiJtaWNoYWVsQGNoaWxsaWNyZWFtLmNvbSIsIkNoYXQuVXNlcklkIjoiODA4YTE1MGYtNDliOC00MjFhLTgxNGEtZmRkMjlmMzYxZTg2IiwibmJmIjoxNTkxODYwMTg4LCJleHAiOjE1OTE5MDMzODgsImlhdCI6MTU5MTg2MDE4OH0.2jCZJprPi643c1wixnhAU-Rz1F8HCC3CHD4JVH7pQvg";
 
         public static async Task Main(string[] args)
         {
@@ -19,7 +19,7 @@ namespace Client
                 "ChatClient",
                 (services, client) =>
                 {
-                    client.BaseAddress = new Uri("http://localhost:5000/");
+                    client.BaseAddress = new Uri("https://hotchocolate-chat.azurewebsites.net");
                     client.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("bearer", _token);
                 });
