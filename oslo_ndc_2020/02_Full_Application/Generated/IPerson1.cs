@@ -6,11 +6,8 @@ using StrawberryShake;
 namespace Client
 {
     [System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.0.0")]
-    public partial interface IPerson
-        : IParticipant
+    public partial interface IPerson1
     {
-        System.Uri? ImageUri { get; }
-
-        System.DateTimeOffset LastSeen { get; }
+        global::Client.IMessageConnection? Messages { get; }
     }
 }

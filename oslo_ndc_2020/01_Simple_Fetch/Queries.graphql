@@ -1,0 +1,8 @@
+query GetPersons {
+  people(order_by: { name: ASC }) {
+    nodes {
+      name
+      lastSeen
+    }
+  }
+}

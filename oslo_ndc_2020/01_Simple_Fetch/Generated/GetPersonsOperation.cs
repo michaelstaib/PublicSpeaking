@@ -6,16 +6,16 @@ using StrawberryShake;
 namespace Client
 {
     [System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.0.0")]
-    public partial class GetPeopleOperation
-        : IOperation<IGetPeople>
+    public partial class GetPersonsOperation
+        : IOperation<IGetPersons>
     {
-        public string Name => "GetPeople";
+        public string Name => "GetPersons";
 
         public IDocument Document => Queries.Default;
 
         public OperationKind Kind => OperationKind.Query;
 
-        public Type ResultType => typeof(IGetPeople);
+        public Type ResultType => typeof(IGetPersons);
 
         public IReadOnlyList<VariableValue> GetVariableValues()
         {

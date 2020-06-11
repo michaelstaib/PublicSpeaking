@@ -24,6 +24,13 @@ namespace Client
                         new AuthenticationHeaderValue("bearer", _token);
                 });
 
+            builder.Services.AddWebSocketClient(
+                "ChatClient",
+                (service, client) => 
+                {
+                    client.Uri = new Uri("wss://hotchocolate-chat.azurewebsites.net?token=" + _token);
+                });
+
             builder.Services.AddChatClient();
 
             builder.RootComponents.Add<App>("app");

@@ -11,36 +11,32 @@ using StrawberryShake.Transport;
 namespace Client
 {
     [System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.0.0")]
-    public partial class GetPeopleResultParser
-        : JsonResultParserBase<IGetPeople>
+    public partial class GetPersonsResultParser
+        : JsonResultParserBase<IGetPersons>
     {
-        private readonly IValueSerializer _urlSerializer;
-        private readonly IValueSerializer _dateTimeSerializer;
         private readonly IValueSerializer _stringSerializer;
-        private readonly IValueSerializer _booleanSerializer;
+        private readonly IValueSerializer _dateTimeSerializer;
 
-        public GetPeopleResultParser(IValueSerializerCollection serializerResolver)
+        public GetPersonsResultParser(IValueSerializerCollection serializerResolver)
         {
             if (serializerResolver is null)
             {
                 throw new ArgumentNullException(nameof(serializerResolver));
             }
-            _urlSerializer = serializerResolver.Get("Url");
-            _dateTimeSerializer = serializerResolver.Get("DateTime");
             _stringSerializer = serializerResolver.Get("String");
-            _booleanSerializer = serializerResolver.Get("Boolean");
+            _dateTimeSerializer = serializerResolver.Get("DateTime");
         }
 
-        protected override IGetPeople ParserData(JsonElement data)
+        protected override IGetPersons ParserData(JsonElement data)
         {
-            return new GetPeople
+            return new GetPersons
             (
-                ParseGetPeoplePeople(data, "people")
+                ParseGetPersonsPeople(data, "people")
             );
 
         }
 
-        private global::Client.IPersonConnection? ParseGetPeoplePeople(
+        private global::Client.IPersonConnection? ParseGetPersonsPeople(
             JsonElement parent,
             string field)
         {
@@ -56,11 +52,11 @@ namespace Client
 
             return new PersonConnection
             (
-                ParseGetPeoplePeopleNodes(obj, "nodes")
+                ParseGetPersonsPeopleNodes(obj, "nodes")
             );
         }
 
-        private global::System.Collections.Generic.IReadOnlyList<global::Client.IPerson>? ParseGetPeoplePeopleNodes(
+        private global::System.Collections.Generic.IReadOnlyList<global::Client.IPerson>? ParseGetPersonsPeopleNodes(
             JsonElement parent,
             string field)
         {
@@ -81,37 +77,13 @@ namespace Client
                 JsonElement element = obj[objIndex];
                 list[objIndex] = new Person
                 (
-                    DeserializeNullableUrl(element, "imageUri"),
-                    DeserializeDateTime(element, "lastSeen"),
                     DeserializeString(element, "name"),
-                    DeserializeString(element, "email"),
-                    DeserializeBoolean(element, "isOnline")
+                    DeserializeDateTime(element, "lastSeen")
                 );
 
             }
 
             return list;
-        }
-
-        private System.Uri? DeserializeNullableUrl(JsonElement obj, string fieldName)
-        {
-            if (!obj.TryGetProperty(fieldName, out JsonElement value))
-            {
-                return null;
-            }
-
-            if (value.ValueKind == JsonValueKind.Null)
-            {
-                return null;
-            }
-
-            return (System.Uri?)_urlSerializer.Deserialize(value.GetString())!;
-        }
-
-        private System.DateTimeOffset DeserializeDateTime(JsonElement obj, string fieldName)
-        {
-            JsonElement value = obj.GetProperty(fieldName);
-            return (System.DateTimeOffset)_dateTimeSerializer.Deserialize(value.GetString())!;
         }
 
         private string DeserializeString(JsonElement obj, string fieldName)
@@ -120,10 +92,10 @@ namespace Client
             return (string)_stringSerializer.Deserialize(value.GetString())!;
         }
 
-        private bool DeserializeBoolean(JsonElement obj, string fieldName)
+        private System.DateTimeOffset DeserializeDateTime(JsonElement obj, string fieldName)
         {
             JsonElement value = obj.GetProperty(fieldName);
-            return (bool)_booleanSerializer.Deserialize(value.GetBoolean())!;
+            return (System.DateTimeOffset)_dateTimeSerializer.Deserialize(value.GetString())!;
         }
     }
 }

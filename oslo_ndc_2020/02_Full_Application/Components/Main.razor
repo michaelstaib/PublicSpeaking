@@ -6,12 +6,23 @@
   ClickPerson="OnClickPerson"
 />
 
+<MessageList
+  IsLoading="@IsLoading"
+  Recipient="@Recipient"
+  Messages="@Messages"
+  ClickSend="OnClickSend"
+/>
+
 @code {
     private bool IsLoading = true;
     private IPersonConnection? People;
+    private IPerson? Recipient;
+    private ImmutableList<IMessage> Messages = ImmutableList<IMessage>.Empty;
 
     protected override async Task OnInitializedAsync()
     {
+        BeginReceiveMessages();
+        
         var result = await ChatClient.GetPeopleAsync();
         result.EnsureNoErrors();
 
@@ -23,11 +34,40 @@
 
     private async Task OnClickPerson(IPerson person)
     {
+        var result = await ChatClient.GetMessagesAsync(person.Email);
+        result.EnsureNoErrors();
 
+        Recipient = person;
+        Messages = ImmutableList.CreateRange(result.Data!.PersonByEmail.Messages!.Nodes);
+
+        StateHasChanged();
     }
 
     private async Task OnClickSend(string message)
     {
+        var result = await ChatClient.SendMessageAsync(Recipient!.Email, message);
+        result.EnsureNoErrors();
 
+        Messages = Messages.Add(result.Data!.SendMessage.Message);
+
+        StateHasChanged();
+    }
+
+    private void BeginReceiveMessages() 
+    {
+        Task.Run(async () => 
+        {
+            var messageStream = await ChatClient.ReceiveMessagesAsync();
+    
+            await foreach(var result in messageStream) 
+            {
+                if(!result.HasErrors
+                    && Recipient is { }) 
+                {
+                    Messages = Messages.Add(result.Data!.Message);
+                    StateHasChanged();
+                }
+            }
+        });
     }
 }

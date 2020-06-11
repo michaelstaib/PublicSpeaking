@@ -7,9 +7,8 @@ namespace Client
 {
     [System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.0.0")]
     public partial interface IPerson
-        : IParticipant
     {
-        System.Uri? ImageUri { get; }
+        string Name { get; }
 
         System.DateTimeOffset LastSeen { get; }
     }

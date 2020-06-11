@@ -37,29 +37,12 @@ namespace Client
                     sp.GetRequiredService<IClientOptions>().GetOperationFormatter(_clientName),
                     sp.GetRequiredService<IClientOptions>().GetResultParsers(_clientName)));
 
-            serviceCollection.AddSingleton<IOperationStreamExecutorFactory>(sp =>
-                new SocketOperationStreamExecutorFactory(
-                    _clientName,
-                    sp.GetRequiredService<ISocketConnectionPool>().RentAsync,
-                    sp.GetRequiredService<ISubscriptionManager>(),
-                    sp.GetRequiredService<IClientOptions>().GetOperationFormatter(_clientName),
-                    sp.GetRequiredService<IClientOptions>().GetResultParsers(_clientName)));
-
             IOperationClientBuilder builder = serviceCollection.AddOperationClientOptions(_clientName)
-                .AddValueSerializer(() => new DirectionValueSerializer())
-                .AddResultParser(serializers => new GetPeopleResultParser(serializers))
-                .AddResultParser(serializers => new GetMessagesResultParser(serializers))
-                .AddResultParser(serializers => new SendMessageResultParser(serializers))
-                .AddResultParser(serializers => new ReceiveMessagesResultParser(serializers))
+                .AddResultParser(serializers => new GetPersonsResultParser(serializers))
                 .AddOperationFormatter(serializers => new JsonOperationFormatter(serializers))
                 .AddHttpOperationPipeline(b => b.UseHttpDefaultPipeline());
 
-            serviceCollection.TryAddSingleton<ISubscriptionManager, SubscriptionManager>();
             serviceCollection.TryAddSingleton<IOperationExecutorPool, OperationExecutorPool>();
-            serviceCollection.TryAddEnumerable(new ServiceDescriptor(
-                typeof(ISocketConnectionInterceptor),
-                typeof(MessagePipelineHandler),
-                ServiceLifetime.Singleton));
             return builder;
         }
 

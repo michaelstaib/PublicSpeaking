@@ -6,26 +6,18 @@ using StrawberryShake;
 namespace Client
 {
     [System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.0.0")]
-    public partial class Person
-        : IPerson
+    public partial class Participant
+        : IParticipant
     {
-        public Person(
-            System.Uri? imageUri, 
-            System.DateTimeOffset lastSeen, 
+        public Participant(
             string name, 
             string email, 
             bool isOnline)
         {
-            ImageUri = imageUri;
-            LastSeen = lastSeen;
             Name = name;
             Email = email;
             IsOnline = isOnline;
         }
-
-        public System.Uri? ImageUri { get; }
-
-        public System.DateTimeOffset LastSeen { get; }
 
         public string Name { get; }
 

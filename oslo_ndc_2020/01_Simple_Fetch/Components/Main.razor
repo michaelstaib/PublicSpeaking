@@ -1,5 +1,19 @@
-<PeopleList />
+@inject IChatClient ChatClient
+
+<PeopleList People="@People" IsLoading="@IsLoading" />
 
 @code {
+    private bool IsLoading = true;
+    private IPersonConnection? People;
 
+    protected override async Task OnInitializedAsync() 
+    {
+        var result = await ChatClient.GetPersonsAsync();
+        result.EnsureNoErrors();
+
+        People = result.Data!.People;
+        IsLoading = false;
+
+        StateHasChanged();
+    }
 }

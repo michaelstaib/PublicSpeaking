@@ -1,11 +1,56 @@
-query getPeople {
+query GetPeople {
   people(order_by: { name: ASC }) {
     nodes {
-      name
-      email
-      isOnline
-      imageUri
-      lastSeen
+      ...Person
     }
   }
+}
+
+query GetMessages($email: String!) {
+  personByEmail(email: $email) {
+    messages(order_by: { sent: ASC }) {
+      nodes {
+        ...Message
+      }
+    }
+  }
+}
+
+mutation SendMessage($email: String!, $text: String!) {
+  sendMessage(input: { recipientEmail: $email, text: $text }) {
+    message {
+      ...Message
+    }
+  }
+}
+
+subscription ReceiveMessages {
+  message: onMessageReceived {
+    ... Message
+  }
+}
+
+fragment Message on Message {
+  id
+  direction
+  recipient {
+    ...Participant
+  }
+  sender {
+    ...Participant
+  }
+  sent
+  text
+}
+
+fragment Participant on Person {
+  name
+  email
+  isOnline
+}
+
+fragment Person on Person {
+  ...Participant
+  imageUri
+  lastSeen
 }
