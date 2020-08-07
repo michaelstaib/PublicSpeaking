@@ -1,2 +1,1 @@
-dotnet run --urls=http://127.0.0.1:5002
-dotnet graphql init http://127.0.0.1:5000 -n Chat
+dotnet graphql init https://hotchocolate-chat.azurewebsites.net -n Chat

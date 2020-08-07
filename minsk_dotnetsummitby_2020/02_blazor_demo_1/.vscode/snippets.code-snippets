@@ -37,7 +37,7 @@
 		]
 	},
 	"initialize": {
-		"scope": "csharp",
+		"scope": "html",
 		"prefix": "initialize",
 		"body": [
 			"@code {",
@@ -47,5 +47,12 @@
 			"    }",
 			"}"
 		]
-	}
+	},
+	"token": {
+		"scope": "csharp",
+		"prefix": "token",
+		"body": [
+			"private const string _token = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWxAY2hpbGxpY3JlYW0uY29tIiwiZW1haWwiOiJtaWNoYWVsQGNoaWxsaWNyZWFtLmNvbSIsIkNoYXQuVXNlcklkIjoiODA4YTE1MGYtNDliOC00MjFhLTgxNGEtZmRkMjlmMzYxZTg2IiwibmJmIjoxNTk2Nzg4Njk2LCJleHAiOjE1OTY4MzE4OTYsImlhdCI6MTU5Njc4ODY5Nn0.f4x0vMDoS2dAe-iyUSBbpAADOCA36VdbdqZDTVtLSX0\";"
+		]
+	},
 }
