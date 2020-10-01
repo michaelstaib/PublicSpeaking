@@ -1,0 +1,7 @@
+builder.Services.AddWebSocketClient(
+                "ChatClient",
+                (services, client) =>
+                {
+                    var token = services.GetRequiredService<ITokenStore>().GetToken();
+                    client.Uri = new Uri("ws://localhost:5000?token=" + token);
+                });
