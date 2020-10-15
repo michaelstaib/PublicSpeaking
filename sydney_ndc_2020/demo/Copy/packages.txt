@@ -1,0 +1,13 @@
+dotnet add Demo package HotChocolate.AspNetCore --version 11.0.0-preview.154
+dotnet add Demo package HotChocolate.Data --version 11.0.0-preview.154
+dotnet add Demo package HotChocolate.Data.EntityFramework --version 11.0.0-preview.154
+
+dotnet add Demo package Microsoft.EntityFrameworkCore.Sqlite --version 5.0.0-rc.2.20475.6
+dotnet add Demo package Microsoft.EntityFrameworkCore.Tools --version 5.0.0-rc.2.20475.6
+
+dotnet new tool-manifest
+dotnet tool install dotnet-ef --version 5.0.0-rc.2.20475.6 --local
+
+dotnet build Demo
+dotnet ef migrations add Initial --project Demo
+dotnet ef database update --project Demo
