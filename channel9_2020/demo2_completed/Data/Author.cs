@@ -13,7 +13,7 @@ namespace Demo.Data
         [Required]
         public string? Name { get; set; }
 
-        public virtual ICollection<Book> Books { get; set; } =
+        public virtual ICollection<Book> Books { get; set; } = 
             new List<Book>();
     }
 }

@@ -1,5 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using Demo.Data;
+using HotChocolate;
+using HotChocolate.Data.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,12 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Demo.Data;
-using Demo.Types;
-using Demo.Types.DataLoader;
-using HotChocolate;
-using HotChocolate.Data.Filters;
-
 
 namespace Demo
 {
@@ -28,15 +25,10 @@ namespace Demo
                         .UseSqlite("Data Source=books.db")
                         .UseLoggerFactory(s.GetRequiredService<ILoggerFactory>()))
                 .AddGraphQLServer()
-                    .AddQueryType<Query>()
-                    .AddMutationType<Mutation>()
-                    .AddSubscriptionType<Subscription>()
-                    .AddType<AuthorType>()
-                    .AddType<BookType>()
-                    .AddFiltering()
-                    .AddSorting()
-                    .AddInMemorySubscriptions()
-                    .AddDataLoader<AuthorDataLoader>();;
+                .AddQueryType<Query>()
+                .AddProjections()
+                .AddFiltering()
+                .AddSorting();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,8 +38,6 @@ namespace Demo
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseWebSockets();
 
             app.UseRouting();
 
