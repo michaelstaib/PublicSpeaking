@@ -1,0 +1,3 @@
+extend type Query {
+  me: User! @delegate(schema: "Account" path: "user(id: 1)")
+}
