@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Demo.Data;
-using Demo.Types;
 using HotChocolate;
-using HotChocolate.Data.Filters;
+using HotChocolate.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,17 +22,11 @@ namespace Demo
         {
             services
                 .AddPooledDbContextFactory<BookContext>(
-                    c => c.UseSqlite("Data Source=books.db"))
+                    o => o.UseSqlite("Data Source=demo.db"))
                 .AddGraphQLServer()
-                .AddRemoteSchema("")
                 .AddQueryType<Query>()
-                .AddMutationType<Mutation>()
-                .AddSubscriptionType<Subscription>()
-                .AddType<AuthorType>()
-                .AddType<BookType>()
                 .AddFiltering()
-                .AddSorting()
-                .AddInMemorySubscriptions();
+                .AddSorting();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,8 +37,6 @@ namespace Demo
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseWebSockets();
-
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -52,4 +45,5 @@ namespace Demo
             });
         }
     }
+
 }
