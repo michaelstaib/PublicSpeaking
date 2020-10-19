@@ -30,6 +30,7 @@ namespace Demo
                 .AddGraphQLServer()
                     .AddQueryType<Query>()
                     .AddMutationType<Mutation>()
+                    .AddSubscriptionType<Subscription>()
                     .AddType<AuthorType>()
                     .AddType<BookType>()
                     .AddFiltering()

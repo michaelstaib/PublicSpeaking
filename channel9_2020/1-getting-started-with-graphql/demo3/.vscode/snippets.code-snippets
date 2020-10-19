@@ -1,0 +1,139 @@
+{
+    "AuthorType": {
+        "prefix": "AuthorType",
+        "body": [
+            "using System.Linq;",
+            "using Demo.Data;",
+            "using HotChocolate;",
+            "using HotChocolate.Data;",
+            "using HotChocolate.Types;",
+            "",
+            "namespace Demo.Types",
+            "{",
+            "    public class AuthorType : ObjectType<Author>",
+            "    {",
+            "        protected override void Configure(IObjectTypeDescriptor<Author> descriptor)",
+            "        {",
+            "            ",
+            "        }",
+            "    }",
+            "}"
+        ],
+        "description": "AuthorType"
+    },
+    "Resolver": {
+        "prefix": "Resolver",
+        "body": [
+            "private class Resolvers",
+            "{",
+            "    public IQueryable<Book> GetBooks(",
+            "        Author author,",
+            "        [ScopedService] BookContext dbContext) =>",
+            "        dbContext.Books.Where(t => t.AuthorId == author.Id);",
+            "}"
+        ],
+        "description": "Resolver"
+    },
+    "Descriptor": {
+        "prefix": "Descriptor",
+        "body": [
+            "descriptor",
+            "    .Field(t => t.Books)",
+            "    .ResolveWith<Resolvers>(t => t.GetBooks(default!, default!))",
+            "    .UseDbContext<BookContext>()",
+            "    .UseFiltering()",
+            "    .UseSorting();"
+        ],
+        "description": "Descriptor"
+    },
+    "BookType": {
+        "prefix": "BookType",
+        "body": [
+            "using System.Threading;",
+            "using System.Threading.Tasks;",
+            "using Demo.Data;",
+            "using Demo.Types.DataLoader;",
+            "using HotChocolate.Types;",
+            "",
+            "namespace Demo.Types",
+            "{",
+            "    public class BookType : ObjectType<Book>",
+            "    {",
+            "        protected override void Configure(IObjectTypeDescriptor<Book> descriptor)",
+            "        {",
+            "            descriptor",
+            "                .Field(t => t.Author)",
+            "                .ResolveWith<Resolvers>(t => t.GetAuthorAsync(default!, default!, default!))",
+            "                .UseDbContext<BookContext>();",
+            "        }",
+            "",
+            "        private class Resolvers",
+            "        {",
+            "            public Task<Author> GetAuthorAsync(",
+            "                Book book,",
+            "                AuthorDataLoader authorById,",
+            "                CancellationToken cancellationToken) =>",
+            "                authorById.LoadAsync(book.AuthorId, cancellationToken);",
+            "        }",
+            "    }",
+            "}"
+        ],
+        "description": "BookType"
+    },
+    "GetAuthorById": {
+        "prefix": "GetAuthorById",
+        "body": [
+            "[UseDbContext(typeof(BookContext))]",
+            "[UseFiltering]",
+            "[UseSorting]",
+            "public Task<Author> GetAuthorByIdAsync(",
+            "    int id, ",
+            "    AuthorDataLoader authorDataLoader, ",
+            "    CancellationToken cancellationToken) =>",
+            "    authorDataLoader.LoadAsync(id, cancellationToken);"
+        ],
+        "description": "GetAuthorById"
+    },
+    "AddAuthor": {
+        "prefix": "AddAuthor",
+        "body": [
+            "[UseDbContext(typeof(BookContext))]",
+            "public async Task<AddAuthorPayload> AddAuthorAsync(",
+            "    AddAuthorInput input,",
+            "    [ScopedService] BookContext dbContext)",
+            "{",
+            "    var author = new Author ",
+            "    {",
+            "        Name = input.Name",
+            "    };",
+            "",
+            "    dbContext.Authors.Add(author);",
+            "    await dbContext.SaveChangesAsync();",
+            "",
+            "    return new AddAuthorPayload(author);",
+            "}"
+        ],
+        "description": "AddAuthor"
+    },
+    "Mutation": {
+        "prefix": "Mutation",
+        "body": [
+            "using System.Threading;",
+            "using System.Threading.Tasks;",
+            "using Demo.Data;",
+            "using HotChocolate;",
+            "using HotChocolate.Data;",
+            "using HotChocolate.Subscriptions;",
+            "",
+            "namespace Demo",
+            "{",
+            "    public class Mutation",
+            "    {",
+            "    ",
+            "    }",
+            "}",
+            ""
+        ],
+        "description": "Mutation"
+    }
+}

@@ -29,13 +29,8 @@ namespace Demo
                         .UseLoggerFactory(s.GetRequiredService<ILoggerFactory>()))
                 .AddGraphQLServer()
                     .AddQueryType<Query>()
-                    .AddMutationType<Mutation>()
-                    .AddType<AuthorType>()
-                    .AddType<BookType>()
                     .AddFiltering()
-                    .AddSorting()
-                    .AddInMemorySubscriptions()
-                    .AddDataLoader<AuthorDataLoader>();;
+                    .AddSorting();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
