@@ -5,7 +5,7 @@ namespace Demo.Reviews
 {
     public class Query
     {
-        public IEnumerable<Product> GetTopProducts(
+        public  GetTopProducts(
             int first, 
             [Service] ProductRepository repository) =>
             repository.GetTopProducts(first);

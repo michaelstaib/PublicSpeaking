@@ -4,23 +4,33 @@ using System.Linq;
 
 namespace Demo.Reviews
 {
-    public class ProductRepository
+    public class ReviewRepository
     {
-        private readonly Dictionary<int, Product> _products;
+        private readonly Dictionary<int, Review> _reviews;
+        private readonly Dictionary<int, Author> _authors;
 
-        public ProductRepository()
+        public ReviewRepository()
         {
-            _products = new Product[]
+            _reviews = new Review[]
             {
-                new Product(1, "Table", 899, 100),
-                new Product(2, "Couch", 1299, 1000),
-                new Product(3, "Chair", 54, 50)
-            }.ToDictionary(t => t.Upc);
+                new Review(1, 1, 1, "Love it!"),
+                new Review(2, 1, 2, "Too expensive."),
+                new Review(3, 2, 3, "Could be better."),
+                new Review(4, 2, 1, "Prefer something else.")
+            }.ToDictionary(t => t.Id);
+
+            _authors = new Author[] 
+            {
+                new Author(1, "@ada"),
+                new Author(2, "@complete")
+            }.ToDictionary(t => t.Id);
         }
 
-        public IEnumerable<Product> GetTopProducts(int first) => 
-            _products.Values.OrderBy(t => t.Upc).Skip(first);
+        public IEnumerable<Review> GetReviews() => 
+            _reviews.Values.OrderBy(t => t.Id);
 
-        public Product GetProduct   (int upc) => _products[upc];
+        public Review GetReview(int id) => _reviews[id];
+
+        public Author GetAuthor(int id) => _authors[id];
     }
 }
