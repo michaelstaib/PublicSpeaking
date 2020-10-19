@@ -63,8 +63,7 @@
             "        {",
             "            descriptor",
             "                .Field(t => t.Author)",
-            "                .ResolveWith<Resolvers>(t => t.GetAuthorAsync(default!, default!, default!))",
-            "                .UseDbContext<BookContext>();",
+            "                .ResolveWith<Resolvers>(t => t.GetAuthorAsync(default!, default!, default!));",
             "        }",
             "",
             "        private class Resolvers",
@@ -84,8 +83,6 @@
         "prefix": "GetAuthorById",
         "body": [
             "[UseDbContext(typeof(BookContext))]",
-            "[UseFiltering]",
-            "[UseSorting]",
             "public Task<Author> GetAuthorByIdAsync(",
             "    int id, ",
             "    AuthorDataLoader authorDataLoader, ",

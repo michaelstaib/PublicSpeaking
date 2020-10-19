@@ -1,12 +1,12 @@
 {
-    "pooled": {
-        "prefix": "pooled",
+    "AddDbContext": {
+        "prefix": "AddDbContext",
         "body": [
             ".AddPooledDbContextFactory<BookContext>(",
             "    (s, o) => o",
             "        .UseSqlite(\"Data Source=books.db\")",
             "        .UseLoggerFactory(s.GetRequiredService<ILoggerFactory>()))"
         ],
-        "description": "pooled"
+        "description": "AddDbContext"
     }
 }
