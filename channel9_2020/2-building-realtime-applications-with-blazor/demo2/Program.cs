@@ -9,7 +9,7 @@ namespace Client
 {
     public class Program
     {
-        private static readonly string _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWxAY2hpbGxpY3JlYW0uY29tIiwiZW1haWwiOiJtaWNoYWVsQGNoaWxsaWNyZWFtLmNvbSIsIkNoYXQuVXNlcklkIjoiODA4YTE1MGYtNDliOC00MjFhLTgxNGEtZmRkMjlmMzYxZTg2IiwibmJmIjoxNjAxNTU0NDQ2LCJleHAiOjE2MDE1OTc2NDYsImlhdCI6MTYwMTU1NDQ0Nn0.6Gn9ehPMh9J_vLD-uiSeLciDPqTP316ybFMnq8NgzLs";
+        private static readonly string _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWxAY2hpbGxpY3JlYW0uY29tIiwiZW1haWwiOiJtaWNoYWVsQGNoaWxsaWNyZWFtLmNvbSIsIkNoYXQuVXNlcklkIjoiODA4YTE1MGYtNDliOC00MjFhLTgxNGEtZmRkMjlmMzYxZTg2IiwibmJmIjoxNjAzMTEzMjU5LCJleHAiOjE2MDMxNTY0NTksImlhdCI6MTYwMzExMzI1OX0.lvzWRW6273eAf4VGGA4HXJiEtU2cAxnhfWCkQhAzj28";
 
         public static async Task Main(string[] args)
         {
