@@ -17,7 +17,7 @@ namespace Demo.Reviews
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddSingleton<ProductRepository>()
+                .AddSingleton<ReviewRepository>()
                 .AddGraphQLServer()
                 .AddQueryType<Query>();
         }

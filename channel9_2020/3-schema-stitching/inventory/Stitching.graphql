@@ -1,11 +1,10 @@
 extend type Product {
   inStock: Boolean
     @delegate(
-      schema: "Inventory",
-      path: "inventoryInfo(upc: $fields:upc)")
+      schema: "inventory",
+      path: "inventoryInfo(upc: $fields:upc).isInStock")
   shippingEstimate: Int
-    @delegate
     @delegate(
-      schema: "Inventory"
-      path: "inventoryInfo(price: $fields:price weight: $fields:weight)")
+      schema: "inventory"
+      path: "shippingEstimate(price: $fields:price weight: $fields:weight)")
 }

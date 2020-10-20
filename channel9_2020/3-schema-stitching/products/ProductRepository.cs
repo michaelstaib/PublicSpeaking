@@ -19,7 +19,7 @@ namespace Demo.Products
         }
 
         public IEnumerable<Product> GetTopProducts(int first) => 
-            _products.Values.OrderBy(t => t.Upc).Skip(first);
+            _products.Values.OrderBy(t => t.Upc).Take(first);
 
         public Product GetProduct   (int upc) => _products[upc];
     }

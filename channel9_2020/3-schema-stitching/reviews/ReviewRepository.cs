@@ -29,6 +29,12 @@ namespace Demo.Reviews
         public IEnumerable<Review> GetReviews() => 
             _reviews.Values.OrderBy(t => t.Id);
 
+        public IEnumerable<Review> GetReviewsByProductId(int upc) => 
+            _reviews.Values.OrderBy(t => t.Id).Where(t => t.Upc == upc);
+
+        public IEnumerable<Review> GetReviewsByAuthorId(int authorId) => 
+            _reviews.Values.OrderBy(t => t.Id).Where(t => t.AuthorId == authorId);
+
         public Review GetReview(int id) => _reviews[id];
 
         public Author GetAuthor(int id) => _authors[id];

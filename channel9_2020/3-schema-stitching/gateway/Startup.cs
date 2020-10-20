@@ -22,24 +22,24 @@ namespace Demo.Gateway
             services.AddHttpClient("accounts", c => c.BaseAddress = new Uri("http://localhost:5051/graphql"));
             services.AddHttpClient("inventory", c => c.BaseAddress = new Uri("http://localhost:5052/graphql"));
             services.AddHttpClient("products", c => c.BaseAddress = new Uri("http://localhost:5053/graphql"));
-            services.AddHttpClient("review", c => c.BaseAddress = new Uri("http://localhost:5054/graphql"));
+            services.AddHttpClient("reviews", c => c.BaseAddress = new Uri("http://localhost:5054/graphql"));
 
             services
                 .AddGraphQLServer()
-                .AddRemoteSchema("accounts", ignoreRootTypes: false)
-                .AddRemoteSchema("inventory", ignoreRootTypes: false)
-                .AddRemoteSchema("products", ignoreRootTypes: false)
-                // .AddTypeExtensionsFromString("type Query { }")
-                // .AddRemoteSchema("review", ignoreRootTypes: true)
-                .AddTypeExtensionsFromFile("../accounts/Stitching.graphql")
+                .AddRemoteSchema("accounts", ignoreRootTypes: true)
+                .AddRemoteSchema("inventory", ignoreRootTypes: true)
+                .AddRemoteSchema("products", ignoreRootTypes: true)
+                .AddRemoteSchema("reviews", ignoreRootTypes: true)
                 .AddHttpRequestInterceptor((httpContext, executor, builder, ct) =>
                 {
                     builder.SetProperty("userId", 1);
                     return default;
-                });
-                // .AddTypeExtensionsFromFile("../inventory/Stitching.graphql")
-                // .AddTypeExtensionsFromFile("../products/Stitching.graphql");
-                // .AddTypeExtensionsFromFile("../reviews/Stitching.graphql");
+                })
+                .AddTypeExtensionsFromString("type Query { }")
+                .AddTypeExtensionsFromFile("../accounts/Stitching.graphql")
+                .AddTypeExtensionsFromFile("../products/Stitching.graphql")
+                .AddTypeExtensionsFromFile("../inventory/Stitching.graphql")
+                .AddTypeExtensionsFromFile("../reviews/Stitching.graphql");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

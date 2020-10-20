@@ -5,14 +5,18 @@ namespace Demo.Reviews
 {
     public class Query
     {
-        public  GetTopProducts(
-            int first, 
-            [Service] ProductRepository repository) =>
-            repository.GetTopProducts(first);
+        public IEnumerable<Review> GetReviews(
+            [Service] ReviewRepository repository) =>
+            repository.GetReviews();
 
-        public Product GetProduct(
-            int upc, 
-            [Service] ProductRepository repository) =>
-            repository.GetProduct(upc);
+        public IEnumerable<Review> GetReviewsByAuthor(
+            [Service] ReviewRepository repository,
+            int authorId) =>
+            repository.GetReviewsByAuthorId(authorId);
+
+        public IEnumerable<Review> GetReviewsByProduct(
+            [Service] ReviewRepository repository,
+            int upc) =>
+            repository.GetReviewsByAuthorId(upc);
     }
 }
