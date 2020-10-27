@@ -1,7 +1,0 @@
-extend type Query {
-  me: User! @delegate(schema: "accounts", path: "user(id: 1)")
-}
-
-extend type Review {
-  author: User @delegate(schema: "accounts", path: "user(id: $fields:authorId)")
-}
