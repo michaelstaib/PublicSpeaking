@@ -18,8 +18,7 @@ namespace ConferencePlanner.GraphQL.Types
             descriptor
                 .ImplementsNode()
                 .IdField(t => t.Id)
-                .ResolveNode((ctx, id) =>
-                    ctx.DataLoader<SpeakerByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
+                .ResolveNodeWith<SpeakerResolvers>(t => t.GetSpeakerByIdAsync(default, default!, default));
 
             descriptor
                 .Field(t => t.SessionSpeakers)
@@ -46,6 +45,12 @@ namespace ConferencePlanner.GraphQL.Types
 
                 return await sessionById.LoadAsync(speakerIds, cancellationToken);
             }
+
+            public Task<Speaker> GetSpeakerByIdAsync(
+                int id, 
+                SpeakerByIdDataLoader speakerById,
+                CancellationToken cancellationToken) =>
+                speakerById.LoadAsync(id, cancellationToken);
         }
     }
 }
