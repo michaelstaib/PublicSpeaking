@@ -16,9 +16,9 @@ namespace ConferencePlanner.GraphQL.Types
         protected override void Configure(IObjectTypeDescriptor<Speaker> descriptor)
         {
             descriptor
-                .AsNode()
+                .ImplementsNode()
                 .IdField(t => t.Id)
-                .NodeResolver((ctx, id) =>
+                .ResolveNode((ctx, id) =>
                     ctx.DataLoader<SpeakerByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
 
             descriptor
@@ -36,6 +36,8 @@ namespace ConferencePlanner.GraphQL.Types
                 SessionByIdDataLoader sessionById,
                 CancellationToken cancellationToken)
             {
+                await Task.Delay(600);
+
                 int[] speakerIds = await dbContext.Speakers
                     .Where(s => s.Id == speaker.Id)
                     .Include(s => s.SessionSpeakers)
