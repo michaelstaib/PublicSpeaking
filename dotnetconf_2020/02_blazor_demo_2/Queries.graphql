@@ -1,4 +1,4 @@
-query getPeople {
+query GetPeople {
   people(order_by: { name: ASC }) {
     nodes {
       name
