@@ -10,11 +10,11 @@ namespace Client
         : IPersonConnection
     {
         public PersonConnection(
-            global::System.Collections.Generic.IReadOnlyList<global::Client.IPerson>? nodes)
+            global::System.Collections.Generic.IReadOnlyList<global::Client.IPerson> nodes)
         {
             Nodes = nodes;
         }
 
-        public global::System.Collections.Generic.IReadOnlyList<global::Client.IPerson>? Nodes { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::Client.IPerson> Nodes { get; }
     }
 }

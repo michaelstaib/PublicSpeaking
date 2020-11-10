@@ -21,30 +21,38 @@ namespace Client
         };
         private readonly byte[] _hash = new byte[]
         {
-            118,
-            85,
-            107,
-            78,
-            110,
-            122,
-            89,
-            82,
-            116,
-            65,
-            109,
-            78,
-            115,
-            117,
-            117,
-            68,
-            43,
+            53,
+            102,
+            54,
+            48,
+            55,
+            54,
+            49,
+            57,
+            102,
+            49,
+            102,
             56,
-            83,
-            84,
-            75,
-            65,
-            61,
-            61
+            99,
+            52,
+            53,
+            57,
+            97,
+            48,
+            57,
+            57,
+            48,
+            49,
+            97,
+            57,
+            98,
+            57,
+            101,
+            97,
+            53,
+            56,
+            49,
+            55
         };
         private readonly byte[] _content = new byte[]
         {
@@ -54,7 +62,7 @@ namespace Client
             114,
             121,
             32,
-            103,
+            71,
             101,
             116,
             80,
@@ -184,7 +192,7 @@ namespace Client
         public static Queries Default { get; } = new Queries();
 
         public override string ToString() => 
-            @"query getPeople {
+            @"query GetPeople {
               people(order_by: { name: ASC }) {
                 nodes {
                   name

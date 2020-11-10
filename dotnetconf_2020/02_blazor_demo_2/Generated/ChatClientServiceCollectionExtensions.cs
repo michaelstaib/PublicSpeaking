@@ -40,7 +40,7 @@ namespace Client
             IOperationClientBuilder builder = serviceCollection.AddOperationClientOptions(_clientName)
                 .AddResultParser(serializers => new GetPeopleResultParser(serializers))
                 .AddOperationFormatter(serializers => new JsonOperationFormatter(serializers))
-                .AddHttpOperationPipeline(builder => builder.UseHttpDefaultPipeline());
+                .AddHttpOperationPipeline(b => b.UseHttpDefaultPipeline());
 
             serviceCollection.TryAddSingleton<IOperationExecutorPool, OperationExecutorPool>();
             return builder;

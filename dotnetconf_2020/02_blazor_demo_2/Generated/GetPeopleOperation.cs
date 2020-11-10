@@ -9,7 +9,7 @@ namespace Client
     public partial class GetPeopleOperation
         : IOperation<IGetPeople>
     {
-        public string Name => "getPeople";
+        public string Name => "GetPeople";
 
         public IDocument Document => Queries.Default;
 

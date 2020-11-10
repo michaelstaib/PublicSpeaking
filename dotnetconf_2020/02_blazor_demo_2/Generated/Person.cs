@@ -13,7 +13,7 @@ namespace Client
             string name, 
             string email, 
             bool isOnline, 
-            System.Uri? imageUri, 
+            System.Uri imageUri, 
             System.DateTimeOffset lastSeen)
         {
             Name = name;
@@ -29,7 +29,7 @@ namespace Client
 
         public bool IsOnline { get; }
 
-        public System.Uri? ImageUri { get; }
+        public System.Uri ImageUri { get; }
 
         public System.DateTimeOffset LastSeen { get; }
     }

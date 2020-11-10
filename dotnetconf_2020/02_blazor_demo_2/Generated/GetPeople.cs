@@ -10,11 +10,11 @@ namespace Client
         : IGetPeople
     {
         public GetPeople(
-            global::Client.IPersonConnection? people)
+            global::Client.IPersonConnection people)
         {
             People = people;
         }
 
-        public global::Client.IPersonConnection? People { get; }
+        public global::Client.IPersonConnection People { get; }
     }
 }

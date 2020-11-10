@@ -14,7 +14,7 @@ namespace Client
 
         bool IsOnline { get; }
 
-        System.Uri? ImageUri { get; }
+        System.Uri ImageUri { get; }
 
         System.DateTimeOffset LastSeen { get; }
     }

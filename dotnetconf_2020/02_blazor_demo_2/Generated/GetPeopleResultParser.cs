@@ -40,7 +40,7 @@ namespace Client
 
         }
 
-        private global::Client.IPersonConnection? ParseGetPeoplePeople(
+        private global::Client.IPersonConnection ParseGetPeoplePeople(
             JsonElement parent,
             string field)
         {
@@ -60,7 +60,7 @@ namespace Client
             );
         }
 
-        private global::System.Collections.Generic.IReadOnlyList<global::Client.IPerson>? ParseGetPeoplePeopleNodes(
+        private global::System.Collections.Generic.IReadOnlyList<global::Client.IPerson> ParseGetPeoplePeopleNodes(
             JsonElement parent,
             string field)
         {
@@ -96,16 +96,16 @@ namespace Client
         private string DeserializeString(JsonElement obj, string fieldName)
         {
             JsonElement value = obj.GetProperty(fieldName);
-            return (string)_stringSerializer.Deserialize(value.GetString())!;
+            return (string)_stringSerializer.Deserialize(value.GetString());
         }
 
         private bool DeserializeBoolean(JsonElement obj, string fieldName)
         {
             JsonElement value = obj.GetProperty(fieldName);
-            return (bool)_booleanSerializer.Deserialize(value.GetBoolean())!;
+            return (bool)_booleanSerializer.Deserialize(value.GetBoolean());
         }
 
-        private System.Uri? DeserializeNullableUrl(JsonElement obj, string fieldName)
+        private System.Uri DeserializeNullableUrl(JsonElement obj, string fieldName)
         {
             if (!obj.TryGetProperty(fieldName, out JsonElement value))
             {
@@ -117,13 +117,13 @@ namespace Client
                 return null;
             }
 
-            return (System.Uri?)_urlSerializer.Deserialize(value.GetString())!;
+            return (System.Uri)_urlSerializer.Deserialize(value.GetString());
         }
 
         private System.DateTimeOffset DeserializeDateTime(JsonElement obj, string fieldName)
         {
             JsonElement value = obj.GetProperty(fieldName);
-            return (System.DateTimeOffset)_dateTimeSerializer.Deserialize(value.GetString())!;
+            return (System.DateTimeOffset)_dateTimeSerializer.Deserialize(value.GetString());
         }
     }
 }
