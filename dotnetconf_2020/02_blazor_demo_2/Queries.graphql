@@ -1,0 +1,11 @@
+query getPeople {
+  people(order_by: { name: ASC }) {
+    nodes {
+      name
+      email
+      isOnline
+      imageUri
+      lastSeen
+    }
+  }
+}
