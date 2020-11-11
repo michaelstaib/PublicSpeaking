@@ -25,6 +25,19 @@
     ],
     "description": "AddHttpClient"
   },
+  "GetPeople": {
+    "prefix": "GetPeople",
+    "body": [
+      "var result = await ChatClient.GetPeopleAsync();",
+      "result.EnsureNoErrors();",
+      "",
+      "People = result.Data!.People;",
+      "",
+      "IsLoading = false;",
+      "StateHasChanged();"
+    ],
+    "description": "GetPeople"
+  },
   "OnInitialize": {
     "prefix": "OnInitialize",
     "body": [
@@ -33,13 +46,7 @@
       "",
       "protected override async Task OnInitializedAsync()",
       "{",
-      "    var result = await ChatClient.GetPeopleAsync();",
-      "    result.EnsureNoErrors();",
       "",
-      "    People = result.Data!.People;",
-      "",
-      "    IsLoading = false;",
-      "    StateHasChanged();",
       "}"
     ],
     "description": "OnInitialize"
@@ -99,7 +106,9 @@
       "var result = await ChatClient.SendMessageAsync(Recipient!.Email, message);",
       "result.EnsureNoErrors();",
       "",
-      "Messages = Messages.Add(result.Data!.SendMessage.Message);"
+      "Messages = Messages.Add(result.Data!.SendMessage.Message);",
+      "",
+      "StateHasChanged();",
     ],
     "description": ""
   },
@@ -110,13 +119,24 @@
       "result.EnsureNoErrors();",
       "",
       "Recipient = person;",
-      "Console.WriteLine(person.Email);",
-      "",
       "Messages = ImmutableList.CreateRange<IMessage>(",
       "    result.Data!.PersonByEmail.Messages!.Nodes);",
-      "Console.WriteLine(Messages.Count);"
+      "",
+      "StateHasChanged();",
     ],
     "description": ""
+  },
+  "Recipient": {
+    "prefix": "Recipient",
+    "body": ["public IPerson? Recipient;"],
+    "description": "Recipient"
+  },
+  "Messages": {
+    "prefix": "Messages",
+    "body": [
+      "public ImmutableList<IMessage> Messages = ImmutableList<IMessage>.Empty;"
+    ],
+    "description": "Messages"
   },
   "MessageList": {
     "prefix": "MessageList",
@@ -130,12 +150,14 @@
     ],
     "description": ""
   },
-  "usings": {
+  "UsingPeople": {
     "prefix": "usings",
-    "body": [
-      "@using Client.Components.Chat",
-      "@using Client.Components.People"
-    ],
+    "body": ["@using Client.Components.People"],
+    "description": "usings"
+  },
+  "UsingChat": {
+    "prefix": "usings",
+    "body": ["@using Client.Components.Chat"],
     "description": "usings"
   }
 }
