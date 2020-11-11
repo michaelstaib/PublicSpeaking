@@ -1,74 +1,141 @@
 {
-	"AddWebSocketClient": {
-		"prefix": "AddWebSocketClient",
-		"body": [
-		  "builder.Services.AddWebSocketClient(",
-		  "    \"ChatClient\",",
-		  "    (service, client) => ",
-		  "    {",
-		  "        client.Uri = new Uri(\"wss://hotchocolate-chat.azurewebsites.net?token=\" + _token);",
-		  "    });"
-		],
-		"description": ""
-	  },
-	  "BeginReceiveMessages": {
-		"prefix": "BeginReceiveMessages",
-		"body": [
-		  "private void BeginReceiveMessages() ",
-		  "{",
-		  "    Task.Run(async () => ",
-		  "    {",
-		  "        var messageStream = await ChatClient.ReadMessagesAsync();",
-		  "",
-		  "        await foreach(var result in messageStream) ",
-		  "        {",
-		  "            if(!result.HasErrors",
-		  "                && Recipient is { }) ",
-		  "            {",
-		  "                Messages = Messages.Add(result.Data!.Message);",
-		  "                StateHasChanged();",
-		  "            }",
-		  "        }",
-		  "    });",
-		  "}"
-		],
-		"description": ""
-	  },
-	  "OnClickSend": {
-		"prefix": "OnClickSend",
-		"body": [
-		  "var result = await ChatClient.SendMessageAsync(Recipient!.Email, message);",
-		  "result.EnsureNoErrors();",
-		  "",
-		  "Messages = Messages.Add(result.Data!.SendMessage.Message);"
-		],
-		"description": ""
-	  },
-	  "OnClickPerson": {
-		"prefix": "OnClickPerson",
-		"body": [
-		  "var result = await ChatClient.GetMessagesAsync(person.Email);",
-		  "result.EnsureNoErrors();",
-		  "",
-		  "Recipient = person;",
-		  "Console.WriteLine(person.Email);",
-		  "",
-		  "Messages = ImmutableList.CreateRange<IMessage>(",
-		  "    result.Data!.PersonByEmail.Messages!.Nodes);",
-		  "Console.WriteLine(Messages.Count);"
-		],
-		"description": ""
-	  },
-	  "MessageList": {
-		"prefix": "MessageList",
-		"body": [
-		  "<MessageList",
-		  "  IsLoading=\"@IsLoading\"",
-		  "  Recipient=\"@Recipient\"",
-		  "  Messages=\"@Messages\"",
-		  "  ClickSend=\"OnClickSend\"",
-		  "/>"
-		],
-		"description": ""
-	  }
+  "AddWebSocketClient": {
+    "prefix": "AddWebSocketClient",
+    "body": [
+      "builder.Services.AddWebSocketClient(",
+      "    \"ChatClient\",",
+      "    (service, client) => ",
+      "    {",
+      "        client.Uri = new Uri(\"wss://hotchocolate-chat.azurewebsites.net?token=\" + _token);",
+      "    });"
+    ],
+    "description": ""
+  },
+  "AddHttpClient": {
+    "prefix": "AddHttpClient",
+    "body": [
+      "builder.Services.AddHttpClient(",
+      "    \"ChatClient\",",
+      "    (services, client) =>",
+      "    {",
+      "        client.BaseAddress = new Uri(\"https://hotchocolate-chat.azurewebsites.net\");",
+      "        client.DefaultRequestHeaders.Authorization =",
+      "            new AuthenticationHeaderValue(\"bearer\", _token);",
+      "    });"
+    ],
+    "description": "AddHttpClient"
+  },
+  "OnInitialize": {
+    "prefix": "OnInitialize",
+    "body": [
+      "private bool IsLoading = true;",
+      "private IPersonConnection? People;",
+      "",
+      "protected override async Task OnInitializedAsync()",
+      "{",
+      "    var result = await ChatClient.GetPeopleAsync();",
+      "    result.EnsureNoErrors();",
+      "",
+      "    People = result.Data!.People;",
+      "",
+      "    IsLoading = false;",
+      "    StateHasChanged();",
+      "}"
+    ],
+    "description": "OnInitialize"
+  },
+  "OnClickEvents": {
+    "prefix": "OnClickEvents",
+    "body": [
+      "private async Task OnClickPerson(IPerson person)",
+      "{",
+      "",
+      "}",
+      "",
+      "private async Task OnClickSend(string message)",
+      "{",
+      "",
+      "}"
+    ],
+    "description": "OnClickEvents"
+  },
+  "PeopleList": {
+    "prefix": "PeopleList",
+    "body": [
+      "<PeopleList",
+      "  IsLoading=\"@IsLoading\"",
+      "  People=\"@People\"",
+      "  ClickPerson=\"OnClickPerson\"",
+      "/>"
+    ],
+    "description": "PeopleList"
+  },
+  "BeginReceiveMessages": {
+    "prefix": "BeginReceiveMessages",
+    "body": [
+      "private void BeginReceiveMessages() ",
+      "{",
+      "    Task.Run(async () => ",
+      "    {",
+      "        var messageStream = await ChatClient.ReadMessagesAsync();",
+      "",
+      "        await foreach(var result in messageStream) ",
+      "        {",
+      "            if(!result.HasErrors",
+      "                && Recipient is { }) ",
+      "            {",
+      "                Messages = Messages.Add(result.Data!.Message);",
+      "                StateHasChanged();",
+      "            }",
+      "        }",
+      "    });",
+      "}"
+    ],
+    "description": ""
+  },
+  "OnClickSend": {
+    "prefix": "OnClickSend",
+    "body": [
+      "var result = await ChatClient.SendMessageAsync(Recipient!.Email, message);",
+      "result.EnsureNoErrors();",
+      "",
+      "Messages = Messages.Add(result.Data!.SendMessage.Message);"
+    ],
+    "description": ""
+  },
+  "OnClickPerson": {
+    "prefix": "OnClickPerson",
+    "body": [
+      "var result = await ChatClient.GetMessagesAsync(person.Email);",
+      "result.EnsureNoErrors();",
+      "",
+      "Recipient = person;",
+      "Console.WriteLine(person.Email);",
+      "",
+      "Messages = ImmutableList.CreateRange<IMessage>(",
+      "    result.Data!.PersonByEmail.Messages!.Nodes);",
+      "Console.WriteLine(Messages.Count);"
+    ],
+    "description": ""
+  },
+  "MessageList": {
+    "prefix": "MessageList",
+    "body": [
+      "<MessageList",
+      "  IsLoading=\"@IsLoading\"",
+      "  Recipient=\"@Recipient\"",
+      "  Messages=\"@Messages\"",
+      "  ClickSend=\"OnClickSend\"",
+      "/>"
+    ],
+    "description": ""
+  },
+  "usings": {
+    "prefix": "usings",
+    "body": [
+      "@using Client.Components.Chat",
+      "@using Client.Components.People"
+    ],
+    "description": "usings"
+  }
 }
