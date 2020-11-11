@@ -151,13 +151,13 @@
     "description": ""
   },
   "UsingPeople": {
-    "prefix": "usings",
+    "prefix": "UsingPeople",
     "body": ["@using Client.Components.People"],
-    "description": "usings"
+    "description": "UsingPeople"
   },
   "UsingChat": {
-    "prefix": "usings",
+    "prefix": "UsingChat",
     "body": ["@using Client.Components.Chat"],
-    "description": "usings"
+    "description": "UsingChat"
   }
 }
