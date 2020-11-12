@@ -108,7 +108,7 @@
       "",
       "Messages = Messages.Add(result.Data!.SendMessage.Message);",
       "",
-      "StateHasChanged();",
+      "StateHasChanged();"
     ],
     "description": ""
   },
@@ -122,7 +122,7 @@
       "Messages = ImmutableList.CreateRange<IMessage>(",
       "    result.Data!.PersonByEmail.Messages!.Nodes);",
       "",
-      "StateHasChanged();",
+      "StateHasChanged();"
     ],
     "description": ""
   },
@@ -159,5 +159,12 @@
     "prefix": "UsingChat",
     "body": ["@using Client.Components.Chat"],
     "description": "UsingChat"
+  },
+  "Token": {
+    "prefix": "Token",
+    "body": [
+      "private static readonly string _token = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWxAY2hpbGxpY3JlYW0uY29tIiwiZW1haWwiOiJtaWNoYWVsQGNoaWxsaWNyZWFtLmNvbSIsIkNoYXQuVXNlcklkIjoiODA4YTE1MGYtNDliOC00MjFhLTgxNGEtZmRkMjlmMzYxZTg2IiwibmJmIjoxNjA1MTY2MzIyLCJleHAiOjE2MDUyMDk1MjIsImlhdCI6MTYwNTE2NjMyMn0.RGG9h1v4l6CBvfgFG9x6dSlx4j3xU3heHFgrVW2Br_0\";"
+    ],
+    "description": "Token"
   }
 }
