@@ -1,8 +1,0 @@
-query getPeople {
-  people(order_by: { name: ASC }) {
-    nodes {
-      name
-      lastSeen
-    }
-  }
-}

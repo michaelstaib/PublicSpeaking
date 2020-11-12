@@ -1,1 +1,0 @@
-dotnet graphql init https://hotchocolate-chat.azurewebsites.net -n Chat

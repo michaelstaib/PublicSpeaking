@@ -1,7 +1,0 @@
-mutation sendMessage($recipientEmail: String!, $text: String!) {
-  sendMessage(input: { recipientEmail: $recipientEmail, text: $text }) {
-    message {
-      ...message
-    }
-  }
-}
