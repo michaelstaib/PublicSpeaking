@@ -1,0 +1,170 @@
+{
+  "AddWebSocketClient": {
+    "prefix": "AddWebSocketClient",
+    "body": [
+      "builder.Services.AddWebSocketClient(",
+      "    \"ChatClient\",",
+      "    (service, client) => ",
+      "    {",
+      "        client.Uri = new Uri(\"wss://hotchocolate-chat.azurewebsites.net?token=\" + _token);",
+      "    });"
+    ],
+    "description": ""
+  },
+  "AddHttpClient": {
+    "prefix": "AddHttpClient",
+    "body": [
+      "builder.Services.AddHttpClient(",
+      "    \"ChatClient\",",
+      "    (services, client) =>",
+      "    {",
+      "        client.BaseAddress = new Uri(\"https://hotchocolate-chat.azurewebsites.net\");",
+      "        client.DefaultRequestHeaders.Authorization =",
+      "            new AuthenticationHeaderValue(\"bearer\", _token);",
+      "    });"
+    ],
+    "description": "AddHttpClient"
+  },
+  "GetPeople": {
+    "prefix": "GetPeople",
+    "body": [
+      "var result = await ChatClient.GetPeopleAsync();",
+      "result.EnsureNoErrors();",
+      "",
+      "People = result.Data!.People;",
+      "",
+      "IsLoading = false;",
+      "StateHasChanged();"
+    ],
+    "description": "GetPeople"
+  },
+  "OnInitialize": {
+    "prefix": "OnInitialize",
+    "body": [
+      "private bool IsLoading = true;",
+      "private IPersonConnection? People;",
+      "",
+      "protected override async Task OnInitializedAsync()",
+      "{",
+      "",
+      "}"
+    ],
+    "description": "OnInitialize"
+  },
+  "OnClickEvents": {
+    "prefix": "OnClickEvents",
+    "body": [
+      "private async Task OnClickPerson(IPerson person)",
+      "{",
+      "",
+      "}",
+      "",
+      "private async Task OnClickSend(string message)",
+      "{",
+      "",
+      "}"
+    ],
+    "description": "OnClickEvents"
+  },
+  "PeopleList": {
+    "prefix": "PeopleList",
+    "body": [
+      "<PeopleList",
+      "  IsLoading=\"@IsLoading\"",
+      "  People=\"@People\"",
+      "  ClickPerson=\"OnClickPerson\"",
+      "/>"
+    ],
+    "description": "PeopleList"
+  },
+  "BeginReceiveMessages": {
+    "prefix": "BeginReceiveMessages",
+    "body": [
+      "private void BeginReceiveMessages() ",
+      "{",
+      "    Task.Run(async () => ",
+      "    {",
+      "        var messageStream = await ChatClient.ReadMessagesAsync();",
+      "",
+      "        await foreach(var result in messageStream) ",
+      "        {",
+      "            if(!result.HasErrors",
+      "                && Recipient is { }) ",
+      "            {",
+      "                Messages = Messages.Add(result.Data!.Message);",
+      "                StateHasChanged();",
+      "            }",
+      "        }",
+      "    });",
+      "}"
+    ],
+    "description": ""
+  },
+  "OnClickSend": {
+    "prefix": "OnClickSend",
+    "body": [
+      "var result = await ChatClient.SendMessageAsync(Recipient!.Email, message);",
+      "result.EnsureNoErrors();",
+      "",
+      "Messages = Messages.Add(result.Data!.SendMessage.Message);",
+      "",
+      "StateHasChanged();"
+    ],
+    "description": ""
+  },
+  "OnClickPerson": {
+    "prefix": "OnClickPerson",
+    "body": [
+      "var result = await ChatClient.GetMessagesAsync(person.Email);",
+      "result.EnsureNoErrors();",
+      "",
+      "Recipient = person;",
+      "Messages = ImmutableList.CreateRange<IMessage>(",
+      "    result.Data!.PersonByEmail.Messages!.Nodes);",
+      "",
+      "StateHasChanged();"
+    ],
+    "description": ""
+  },
+  "Recipient": {
+    "prefix": "Recipient",
+    "body": ["public IPerson? Recipient;"],
+    "description": "Recipient"
+  },
+  "Messages": {
+    "prefix": "Messages",
+    "body": [
+      "public ImmutableList<IMessage> Messages = ImmutableList<IMessage>.Empty;"
+    ],
+    "description": "Messages"
+  },
+  "MessageList": {
+    "prefix": "MessageList",
+    "body": [
+      "<MessageList",
+      "  IsLoading=\"@IsLoading\"",
+      "  Recipient=\"@Recipient\"",
+      "  Messages=\"@Messages\"",
+      "  ClickSend=\"OnClickSend\"",
+      "/>"
+    ],
+    "description": ""
+  },
+  "UsingPeople": {
+    "prefix": "UsingPeople",
+    "body": ["@using Client.Components.People"],
+    "description": "UsingPeople"
+  },
+  "UsingChat": {
+    "prefix": "UsingChat",
+    "body": ["@using Client.Components.Chat"],
+    "description": "UsingChat"
+  },
+  "Token": {
+    "prefix": "Token",
+    "body": [
+      "private static readonly string _token = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWxAY2hpbGxpY3JlYW0uY29tIiwiZW1haWwiOiJtaWNoYWVsQGNoaWxsaWNyZWFtLmNvbSIsIkNoYXQuVXNlcklkIjoiODA4YTE1MGYtNDliOC00MjFhLTgxNGEtZmRkMjlmMzYxZTg2IiwibmJmIjoxNjA1MTY2MzIyLCJleHAiOjE2MDUyMDk1MjIsImlhdCI6MTYwNTE2NjMyMn0.RGG9h1v4l6CBvfgFG9x6dSlx4j3xU3heHFgrVW2Br_0\";"
+    ],
+    "description": "Token"
+  }
+}
