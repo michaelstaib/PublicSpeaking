@@ -52,7 +52,7 @@
 		"scope": "csharp",
 		"prefix": "token",
 		"body": [
-			"private const string _token = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWxAY2hpbGxpY3JlYW0uY29tIiwiZW1haWwiOiJtaWNoYWVsQGNoaWxsaWNyZWFtLmNvbSIsIkNoYXQuVXNlcklkIjoiODA4YTE1MGYtNDliOC00MjFhLTgxNGEtZmRkMjlmMzYxZTg2IiwibmJmIjoxNjAxNTU0NDQ2LCJleHAiOjE2MDE1OTc2NDYsImlhdCI6MTYwMTU1NDQ0Nn0.6Gn9ehPMh9J_vLD-uiSeLciDPqTP316ybFMnq8NgzLs\";"
+			"private const string _token = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWxAY2hpbGxpY3JlYW0uY29tIiwiZW1haWwiOiJtaWNoYWVsQGNoaWxsaWNyZWFtLmNvbSIsIkNoYXQuVXNlcklkIjoiODA4YTE1MGYtNDliOC00MjFhLTgxNGEtZmRkMjlmMzYxZTg2IiwibmJmIjoxNjExNjY3MTQ3LCJleHAiOjE2MTE3MTAzNDcsImlhdCI6MTYxMTY2NzE0N30.C2luH-NT_y2J6Sx09o8OfGJr9tsboziaDP0PXon6cdg\";"
 		]
 	},
 }
