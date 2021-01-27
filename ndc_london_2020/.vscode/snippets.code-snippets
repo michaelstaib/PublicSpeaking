@@ -159,5 +159,15 @@
       "   }"
     ],
     "description": "ExtendReviewProduct"
+  },
+  "tye": {
+    "prefix": "tye",
+    "body": [
+      "- name: gateway",
+      "  project: gateway/Gateway.csproj",
+      "  bindings:",
+      "  - port: 5050"
+    ],
+    "description": "tye"
   }
 }
