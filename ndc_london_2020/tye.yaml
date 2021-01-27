@@ -16,3 +16,13 @@ services:
   project: reviews/Reviews.csproj
   bindings:
   - port: 5054
+- name: gateway
+  project: gateway/Gateway.csproj
+  bindings:
+  - port: 5050
+- name: redis-stitching
+  image: redis
+  bindings:
+  - name: redis-stitching
+    port: 7000
+    containerPort: 6379
