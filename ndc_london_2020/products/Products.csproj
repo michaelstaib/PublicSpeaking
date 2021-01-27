@@ -9,4 +9,9 @@
     <PackageReference Include="HotChocolate.AspNetCore" Version="11.0.8" />
     <PackageReference Include="HotChocolate.Stitching.Redis" Version="11.0.8" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Watch Include="Stitching.graphql" />
+  </ItemGroup>
+  
 </Project>
