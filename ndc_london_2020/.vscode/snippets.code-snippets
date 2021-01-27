@@ -61,6 +61,7 @@
   "PublishReviews": {
     "prefix": "PublishReviews",
     "body": [
+      ".InitializeOnStartup()",
       ".PublishSchemaDefinition(c => c",
       "    .SetName(\"reviews\")",
       "    .IgnoreRootTypes()",
@@ -83,7 +84,7 @@
     "body": [
       "extend type User {",
       "  reviews: [Review]",
-      "    @delegate(schema: \"reviews\", path: \"reviewsByAuthor(authorId: $fields:id)\")",
+      "    @delegate(path: \"reviewsByAuthor(authorId: $fields:id)\")",
       "}"
     ],
     "description": "ExtendUserReview"
