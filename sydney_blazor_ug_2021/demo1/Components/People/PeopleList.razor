@@ -4,9 +4,25 @@
     <span class="people-filter-icon fa fa-search"></span>
   </div>
   <ul class="people-list">
+    @if(IsLoading) {
       <PersonPlaceholder />
       <PersonPlaceholder />
       <PersonPlaceholder />
+    }
+    else if (People?.Nodes is { })
+    {
+        @foreach (var person in People.Nodes)
+        {
+            <PersonItem User="@person" />
+        }
+    }
   </ul>
 </div>
 
+@code {
+  [Parameter]
+  public bool IsLoading { get; set; }
+
+  [Parameter]
+  public IPersonConnection? People { get; set; }
+}
