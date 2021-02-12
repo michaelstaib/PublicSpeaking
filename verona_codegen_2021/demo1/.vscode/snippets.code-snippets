@@ -1,0 +1,58 @@
+{
+	"user": {
+		"scope": "csharp",
+		"prefix": "user",
+		"body": [
+			"[Parameter]",
+			"public IPerson User { get; set; }"
+		]
+	},
+	"isLoading": {
+		"scope": "csharp",
+		"prefix": "isLoading",
+		"body": [
+			"[Parameter]",
+			"public bool IsLoading { get; set; }"
+		]
+	},
+	"people": {
+		"scope": "csharp",
+		"prefix": "people",
+		"body": [
+			"[Parameter]",
+			"public IPersonConnection People { get; set; }"
+		]
+	},
+	"personItem": {
+		"scope": "html",
+		"prefix": "personItem",
+		"body": [
+			"else if (People?.Nodes is { })",
+			"{",
+			"    @foreach (var person in People.Nodes)",
+			"    {",
+			"        <PersonItem User=\"@person\" />",
+			"    }",
+			"}"
+		]
+	},
+	"initialize": {
+		"scope": "html",
+		"prefix": "initialize",
+		"body": [
+			"@code {",
+			"    protected override async Task OnInitializedAsync() ",
+			"    {",
+			"        ",
+			"    }",
+			"}"
+		]
+	},
+	"token": {
+		"scope": "csharp",
+		"prefix": "token",
+		"body": [
+			"private const string _token = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWxAY2hpbGxpY3JlYW0uY29tIiwiZW1haWwiOiJtaWNoYWVsQGNoaWxsaWNyZWFtLmNvbSIsIkNoYXQuVXNlcklkIjoiODA4YTE1MGYtNDliOC00MjFhLTgxNGEtZmRkMjlmMzYxZTg2IiwibmJmIjoxNjEzMTYzNDIyLCJleHAiOjE2MTMyMDY2MjIsImlhdCI6MTYxMzE2MzQyMn0.mOAv-8mPvHB3217DI_M41Y8jJAlKFFiqzQJPN5Niv9Y\";"
+		]
+	},
+}

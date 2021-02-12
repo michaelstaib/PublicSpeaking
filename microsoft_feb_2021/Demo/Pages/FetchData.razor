@@ -1,0 +1,32 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+@inject Client.ChatClient ChatClient
+@using StrawberryShake
+{
+    
+}
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+
+@foreach (var item in Friends)
+{
+    <p>@item.Name</p>
+}
+
+@code {
+    private IReadOnlyList<Client.IFriend> Friends = Array.Empty<Client.IFriend>();
+    
+    protected override void OnInitialized()
+    {
+        ChatClient.GetPeopleQuery
+            .Watch()
+            .Subscribe(result => 
+            {
+                Friends = result.Data.People.Nodes;
+                StateHasChanged();
+            });
+    }
+}

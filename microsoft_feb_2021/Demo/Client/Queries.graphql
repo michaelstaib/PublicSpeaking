@@ -1,0 +1,13 @@
+query GetPeople {
+  people(order_by: { name: ASC }) {
+    nodes {
+      ... Friend
+    }
+  }
+}
+
+fragment Friend on Person {
+  name
+}
+
+
