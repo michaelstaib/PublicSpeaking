@@ -1,0 +1,35 @@
+﻿<div class="people">
+  <div class="people-filter">
+    <input class="people-filter-input" type="text" placeholder="search" />
+    <span class="people-filter-icon fa fa-search"></span>
+  </div>
+  <ul class="people-list">
+    @if (@IsLoading)
+    {
+      <PersonPlaceholder />
+      <PersonPlaceholder />
+      <PersonPlaceholder />
+    }
+    else if (People?.Nodes != null)
+    {
+      @foreach (var person in People.Nodes)
+      {
+        <PersonItem
+          @key="person.Email"
+          User="@person"
+          ClickPerson="ClickPerson" />
+      }
+    }
+  </ul>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<IPerson> ClickPerson { get; set; }
+
+    [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter]
+    public IPersonConnection? People { get; set; }
+}

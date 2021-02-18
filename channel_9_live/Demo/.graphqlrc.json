@@ -1,0 +1,12 @@
+{
+  "schema": "schema.graphql",
+  "documents": "**/*.graphql",
+  "extensions": {
+    "strawberryShake": {
+      "name": "ChatClient",
+      "namespace": "Demo",
+      "url": "https://hotchocolate-chat.azurewebsites.net/",
+      "dependencyInjection": true
+    }
+  }
+}

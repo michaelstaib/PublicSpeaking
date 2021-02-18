@@ -1,0 +1,56 @@
+﻿@using System.Collections.Immutable;
+
+<div class="chat">
+  @if (Recipient != null)
+  {
+    <Header Recipient="@Recipient" Messages="@Messages" />
+  }
+
+  <div class="chat-history">
+    @if (IsLoading)
+    {
+      <Info Text="Loading..." />
+    }
+    else if (Recipient != null && Messages.Count == 0)
+    {
+      <Info Text="Start writing messages..." />
+    }
+    else if (Recipient != null && Messages.Count > 0)
+    {
+  <div class="messages" id="scroller">
+      @*ul*@
+      @foreach (var message in Messages)
+      {
+          <ChatMessage 
+            Message="@message"
+            Sender="@message.Sender" />
+      }
+
+      <div id="anchor"></div>
+  </div>
+    }
+    else
+    {
+      <Info Text="Select a person to start a chat..." />
+    }
+  </div>
+
+  @if (Recipient != null)
+  {
+    <Footer ClickSend="ClickSend" />
+  }
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<string> ClickSend { get; set; }
+
+    [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter]
+    public IUser? Recipient { get; set; }
+
+    [Parameter]
+    public ImmutableList<IMessage> Messages { get; set; }
+}
