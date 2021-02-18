@@ -1,4 +1,7 @@
+@using System.Reactive.Linq
+@using System.Reactive.Subjects
 @inject ChatClient ChatClient
+@implements IDisposable
 
 <PeopleList Users="@Users" ClickUser="OnClickUser"  />
 
@@ -9,27 +12,31 @@
     private IReadOnlyList<IUser> Users;
     private IUser Recipient;
     private ImmutableList<IMessage> Messages = ImmutableList<IMessage>.Empty;
-    
+    private List<IDisposable> _sessions = new();
+
     protected override void OnInitialized()
     {
-        ChatClient
-            .GetPeopleQuery
-            .Watch()
-            .Subscribe(result =>
-            {
-                Users = result.Data.People.Nodes;
-                IsLoading = false;
-                StateHasChanged();
-            });
+        _sessions.Add(
+            ChatClient
+                .GetPeopleQuery
+                .Watch(ExecutionStrategy.CacheFirst)
+                .Subscribe(result =>
+                {
+                    Users = result.Data.People.Nodes;
+                    IsLoading = false;
+                    StateHasChanged();
+                }));
 
-        ChatClient
-            .ReadMessagesSubscription
-            .Watch()
-            .Subscribe(result =>
-            {
-                Messages = Messages.Add(result.Data.Message);
-                StateHasChanged();
-            });
+        _sessions.Add(
+            ChatClient
+                .ReadMessagesSubscription
+                .Watch()
+                .DistinctUntilChanged()
+                .Subscribe(result =>
+                {
+                    Messages = Messages.Add(result.Data.Message);
+                    StateHasChanged();
+                }));
     }
 
     private async Task OnClickUser(IUser user)
@@ -45,5 +52,13 @@
         var result = await ChatClient.SendMessageMutation.ExecuteAsync(Recipient.Email, message);
         Messages = Messages.Add(result.Data.SendMessage.Message);
         StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        foreach (var session in _sessions)
+        {
+            session.Dispose();
+        }
     }
 }
