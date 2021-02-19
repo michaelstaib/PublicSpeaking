@@ -12,9 +12,9 @@
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
 
-    <PackageReference Include="StrawberryShake.CodeGeneration.CSharp.Analyzers" Version="11.1.0-local.58" PrivateAssets="all" />
-    <PackageReference Include="StrawberryShake.Transport.Http" Version="11.1.0-local.58" />
-    <PackageReference Include="StrawberryShake.Transport.WebSockets" Version="11.1.0-local.58" />
+    <PackageReference Include="StrawberryShake.CodeGeneration.CSharp.Analyzers" Version="11.1.0-preview.58" PrivateAssets="all" />
+    <PackageReference Include="StrawberryShake.Transport.Http" Version="11.1.0-preview.58" />
+    <PackageReference Include="StrawberryShake.Transport.WebSockets" Version="11.1.0-preview.58" />
   </ItemGroup>
 
 </Project>
