@@ -1,0 +1,22 @@
+query GetMessages($email: String!) {
+  personByEmail(email: $email) {
+    messages {
+      nodes {
+        ...Message
+      }
+    }
+  }
+}
+
+fragment Message on Message {
+  id
+  direction
+  recipient {
+    ...Participant
+  }
+  sender {
+    ...Participant
+  }
+  sent
+  text
+}

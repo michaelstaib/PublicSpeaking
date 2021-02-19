@@ -1,0 +1,19 @@
+query GetUsers {
+  people {
+    nodes {
+      ...User
+    }
+  }
+}
+
+fragment User on Person {
+  ...Participant
+  lastSeen
+  imageUri
+}
+
+fragment Participant on Person {
+  name
+  email
+  isOnline
+}

@@ -1,6 +1,50 @@
+@inject ChatClient ChatClient
+
+<PeopleList Users="@Users" IsLoading="@IsLoading" ClickUser="OnClickUser" />
+
+<MessageList Messages="@Messages" Recipient="@Recipient" IsLoading="@IsLoading" ClickSend="OnClickSend" />
+
 @code {
+    private bool IsLoading = true;
+    private IReadOnlyList<IUser>? Users = Array.Empty<IUser>();
+    private IUser? Recipient;
+    private ImmutableList<IMessage> Messages = ImmutableList<IMessage>.Empty;
+
     protected override void OnInitialized()
     {
-       
+        ChatClient
+            .GetUsersQuery
+            .Watch(ExecutionStrategy.CacheFirst)
+            .Subscribe(result =>
+            {
+                Users = result.Data.People.Nodes;
+                IsLoading = false;
+                StateHasChanged();
+            });
+
+        ChatClient
+            .ReadMessagesSubscription
+            .Watch()
+            .Subscribe(result =>
+            {
+                Messages = Messages.Add(result.Data.Message);
+                StateHasChanged();
+            });
+    }
+
+    private async Task OnClickUser(IUser user)
+    {
+        var result = await ChatClient.GetMessagesQuery.ExecuteAsync(user.Email);
+
+        Messages = ImmutableList.CreateRange<IMessage>(result.Data.PersonByEmail.Messages.Nodes);
+        Recipient = user;
+        StateHasChanged();
+    }
+
+    private async Task OnClickSend(string text)
+    {
+        var result = await ChatClient.SendMessageMutation.ExecuteAsync(Recipient.Email, text);
+        Messages = Messages.Add(result.Data.SendMessage.Message);
+        StateHasChanged();
     }
 }

@@ -21,6 +21,21 @@ namespace Demo
 
             builder.RootComponents.Add<App>("app");
 
+            builder.Services.AddChatClient();
+            builder.Services.AddHttpClient(
+                "ChatClient",
+                client =>
+                {
+                    client.BaseAddress = new Uri("https://hotchocolate-chat.azurewebsites.net");
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _token);
+                });
+            builder.Services.AddWebSocketClient(
+                "ChatClient",
+                client =>
+                {
+                    client.Uri = new Uri("wss://hotchocolate-chat.azurewebsites.net?token=" + _token);
+                });
+
             await builder.Build().RunAsync();
         }
     }
