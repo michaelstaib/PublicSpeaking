@@ -13,6 +13,16 @@ namespace Demo
 {
     public class Program
     {
+
+        // TODO : PUT IN A FRESH TOKEN
+        /*
+mutation {
+  login(input: { email: "michael@chillicream.com" password: "BarBaz" }) {
+    token
+  }
+}
+        */
+
         private const string _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWxAY2hpbGxpY3JlYW0uY29tIiwiZW1haWwiOiJtaWNoYWVsQGNoaWxsaWNyZWFtLmNvbSIsIkNoYXQuVXNlcklkIjoiODA4YTE1MGYtNDliOC00MjFhLTgxNGEtZmRkMjlmMzYxZTg2IiwibmJmIjoxNjEzNzUwNTUxLCJleHAiOjE2MTM3OTM3NTEsImlhdCI6MTYxMzc1MDU1MX0.4UK1lQjWnE6bPLhiuHuKeVpQRTzqB_qgnrDGAjv6odc";
         
         public static async Task Main(string[] args)
