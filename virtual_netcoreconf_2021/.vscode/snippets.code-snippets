@@ -39,7 +39,6 @@
       ".InitializeOnStartup()",
       ".PublishSchemaDefinition(c => c",
       "    .SetName(\"accounts\")",
-      "    .IgnoreRootTypes()",
       "    .PublishToRedis(\"Demo\", sp => sp.GetRequiredService<ConnectionMultiplexer>()));"
     ],
     "description": "PublishAccounts"
