@@ -1,0 +1,174 @@
+{
+  "Names": {
+    "prefix": "Names",
+    "body": [
+      "public const string Accounts = \"accounts\";",
+      "public const string Inventory = \"inventory\";",
+      "public const string Products = \"products\";",
+      "public const string Reviews = \"reviews\";"
+    ],
+    "description": "Names"
+  },
+  "HttpClients": {
+    "prefix": "HttpClients",
+    "body": [
+      "services.AddHttpClient(Accounts, c => c.BaseAddress = new Uri(\"http://localhost:5051/graphql\"));",
+      "services.AddHttpClient(Inventory, c => c.BaseAddress = new Uri(\"http://localhost:5052/graphql\"));",
+      "services.AddHttpClient(Products, c => c.BaseAddress = new Uri(\"http://localhost:5053/graphql\"));",
+      "services.AddHttpClient(Reviews, c => c.BaseAddress = new Uri(\"http://localhost:5054/graphql\"));"
+    ],
+    "description": "HttpClients"
+  },
+  "Redis": {
+    "prefix": "Redis",
+    "body": [
+      "services.AddSingleton(ConnectionMultiplexer.Connect(\"localhost:7000\"));"
+    ],
+    "description": "Redis"
+  },
+  "AddRemoteSchema": {
+    "prefix": "AddRemoteSchema",
+    "body": [
+      ".AddRemoteSchemasFromRedis(\"Demo\", sp => sp.GetRequiredService<ConnectionMultiplexer>());"
+    ],
+    "description": "AddRemoteSchema"
+  },
+  "PublishAccounts": {
+    "prefix": "PublishAccounts",
+    "body": [
+      ".InitializeOnStartup()",
+      ".PublishSchemaDefinition(c => c",
+      "    .SetName(\"accounts\")",
+      "    .IgnoreRootTypes()",
+      "    .PublishToRedis(\"Demo\", sp => sp.GetRequiredService<ConnectionMultiplexer>()));"
+    ],
+    "description": "PublishAccounts"
+  },
+  "AddTypeExtension": {
+    "prefix": "AddTypeExtension",
+    "body": [".AddTypeExtensionsFromFile(\"./Stitching.graphql\")"],
+    "description": "AddTypeExtension"
+  },
+  "watch": {
+    "prefix": "watch",
+    "body": [
+      "<ItemGroup>",
+      "  <Watch Include=\"Stitching.graphql\" />",
+      "</ItemGroup>"
+    ],
+    "description": "watch"
+  },
+  "PublishReviews": {
+    "prefix": "PublishReviews",
+    "body": [
+      ".InitializeOnStartup()",
+      ".PublishSchemaDefinition(c => c",
+      "    .SetName(\"reviews\")",
+      "    .IgnoreRootTypes()",
+      "    .AddTypeExtensionsFromFile(\"./Stitching.graphql\")",
+      "    .PublishToRedis(\"Demo\", sp => sp.GetRequiredService<ConnectionMultiplexer>()));"
+    ],
+    "description": "PublishReviews"
+  },
+  "ExtendReviewAuthor": {
+    "prefix": "ExtendReviewAuthor",
+    "body": [
+      "extend type Review {",
+      "  author: User @delegate(path: \"user(id: $fields:authorId)\")",
+      "}"
+    ],
+    "description": "ExtendReviewAuthor"
+  },
+  "ExtendUserReview": {
+    "prefix": "ExtendUserReview",
+    "body": [
+      "extend type User {",
+      "  reviews: [Review]",
+      "    @delegate(path: \"reviewsByAuthor(authorId: $fields:id)\")",
+      "}"
+    ],
+    "description": "ExtendUserReview"
+  },
+  "ExtendQueryMe": {
+    "prefix": "ExtendQueryMe",
+    "body": [
+      "extend type Query {",
+      "  me: User! @delegate(path: \"user(id: 1)\")",
+      "}"
+    ],
+    "description": "ExtendQueryMe"
+  },
+  "PublishProducts": {
+    "prefix": "PublishProducts",
+    "body": [
+      ".InitializeOnStartup()",
+      ".PublishSchemaDefinition(c => c",
+      "    .SetName(\"products\")",
+      "    .IgnoreRootTypes()",
+      "    .AddTypeExtensionsFromFile(\"./Stitching.graphql\")",
+      "    .PublishToRedis(\"Demo\", sp => sp.GetRequiredService<ConnectionMultiplexer>()));"
+    ],
+    "description": "PublishProducts"
+  },
+  "PublishInventory": {
+    "prefix": "PublishInventory",
+    "body": [
+      ".InitializeOnStartup()",
+      ".PublishSchemaDefinition(c => c",
+      "    .SetName(\"inventory\")",
+      "    .IgnoreRootTypes()",
+      "    .AddTypeExtensionsFromFile(\"./Stitching.graphql\")",
+      "    .PublishToRedis(\"Demo\", sp => sp.GetRequiredService<ConnectionMultiplexer>()));"
+    ],
+    "description": "PublishInventory"
+  },
+  "ExtendProductInventory": {
+    "prefix": "ExtendProductInventory",
+    "body": [
+      "extend type Product {",
+      "  inStock: Boolean",
+      "    @delegate(path: \"inventoryInfo(upc: $fields:upc).isInStock\")",
+      "  shippingEstimate: Int",
+      "    @delegate(path: \"shippingEstimate(price: $fields:price weight: $fields:weight)\")",
+      "}"
+    ],
+    "description": "ExtendProductInventory"
+  },
+  "ExtendProductReview": {
+    "prefix": "ExtendProductReview",
+    "body": [
+      "extend type Product {",
+      "  reviews: [Review] @delegate(path:\"reviewsByProduct(upc: $fields:upc)\")",
+      "}"
+    ],
+    "description": "ExtendProductReview"
+  },
+  "ExtendQueryProducts": {
+    "prefix": "ExtendQueryProducts",
+    "body": [
+      "extend type Query {",
+      "     topProducts(first: Int): [Product] @delegate",
+      "   }"
+    ],
+    "description": "ExtendQueryProducts"
+  },
+  "ExtendReviewProduct": {
+    "prefix": "ExtendReviewProduct",
+    "body": [
+      "extend type Review {",
+      "     product: Product @delegate(path: \"product(upc: $fields:upc)\")",
+      "   }"
+    ],
+    "description": "ExtendReviewProduct"
+  },
+  "tye": {
+    "prefix": "tye",
+    "body": [
+      "- name: gateway",
+      "  project: gateway/Gateway.csproj",
+      "  bindings:",
+      "  - port: 5050"
+    ],
+    "description": "tye"
+  }
+}
