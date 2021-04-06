@@ -1,0 +1,11 @@
+{
+  "schema": "schema.graphql",
+  "documents": "**/*.graphql",
+  "extensions": {
+    "strawberryShake": {
+      "name": "DemoClient",
+      "namespace": "Demo.GraphQL",
+      "url": "https://hotchocolatestarwarsrestdemo.azurewebsites.net/"
+    }
+  }
+}
