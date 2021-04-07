@@ -1,0 +1,79 @@
+﻿@page "/"
+@inject ConferenceClient ConferenceClient
+@implements IDisposable
+
+<ul>
+@foreach (ISessionInfo session in sessions)
+{
+    <li><button @onclick="() => OnClickSession(session)"><span class="oi oi-pencil mr-2" aria-hidden="true"></span></button> @session.Title</li>
+}
+</ul>
+
+
+@if(lastUpdatedSession is not null) {
+<p>
+    @lastUpdatedSession.Title
+</p>
+}
+
+@if (selectedSession is not null)
+{
+    <br />
+    <p>Edit Session Title:</p>
+    <input @bind-value="@title" />
+    <button @onclick="OnSaveTitle">Save</button>
+}
+
+@code {
+    private IReadOnlyList<ISessionInfo> sessions = Array.Empty<ISessionInfo>();
+    private ISessionInfo selectedSession;
+    private ISessionInfo lastUpdatedSession;
+    private string title;
+    private IDisposable getSessionsSubscription;
+    private IDisposable onSessionUpdatedSubscription;
+
+    protected override void OnInitialized() 
+    {
+        getSessionsSubscription =
+            ConferenceClient
+                .GetSessions
+                .Watch(ExecutionStrategy.CacheFirst)
+                .Where(result => result.IsSuccessResult())
+                .Select(result => result.Data.Sessions.Nodes)
+                .Subscribe(s => 
+                {
+                    sessions = s.ToArray();
+                    StateHasChanged();
+                });
+
+        onSessionUpdatedSubscription = 
+            ConferenceClient
+                .OnSessionChanged
+                .Watch()
+                .Where(result => result.IsSuccessResult())
+                .Select(t => t.Data.OnSessionScheduled)
+                .Subscribe(result => 
+                {
+                    lastUpdatedSession = result;
+                    StateHasChanged();
+                });
+    }
+
+    private void OnClickSession(ISessionInfo session)
+    {
+        selectedSession = session;
+        title = session.Title;
+    }
+
+    private async Task OnSaveTitle()
+    {
+        await ConferenceClient.RenameSession.ExecuteAsync(selectedSession.Id, title);
+        selectedSession = null;
+        title = null;
+    }
+
+    public void Dispose() 
+    {
+        getSessionsSubscription?.Dispose();
+    }
+}
