@@ -1,0 +1,32 @@
+@inherits DataComponent<GetSessionsQuery>
+
+@code {
+    [Parameter]
+    public IReadOnlyList<ISessionInfo> Sessions { get; set; }
+    
+    [Parameter]
+    public EventCallback<ISessionInfo> OnSessionSelected { get; set; }
+    
+    [Parameter]
+    public bool AllowSelect { get; set; }
+}
+
+@if (Sessions is not null)
+{
+    <h2>Sessions</h2>
+
+    <ul>
+        @foreach (var session in Sessions)
+        {
+            if (AllowSelect)
+            {
+                <li><button @onclick="() => OnSessionSelected.InvokeAsync(session)"><span class="oi oi-pencil mr-2" aria-hidden="true"></span></button> @session.Title</li>
+            }
+            else
+            {
+                <li>@session.Title</li>
+            }
+        }
+    </ul>
+}
+

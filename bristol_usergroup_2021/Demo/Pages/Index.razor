@@ -1,0 +1,13 @@
+﻿@page "/"
+@inject ConferenceClient ConferenceClient
+
+@code {
+    private ISessionInfo selectedSession;
+}
+
+<GetSessionsRenderer Strategy="ExecutionStrategy.CacheFirst">
+    <Content>
+        <SessionList Sessions="context.Sessions!.Nodes" OnSessionSelected="session => selectedSession = session" AllowSelect="true" />
+        <EditSession Session="selectedSession" OnSessionRenamed="_ => selectedSession = null" />
+    </Content>
+</GetSessionsRenderer>
