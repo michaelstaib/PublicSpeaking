@@ -1,7 +1,7 @@
-mutation RenameSession($sessionId: ID!, $title: String!) {
-  renameSession(input: { sessionId: $sessionId, title: $title }) {
+mutation RenameSession($input: RenameSessionInput!) {
+  renameSession(input: $input) {
     session {
-      ... SessionInfo
+      abstract
     }
   }
 }

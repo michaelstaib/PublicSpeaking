@@ -67,7 +67,15 @@
 
     private async Task OnSaveTitle()
     {
-        await ConferenceClient.RenameSession.ExecuteAsync(selectedSession.Id, title);
+        var x = new RenameSessionInput 
+        { 
+            SessionId = "",
+            Title = ""
+        };
+        
+        x = x with { SessionId = "abc" };
+        
+        await ConferenceClient.RenameSession.ExecuteAsync(x);
         selectedSession = null;
         title = null;
     }

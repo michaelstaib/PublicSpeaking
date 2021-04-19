@@ -6,7 +6,12 @@
       "name": "ConferenceClient",
       "namespace": "Demo.GraphQL",
       "url": "https://hc-conference-app.azurewebsites.net/graphql/",
-      "dependencyInjection": true
+      "dependencyInjection": true,
+      "emitGeneratedCode": true,
+      "records": {
+        "inputs": true,
+        "entities": true
+      }
     }
   }
 }
