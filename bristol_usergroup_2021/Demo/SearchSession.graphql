@@ -1,0 +1,10 @@
+query SearchSession($searchPhrase: String! $after: String = null) {
+  sessions(after: $after, first: 10, where: { title: { contains: $searchPhrase } }) {
+    nodes {
+      ... SessionInfo
+    }
+    pageInfo {
+      endCursor
+    }
+  }
+}

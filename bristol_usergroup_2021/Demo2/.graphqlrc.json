@@ -3,7 +3,8 @@
   "documents": "**/*.graphql",
   "extensions": {
     "strawberryShake": {
-      "name": "ConferenceClient",
+      "name": "Demo2",
+      "namespace": "Demo2",
       "url": "https://hc-conference-app.azurewebsites.net/graphql/",
       "dependencyInjection": true,
       "strictSchemaValidation": true,
@@ -16,7 +17,7 @@
       "razorComponents": true,
       "records": {
         "inputs": false,
-        "entities": true
+        "entities": false
       },
       "transportProfiles": [
         {

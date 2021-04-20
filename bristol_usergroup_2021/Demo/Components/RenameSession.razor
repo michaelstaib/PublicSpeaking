@@ -1,15 +1,5 @@
 @inherits DataComponent<RenameSessionMutation>
 
-@if (Session is not null)
-{
-    <h2>EditSession</h2>
-
-    <br />
-    <p>Edit Session Title:</p>
-    <input @bind-value="@title" />
-    <button @onclick="OnSaveTitle">Save</button>
-}
-
 @code {
     private string title;
     private ISessionInfo session;
@@ -27,7 +17,7 @@
             title = session?.Title;
         }
     }
-    
+
     private async Task OnSaveTitle()
     {
         await ClientOrOperation.ExecuteAsync(
@@ -39,4 +29,15 @@
 
         await OnSessionRenamed.InvokeAsync(session);
     }
+}
+
+@if (Session is not null)
+{
+    <h2>EditSession</h2>
+
+    <br />
+    <p>Edit Session Title:</p>
+    <input @bind-value="@title" />
+    <button @onclick="OnSaveTitle">Save</button>
+    <button @onclick="() => Session = null">Cancel</button>
 }

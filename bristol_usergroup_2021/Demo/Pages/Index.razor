@@ -2,12 +2,12 @@
 @inject ConferenceClient ConferenceClient
 
 @code {
-    private ISessionInfo selectedSession;
+    private string after = null;
 }
 
-<GetSessionsRenderer Strategy="ExecutionStrategy.CacheFirst">
+<GetSessionsRenderer Strategy="ExecutionStrategy.CacheFirst" After="@after">
     <Content>
-        <SessionList Sessions="context.Sessions!.Nodes" OnSessionSelected="session => selectedSession = session" AllowSelect="true" />
-        <EditSession Session="selectedSession" OnSessionRenamed="_ => selectedSession = null" />
+        <SessionList Sessions="context.Sessions!.Nodes" />
+        <button @onclick="() => after = context.Sessions.PageInfo.EndCursor">Next</button>
     </Content>
 </GetSessionsRenderer>
