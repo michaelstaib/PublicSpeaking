@@ -4,6 +4,25 @@
 namespace Demo.Components
 {
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public partial class GetSessionsRenderer : global::StrawberryShake.Razor.QueryBase<global::Demo.IGetSessionsResult>
+    {
+        [global::Microsoft.AspNetCore.Components.InjectAttribute]
+        internal global::Demo.GetSessionsQuery Operation { get; set; } = default !;
+        [global::Microsoft.AspNetCore.Components.ParameterAttribute]
+        public global::System.String? After { get; set; }
+
+        protected override void OnInitialized()
+        {
+            Subscribe(Operation.Watch(After, strategy: Strategy));
+        }
+
+        protected override void OnParametersSet()
+        {
+            Subscribe(Operation.Watch(After, strategy: Strategy));
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
     public partial class SearchSessionRenderer : global::StrawberryShake.Razor.QueryBase<global::Demo.ISearchSessionResult>
     {
         [global::Microsoft.AspNetCore.Components.InjectAttribute]
@@ -21,25 +40,6 @@ namespace Demo.Components
         protected override void OnParametersSet()
         {
             Subscribe(Operation.Watch(SearchPhrase, After, strategy: Strategy));
-        }
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class GetSessionsRenderer : global::StrawberryShake.Razor.QueryBase<global::Demo.IGetSessionsResult>
-    {
-        [global::Microsoft.AspNetCore.Components.InjectAttribute]
-        internal global::Demo.GetSessionsQuery Operation { get; set; } = default !;
-        [global::Microsoft.AspNetCore.Components.ParameterAttribute]
-        public global::System.String? After { get; set; }
-
-        protected override void OnInitialized()
-        {
-            Subscribe(Operation.Watch(After, strategy: Strategy));
-        }
-
-        protected override void OnParametersSet()
-        {
-            Subscribe(Operation.Watch(After, strategy: Strategy));
         }
     }
 }
