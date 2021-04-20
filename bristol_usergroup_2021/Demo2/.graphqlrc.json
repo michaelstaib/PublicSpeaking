@@ -3,7 +3,7 @@
   "documents": "**/*.graphql",
   "extensions": {
     "strawberryShake": {
-      "name": "Demo2",
+      "name": "ConferenceClient",
       "namespace": "Demo2",
       "url": "https://hc-conference-app.azurewebsites.net/graphql/",
       "dependencyInjection": true,

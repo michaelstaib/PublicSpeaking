@@ -1,0 +1,108 @@
+{
+  "AddConferenceClient": {
+    "prefix": "AddConferenceClient",
+    "body": [
+      "builder.Services",
+      "    .AddConferenceClient()",
+      "    .ConfigureHttpClient(client => client.BaseAddress = new Uri(\"https://hc-conference-app.azurewebsites.net/graphql/\"));"
+    ],
+    "description": "AddConferenceClient"
+  },
+  "ForEachSession": {
+    "prefix": "ForEachSession",
+    "body": ["@foreach (var session in Sessions)"],
+    "description": "ForEachSession"
+  },
+  "SelectableSession": {
+    "prefix": "SelectableSession",
+    "body": [
+      "<li><button @onclick=\"() => OnSessionSelected.InvokeAsync(session)\"><span class=\"oi oi-pencil mr-2\" aria-hidden=\"true\"></span></button> @session.Title</li>"
+    ],
+    "description": "SelectableSession"
+  },
+  "SessionItem": {
+    "prefix": "SessionItem",
+    "body": ["<li>@session.Title</li>"],
+    "description": "SessionItem"
+  },
+  "SessionsParameter": {
+    "prefix": "SessionsParameter",
+    "body": [
+      "[Parameter]",
+      "public IReadOnlyList<ISessionInfo> Sessions { get; set; }"
+    ],
+    "description": "SessionsParameter"
+  },
+  "OnSessionSelectedParameter": {
+    "prefix": "OnSessionSelectedParameter",
+    "body": [
+      "[Parameter]",
+      "public EventCallback<ISessionInfo> OnSessionSelected { get; set; }"
+    ],
+    "description": "OnSessionSelectedParameter"
+  },
+  "AllowSelectParameter": {
+    "prefix": "AllowSelectParameter",
+    "body": ["[Parameter]", "public bool AllowSelect { get; set; }"],
+    "description": "AllowSelectParameter"
+  },
+  "IfSessions": {
+    "prefix": "IfSessions",
+    "body": [
+      "@if (Sessions is not null)",
+      "{",
+      "    <h2>Sessions</h2>",
+      "",
+      "    <ul>",
+      "        ",
+      "    </ul>",
+      "}"
+    ],
+    "description": "IfSessions"
+  },
+  "EditSessionMarkup": {
+    "prefix": "EditSessionMarkup",
+    "body": [
+      "@if (Session is not null)",
+      "{",
+      "    <h2>EditSession</h2>",
+      "",
+      "    <br />",
+      "    <p>Edit Session Title:</p>",
+      "    <input @bind-value=\"@title\" />",
+      "    <button @onclick=\"OnSaveTitle\">Save</button>",
+      "    <button @onclick=\"() => Session = null\">Cancel</button>",
+      "}"
+    ],
+    "description": "EditSessionMarkup"
+  },
+  "EditSessionState": {
+    "prefix": "EditSessionState",
+    "body": ["private string title;", "    private ISessionInfo session;"],
+    "description": "EditSessionState"
+  },
+  "EditSessionParameters": {
+    "prefix": "EditSessionParameters",
+    "body": [
+      "[Parameter]",
+      "    public EventCallback<ISessionInfo> OnSessionRenamed { get; set; }",
+      "",
+      "    [Parameter]",
+      "    public ISessionInfo Session",
+      "    {",
+      "        get => session;",
+      "        set",
+      "        {",
+      "            session = value;",
+      "            title = session?.Title;",
+      "        }",
+      "    }"
+    ],
+    "description": "EditSessionParameters"
+  },
+  "OnSaveTitleEvent": {
+    "prefix": "OnSaveTitleEvent",
+    "body": ["private async Task OnSaveTitle()", "{", "", "}"],
+    "description": "OnSaveTitleEvent"
+  }
+}
