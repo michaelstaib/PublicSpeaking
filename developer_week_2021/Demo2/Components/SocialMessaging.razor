@@ -1,0 +1,38 @@
+@inherits DataComponent<OnMessageReceivedSubscription>
+
+@code {
+    private List<string> messages = new();
+
+    protected override void OnInitialized()
+    {
+        Operation
+        .Watch()
+        .Where(t => t.IsSuccessResult())
+        .Select(t => t.Data.OnMessageReceived.Body)
+        .Subscribe(body =>
+        {
+            messages.Insert(0, body);
+
+            if (messages.Count > 5)
+            {
+                messages.RemoveAt(messages.Count - 1);
+            }
+
+            StateHasChanged();
+        });
+    }
+}
+
+@if (messages is { Count: > 0 })
+{
+    <h2>Whats new?</h2>
+
+    <ul>
+    @foreach (var message in messages)
+        {
+            <li>@message</li>
+        }
+    </ul>
+
+    <br />
+}
