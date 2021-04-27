@@ -4,7 +4,7 @@
   "extensions": {
     "strawberryShake": {
       "name": "ConferenceClient",
-      "namespace": "Demo2",
+      "namespace": "Demo",
       "url": "https://hc-conference-app.azurewebsites.net/graphql/",
       "dependencyInjection": true,
       "strictSchemaValidation": true,
