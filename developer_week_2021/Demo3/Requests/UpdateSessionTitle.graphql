@@ -1,0 +1,7 @@
+mutation UpdateSessionTitle($sessionId: ID! $title: String!) {
+  renameSession(input: { sessionId: $sessionId title: $title }) {
+    session {
+      title
+    }
+  }
+}

@@ -1,0 +1,5 @@
+scalar _KeyFieldSet
+
+directive @key(fields: _KeyFieldSet!) on SCHEMA | OBJECT
+
+extend schema @key(fields: "id")

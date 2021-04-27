@@ -1,0 +1,17 @@
+@page "/Search"
+
+@code {
+    private string searchPhrase;
+    private string after;
+}
+
+Search: <input @bind-value="@searchPhrase" />
+
+@if (searchPhrase is not null)
+{
+    <SearchSessionRenderer SearchPhrase="@searchPhrase" After="@after" Strategy="ExecutionStrategy.CacheAndNetwork">
+        <Content>
+            <SessionList Sessions="context.Sessions!.Nodes" />
+        </Content>
+    </SearchSessionRenderer>
+}

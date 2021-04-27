@@ -4,16 +4,16 @@
 namespace Demo
 {
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class SearchSessionResult : global::System.IEquatable<SearchSessionResult>, ISearchSessionResult
+    public partial class RenameSessionResult : global::System.IEquatable<RenameSessionResult>, IRenameSessionResult
     {
-        public SearchSessionResult(global::Demo.ISearchSession_Sessions? sessions)
+        public RenameSessionResult(global::Demo.IRenameSession_RenameSession renameSession)
         {
-            Sessions = sessions;
+            RenameSession = renameSession;
         }
 
-        public global::Demo.ISearchSession_Sessions? Sessions { get; }
+        public global::Demo.IRenameSession_RenameSession RenameSession { get; }
 
-        public virtual global::System.Boolean Equals(SearchSessionResult? other)
+        public virtual global::System.Boolean Equals(RenameSessionResult? other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -30,7 +30,7 @@ namespace Demo
                 return false;
             }
 
-            return (((Sessions is null && other.Sessions is null) || Sessions != null && Sessions.Equals(other.Sessions)));
+            return (RenameSession.Equals(other.RenameSession));
         }
 
         public override global::System.Boolean Equals(global::System.Object? obj)
@@ -50,7 +50,7 @@ namespace Demo
                 return false;
             }
 
-            return Equals((SearchSessionResult)obj);
+            return Equals((RenameSessionResult)obj);
         }
 
         public override global::System.Int32 GetHashCode()
@@ -58,39 +58,23 @@ namespace Demo
             unchecked
             {
                 int hash = 5;
-                if (Sessions != null)
-                {
-                    hash ^= 397 * Sessions.GetHashCode();
-                }
-
+                hash ^= 397 * RenameSession.GetHashCode();
                 return hash;
             }
         }
     }
 
-    /// <summary>
-    /// A connection to a list of items.
-    /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class SearchSession_Sessions_SessionConnection : global::System.IEquatable<SearchSession_Sessions_SessionConnection>, ISearchSession_Sessions_SessionConnection
+    public partial class RenameSession_RenameSession_RenameSessionPayload : global::System.IEquatable<RenameSession_RenameSession_RenameSessionPayload>, IRenameSession_RenameSession_RenameSessionPayload
     {
-        public SearchSession_Sessions_SessionConnection(global::System.Collections.Generic.IReadOnlyList<global::Demo.ISearchSession_Sessions_Nodes>? nodes, global::Demo.ISearchSession_Sessions_PageInfo pageInfo)
+        public RenameSession_RenameSession_RenameSessionPayload(global::Demo.IRenameSession_RenameSession_Session? session)
         {
-            Nodes = nodes;
-            PageInfo = pageInfo;
+            Session = session;
         }
 
-        /// <summary>
-        /// A flattened list of the nodes.
-        /// </summary>
-        public global::System.Collections.Generic.IReadOnlyList<global::Demo.ISearchSession_Sessions_Nodes>? Nodes { get; }
+        public global::Demo.IRenameSession_RenameSession_Session? Session { get; }
 
-        /// <summary>
-        /// Information to aid in pagination.
-        /// </summary>
-        public global::Demo.ISearchSession_Sessions_PageInfo PageInfo { get; }
-
-        public virtual global::System.Boolean Equals(SearchSession_Sessions_SessionConnection? other)
+        public virtual global::System.Boolean Equals(RenameSession_RenameSession_RenameSessionPayload? other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -107,7 +91,7 @@ namespace Demo
                 return false;
             }
 
-            return (global::StrawberryShake.Helper.ComparisonHelper.SequenceEqual(Nodes, other.Nodes)) && PageInfo.Equals(other.PageInfo);
+            return (((Session is null && other.Session is null) || Session != null && Session.Equals(other.Session)));
         }
 
         public override global::System.Boolean Equals(global::System.Object? obj)
@@ -127,7 +111,7 @@ namespace Demo
                 return false;
             }
 
-            return Equals((SearchSession_Sessions_SessionConnection)obj);
+            return Equals((RenameSession_RenameSession_RenameSessionPayload)obj);
         }
 
         public override global::System.Int32 GetHashCode()
@@ -135,24 +119,20 @@ namespace Demo
             unchecked
             {
                 int hash = 5;
-                if (Nodes != null)
+                if (Session != null)
                 {
-                    foreach (var Nodes_elm in Nodes)
-                    {
-                        hash ^= 397 * Nodes_elm.GetHashCode();
-                    }
+                    hash ^= 397 * Session.GetHashCode();
                 }
 
-                hash ^= 397 * PageInfo.GetHashCode();
                 return hash;
             }
         }
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class SearchSession_Sessions_Nodes_Session : global::System.IEquatable<SearchSession_Sessions_Nodes_Session>, ISearchSession_Sessions_Nodes_Session
+    public partial class RenameSession_RenameSession_Session_Session : global::System.IEquatable<RenameSession_RenameSession_Session_Session>, IRenameSession_RenameSession_Session_Session
     {
-        public SearchSession_Sessions_Nodes_Session(global::System.String id, global::System.String title)
+        public RenameSession_RenameSession_Session_Session(global::System.String id, global::System.String title)
         {
             Id = id;
             Title = title;
@@ -162,7 +142,7 @@ namespace Demo
 
         public global::System.String Title { get; }
 
-        public virtual global::System.Boolean Equals(SearchSession_Sessions_Nodes_Session? other)
+        public virtual global::System.Boolean Equals(RenameSession_RenameSession_Session_Session? other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -199,7 +179,7 @@ namespace Demo
                 return false;
             }
 
-            return Equals((SearchSession_Sessions_Nodes_Session)obj);
+            return Equals((RenameSession_RenameSession_Session_Session)obj);
         }
 
         public override global::System.Int32 GetHashCode()
@@ -214,105 +194,20 @@ namespace Demo
         }
     }
 
-    /// <summary>
-    /// Information about pagination in a connection.
-    /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class SearchSession_Sessions_PageInfo_PageInfo : global::System.IEquatable<SearchSession_Sessions_PageInfo_PageInfo>, ISearchSession_Sessions_PageInfo_PageInfo
+    public interface IRenameSessionResult
     {
-        public SearchSession_Sessions_PageInfo_PageInfo(global::System.String? endCursor)
-        {
-            EndCursor = endCursor;
-        }
-
-        /// <summary>
-        /// When paginating forwards, the cursor to continue.
-        /// </summary>
-        public global::System.String? EndCursor { get; }
-
-        public virtual global::System.Boolean Equals(SearchSession_Sessions_PageInfo_PageInfo? other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            if (other.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return (((EndCursor is null && other.EndCursor is null) || EndCursor != null && EndCursor.Equals(other.EndCursor)));
-        }
-
-        public override global::System.Boolean Equals(global::System.Object? obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            if (obj.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return Equals((SearchSession_Sessions_PageInfo_PageInfo)obj);
-        }
-
-        public override global::System.Int32 GetHashCode()
-        {
-            unchecked
-            {
-                int hash = 5;
-                if (EndCursor != null)
-                {
-                    hash ^= 397 * EndCursor.GetHashCode();
-                }
-
-                return hash;
-            }
-        }
+        public global::Demo.IRenameSession_RenameSession RenameSession { get; }
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface ISearchSessionResult
+    public interface IRenameSession_RenameSession
     {
-        public global::Demo.ISearchSession_Sessions? Sessions { get; }
+        public global::Demo.IRenameSession_RenameSession_Session? Session { get; }
     }
 
-    /// <summary>
-    /// A connection to a list of items.
-    /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface ISearchSession_Sessions
-    {
-        /// <summary>
-        /// A flattened list of the nodes.
-        /// </summary>
-        public global::System.Collections.Generic.IReadOnlyList<global::Demo.ISearchSession_Sessions_Nodes>? Nodes { get; }
-
-        /// <summary>
-        /// Information to aid in pagination.
-        /// </summary>
-        public global::Demo.ISearchSession_Sessions_PageInfo PageInfo { get; }
-    }
-
-    /// <summary>
-    /// A connection to a list of items.
-    /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface ISearchSession_Sessions_SessionConnection : ISearchSession_Sessions
+    public interface IRenameSession_RenameSession_RenameSessionPayload : IRenameSession_RenameSession
     {
     }
 
@@ -325,32 +220,12 @@ namespace Demo
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface ISearchSession_Sessions_Nodes : ISessionInfo
+    public interface IRenameSession_RenameSession_Session : ISessionInfo
     {
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface ISearchSession_Sessions_Nodes_Session : ISearchSession_Sessions_Nodes
-    {
-    }
-
-    /// <summary>
-    /// Information about pagination in a connection.
-    /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface ISearchSession_Sessions_PageInfo
-    {
-        /// <summary>
-        /// When paginating forwards, the cursor to continue.
-        /// </summary>
-        public global::System.String? EndCursor { get; }
-    }
-
-    /// <summary>
-    /// Information about pagination in a connection.
-    /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface ISearchSession_Sessions_PageInfo_PageInfo : ISearchSession_Sessions_PageInfo
+    public interface IRenameSession_RenameSession_Session_Session : IRenameSession_RenameSession_Session
     {
     }
 
@@ -698,6 +573,349 @@ namespace Demo
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public partial class SearchSessionResult : global::System.IEquatable<SearchSessionResult>, ISearchSessionResult
+    {
+        public SearchSessionResult(global::Demo.ISearchSession_Sessions? sessions)
+        {
+            Sessions = sessions;
+        }
+
+        public global::Demo.ISearchSession_Sessions? Sessions { get; }
+
+        public virtual global::System.Boolean Equals(SearchSessionResult? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (((Sessions is null && other.Sessions is null) || Sessions != null && Sessions.Equals(other.Sessions)));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((SearchSessionResult)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (Sessions != null)
+                {
+                    hash ^= 397 * Sessions.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    /// <summary>
+    /// A connection to a list of items.
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public partial class SearchSession_Sessions_SessionConnection : global::System.IEquatable<SearchSession_Sessions_SessionConnection>, ISearchSession_Sessions_SessionConnection
+    {
+        public SearchSession_Sessions_SessionConnection(global::System.Collections.Generic.IReadOnlyList<global::Demo.ISearchSession_Sessions_Nodes>? nodes, global::Demo.ISearchSession_Sessions_PageInfo pageInfo)
+        {
+            Nodes = nodes;
+            PageInfo = pageInfo;
+        }
+
+        /// <summary>
+        /// A flattened list of the nodes.
+        /// </summary>
+        public global::System.Collections.Generic.IReadOnlyList<global::Demo.ISearchSession_Sessions_Nodes>? Nodes { get; }
+
+        /// <summary>
+        /// Information to aid in pagination.
+        /// </summary>
+        public global::Demo.ISearchSession_Sessions_PageInfo PageInfo { get; }
+
+        public virtual global::System.Boolean Equals(SearchSession_Sessions_SessionConnection? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (global::StrawberryShake.Helper.ComparisonHelper.SequenceEqual(Nodes, other.Nodes)) && PageInfo.Equals(other.PageInfo);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((SearchSession_Sessions_SessionConnection)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (Nodes != null)
+                {
+                    foreach (var Nodes_elm in Nodes)
+                    {
+                        hash ^= 397 * Nodes_elm.GetHashCode();
+                    }
+                }
+
+                hash ^= 397 * PageInfo.GetHashCode();
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public partial class SearchSession_Sessions_Nodes_Session : global::System.IEquatable<SearchSession_Sessions_Nodes_Session>, ISearchSession_Sessions_Nodes_Session
+    {
+        public SearchSession_Sessions_Nodes_Session(global::System.String id, global::System.String title)
+        {
+            Id = id;
+            Title = title;
+        }
+
+        public global::System.String Id { get; }
+
+        public global::System.String Title { get; }
+
+        public virtual global::System.Boolean Equals(SearchSession_Sessions_Nodes_Session? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (Id.Equals(other.Id)) && Title.Equals(other.Title);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((SearchSession_Sessions_Nodes_Session)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * Id.GetHashCode();
+                hash ^= 397 * Title.GetHashCode();
+                return hash;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Information about pagination in a connection.
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public partial class SearchSession_Sessions_PageInfo_PageInfo : global::System.IEquatable<SearchSession_Sessions_PageInfo_PageInfo>, ISearchSession_Sessions_PageInfo_PageInfo
+    {
+        public SearchSession_Sessions_PageInfo_PageInfo(global::System.String? endCursor)
+        {
+            EndCursor = endCursor;
+        }
+
+        /// <summary>
+        /// When paginating forwards, the cursor to continue.
+        /// </summary>
+        public global::System.String? EndCursor { get; }
+
+        public virtual global::System.Boolean Equals(SearchSession_Sessions_PageInfo_PageInfo? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (((EndCursor is null && other.EndCursor is null) || EndCursor != null && EndCursor.Equals(other.EndCursor)));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((SearchSession_Sessions_PageInfo_PageInfo)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (EndCursor != null)
+                {
+                    hash ^= 397 * EndCursor.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public interface ISearchSessionResult
+    {
+        public global::Demo.ISearchSession_Sessions? Sessions { get; }
+    }
+
+    /// <summary>
+    /// A connection to a list of items.
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public interface ISearchSession_Sessions
+    {
+        /// <summary>
+        /// A flattened list of the nodes.
+        /// </summary>
+        public global::System.Collections.Generic.IReadOnlyList<global::Demo.ISearchSession_Sessions_Nodes>? Nodes { get; }
+
+        /// <summary>
+        /// Information to aid in pagination.
+        /// </summary>
+        public global::Demo.ISearchSession_Sessions_PageInfo PageInfo { get; }
+    }
+
+    /// <summary>
+    /// A connection to a list of items.
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public interface ISearchSession_Sessions_SessionConnection : ISearchSession_Sessions
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public interface ISearchSession_Sessions_Nodes : ISessionInfo
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public interface ISearchSession_Sessions_Nodes_Session : ISearchSession_Sessions_Nodes
+    {
+    }
+
+    /// <summary>
+    /// Information about pagination in a connection.
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public interface ISearchSession_Sessions_PageInfo
+    {
+        /// <summary>
+        /// When paginating forwards, the cursor to continue.
+        /// </summary>
+        public global::System.String? EndCursor { get; }
+    }
+
+    /// <summary>
+    /// Information about pagination in a connection.
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public interface ISearchSession_Sessions_PageInfo_PageInfo : ISearchSession_Sessions_PageInfo
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
     public partial class OnSessionChnagedResult : global::System.IEquatable<OnSessionChnagedResult>, IOnSessionChnagedResult
     {
         public OnSessionChnagedResult(global::Demo.IOnSessionChnaged_Session session)
@@ -860,224 +1078,6 @@ namespace Demo
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class RenameSessionResult : global::System.IEquatable<RenameSessionResult>, IRenameSessionResult
-    {
-        public RenameSessionResult(global::Demo.IRenameSession_RenameSession renameSession)
-        {
-            RenameSession = renameSession;
-        }
-
-        public global::Demo.IRenameSession_RenameSession RenameSession { get; }
-
-        public virtual global::System.Boolean Equals(RenameSessionResult? other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            if (other.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return (RenameSession.Equals(other.RenameSession));
-        }
-
-        public override global::System.Boolean Equals(global::System.Object? obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            if (obj.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return Equals((RenameSessionResult)obj);
-        }
-
-        public override global::System.Int32 GetHashCode()
-        {
-            unchecked
-            {
-                int hash = 5;
-                hash ^= 397 * RenameSession.GetHashCode();
-                return hash;
-            }
-        }
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class RenameSession_RenameSession_RenameSessionPayload : global::System.IEquatable<RenameSession_RenameSession_RenameSessionPayload>, IRenameSession_RenameSession_RenameSessionPayload
-    {
-        public RenameSession_RenameSession_RenameSessionPayload(global::Demo.IRenameSession_RenameSession_Session? session)
-        {
-            Session = session;
-        }
-
-        public global::Demo.IRenameSession_RenameSession_Session? Session { get; }
-
-        public virtual global::System.Boolean Equals(RenameSession_RenameSession_RenameSessionPayload? other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            if (other.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return (((Session is null && other.Session is null) || Session != null && Session.Equals(other.Session)));
-        }
-
-        public override global::System.Boolean Equals(global::System.Object? obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            if (obj.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return Equals((RenameSession_RenameSession_RenameSessionPayload)obj);
-        }
-
-        public override global::System.Int32 GetHashCode()
-        {
-            unchecked
-            {
-                int hash = 5;
-                if (Session != null)
-                {
-                    hash ^= 397 * Session.GetHashCode();
-                }
-
-                return hash;
-            }
-        }
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class RenameSession_RenameSession_Session_Session : global::System.IEquatable<RenameSession_RenameSession_Session_Session>, IRenameSession_RenameSession_Session_Session
-    {
-        public RenameSession_RenameSession_Session_Session(global::System.String id, global::System.String title)
-        {
-            Id = id;
-            Title = title;
-        }
-
-        public global::System.String Id { get; }
-
-        public global::System.String Title { get; }
-
-        public virtual global::System.Boolean Equals(RenameSession_RenameSession_Session_Session? other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            if (other.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return (Id.Equals(other.Id)) && Title.Equals(other.Title);
-        }
-
-        public override global::System.Boolean Equals(global::System.Object? obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            if (obj.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return Equals((RenameSession_RenameSession_Session_Session)obj);
-        }
-
-        public override global::System.Int32 GetHashCode()
-        {
-            unchecked
-            {
-                int hash = 5;
-                hash ^= 397 * Id.GetHashCode();
-                hash ^= 397 * Title.GetHashCode();
-                return hash;
-            }
-        }
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface IRenameSessionResult
-    {
-        public global::Demo.IRenameSession_RenameSession RenameSession { get; }
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface IRenameSession_RenameSession
-    {
-        public global::Demo.IRenameSession_RenameSession_Session? Session { get; }
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface IRenameSession_RenameSession_RenameSessionPayload : IRenameSession_RenameSession
-    {
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface IRenameSession_RenameSession_Session : ISessionInfo
-    {
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface IRenameSession_RenameSession_Session_Session : IRenameSession_RenameSession_Session
-    {
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
     public partial class RenameSessionInputInputValueFormatter : global::StrawberryShake.Serialization.IInputObjectFormatter
     {
         private global::StrawberryShake.Serialization.IInputValueFormatter _iDFormatter = default !;
@@ -1218,6 +1218,312 @@ namespace Demo
         }
 
         global::System.Boolean global::Demo.State.IRenameSessionInputInfo.IsTitleSet => _set_title;
+    }
+
+    /// <summary>
+    /// Represents the operation service of the RenameSession GraphQL operation
+    /// <code>
+    /// mutation RenameSession($input: RenameSessionInput!) {
+    ///   renameSession(input: $input) {
+    ///     __typename
+    ///     session {
+    ///       __typename
+    ///       ... SessionInfo
+    ///       ... on Session {
+    ///         id
+    ///       }
+    ///     }
+    ///   }
+    /// }
+    /// 
+    /// fragment SessionInfo on Session {
+    ///   id
+    ///   title
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public partial class RenameSessionMutationDocument : global::StrawberryShake.IDocument
+    {
+        private RenameSessionMutationDocument()
+        {
+        }
+
+        public static RenameSessionMutationDocument Instance { get; } = new RenameSessionMutationDocument();
+        public global::StrawberryShake.OperationKind Kind => global::StrawberryShake.OperationKind.Mutation;
+        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]{0x6d, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x20, 0x52, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x28, 0x24, 0x69, 0x6e, 0x70, 0x75, 0x74, 0x3a, 0x20, 0x52, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x21, 0x29, 0x20, 0x7b, 0x20, 0x72, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x28, 0x69, 0x6e, 0x70, 0x75, 0x74, 0x3a, 0x20, 0x24, 0x69, 0x6e, 0x70, 0x75, 0x74, 0x29, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x73, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x6e, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x66, 0x72, 0x61, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x20, 0x6f, 0x6e, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x20, 0x7d};
+        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "9ac393a1cfb679615b1c8b89a274bb39");
+        public override global::System.String ToString()
+        {
+#if NETSTANDARD2_0
+        return global::System.Text.Encoding.UTF8.GetString(Body.ToArray());
+#else
+            return global::System.Text.Encoding.UTF8.GetString(Body);
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the RenameSession GraphQL operation
+    /// <code>
+    /// mutation RenameSession($input: RenameSessionInput!) {
+    ///   renameSession(input: $input) {
+    ///     __typename
+    ///     session {
+    ///       __typename
+    ///       ... SessionInfo
+    ///       ... on Session {
+    ///         id
+    ///       }
+    ///     }
+    ///   }
+    /// }
+    /// 
+    /// fragment SessionInfo on Session {
+    ///   id
+    ///   title
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public partial class RenameSessionMutation : global::Demo.IRenameSessionMutation
+    {
+        private readonly global::StrawberryShake.IOperationExecutor<IRenameSessionResult> _operationExecutor;
+        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _renameSessionInputFormatter;
+        public RenameSessionMutation(global::StrawberryShake.IOperationExecutor<IRenameSessionResult> operationExecutor, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _operationExecutor = operationExecutor ?? throw new global::System.ArgumentNullException(nameof(operationExecutor));
+            _renameSessionInputFormatter = serializerResolver.GetInputValueFormatter("RenameSessionInput");
+        }
+
+        global::System.Type global::StrawberryShake.IOperationRequestFactory.ResultType => typeof(IRenameSessionResult);
+        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IRenameSessionResult>> ExecuteAsync(global::Demo.RenameSessionInput input, global::System.Threading.CancellationToken cancellationToken = default)
+        {
+            var request = CreateRequest(input);
+            return await _operationExecutor.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        public global::System.IObservable<global::StrawberryShake.IOperationResult<IRenameSessionResult>> Watch(global::Demo.RenameSessionInput input, global::StrawberryShake.ExecutionStrategy? strategy = null)
+        {
+            var request = CreateRequest(input);
+            return _operationExecutor.Watch(request, strategy);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest(global::Demo.RenameSessionInput input)
+        {
+            var variables = new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>();
+            variables.Add("input", FormatInput(input));
+            return CreateRequest(variables);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return new global::StrawberryShake.OperationRequest(id: RenameSessionMutationDocument.Instance.Hash.Value, name: "RenameSession", document: RenameSessionMutationDocument.Instance, strategy: global::StrawberryShake.RequestStrategy.Default, variables: variables);
+        }
+
+        private global::System.Object? FormatInput(global::Demo.RenameSessionInput value)
+        {
+            if (value is null)
+            {
+                throw new global::System.ArgumentNullException(nameof(value));
+            }
+
+            return _renameSessionInputFormatter.Format(value);
+        }
+
+        global::StrawberryShake.OperationRequest global::StrawberryShake.IOperationRequestFactory.Create(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return CreateRequest(variables!);
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the RenameSession GraphQL operation
+    /// <code>
+    /// mutation RenameSession($input: RenameSessionInput!) {
+    ///   renameSession(input: $input) {
+    ///     __typename
+    ///     session {
+    ///       __typename
+    ///       ... SessionInfo
+    ///       ... on Session {
+    ///         id
+    ///       }
+    ///     }
+    ///   }
+    /// }
+    /// 
+    /// fragment SessionInfo on Session {
+    ///   id
+    ///   title
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public interface IRenameSessionMutation : global::StrawberryShake.IOperationRequestFactory
+    {
+        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IRenameSessionResult>> ExecuteAsync(global::Demo.RenameSessionInput input, global::System.Threading.CancellationToken cancellationToken = default);
+        global::System.IObservable<global::StrawberryShake.IOperationResult<IRenameSessionResult>> Watch(global::Demo.RenameSessionInput input, global::StrawberryShake.ExecutionStrategy? strategy = null);
+    }
+
+    /// <summary>
+    /// Represents the operation service of the GetSessions GraphQL operation
+    /// <code>
+    /// query GetSessions($after: String = null) {
+    ///   sessions(after: $after, first: 10) {
+    ///     __typename
+    ///     nodes {
+    ///       __typename
+    ///       ... SessionInfo
+    ///       ... on Session {
+    ///         id
+    ///       }
+    ///     }
+    ///     pageInfo {
+    ///       __typename
+    ///       endCursor
+    ///     }
+    ///   }
+    /// }
+    /// 
+    /// fragment SessionInfo on Session {
+    ///   id
+    ///   title
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public partial class GetSessionsQueryDocument : global::StrawberryShake.IDocument
+    {
+        private GetSessionsQueryDocument()
+        {
+        }
+
+        public static GetSessionsQueryDocument Instance { get; } = new GetSessionsQueryDocument();
+        public global::StrawberryShake.OperationKind Kind => global::StrawberryShake.OperationKind.Query;
+        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]{0x71, 0x75, 0x65, 0x72, 0x79, 0x20, 0x47, 0x65, 0x74, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x28, 0x24, 0x61, 0x66, 0x74, 0x65, 0x72, 0x3a, 0x20, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x20, 0x3d, 0x20, 0x6e, 0x75, 0x6c, 0x6c, 0x29, 0x20, 0x7b, 0x20, 0x73, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x28, 0x61, 0x66, 0x74, 0x65, 0x72, 0x3a, 0x20, 0x24, 0x61, 0x66, 0x74, 0x65, 0x72, 0x2c, 0x20, 0x66, 0x69, 0x72, 0x73, 0x74, 0x3a, 0x20, 0x31, 0x30, 0x29, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x6e, 0x6f, 0x64, 0x65, 0x73, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x6e, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x70, 0x61, 0x67, 0x65, 0x49, 0x6e, 0x66, 0x6f, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x65, 0x6e, 0x64, 0x43, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x66, 0x72, 0x61, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x20, 0x6f, 0x6e, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x20, 0x7d};
+        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "e39e4c3344498404742a77ca0eda0108");
+        public override global::System.String ToString()
+        {
+#if NETSTANDARD2_0
+        return global::System.Text.Encoding.UTF8.GetString(Body.ToArray());
+#else
+            return global::System.Text.Encoding.UTF8.GetString(Body);
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the GetSessions GraphQL operation
+    /// <code>
+    /// query GetSessions($after: String = null) {
+    ///   sessions(after: $after, first: 10) {
+    ///     __typename
+    ///     nodes {
+    ///       __typename
+    ///       ... SessionInfo
+    ///       ... on Session {
+    ///         id
+    ///       }
+    ///     }
+    ///     pageInfo {
+    ///       __typename
+    ///       endCursor
+    ///     }
+    ///   }
+    /// }
+    /// 
+    /// fragment SessionInfo on Session {
+    ///   id
+    ///   title
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public partial class GetSessionsQuery : global::Demo.IGetSessionsQuery
+    {
+        private readonly global::StrawberryShake.IOperationExecutor<IGetSessionsResult> _operationExecutor;
+        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _stringFormatter;
+        public GetSessionsQuery(global::StrawberryShake.IOperationExecutor<IGetSessionsResult> operationExecutor, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _operationExecutor = operationExecutor ?? throw new global::System.ArgumentNullException(nameof(operationExecutor));
+            _stringFormatter = serializerResolver.GetInputValueFormatter("String");
+        }
+
+        global::System.Type global::StrawberryShake.IOperationRequestFactory.ResultType => typeof(IGetSessionsResult);
+        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetSessionsResult>> ExecuteAsync(global::System.String? after, global::System.Threading.CancellationToken cancellationToken = default)
+        {
+            var request = CreateRequest(after);
+            return await _operationExecutor.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        public global::System.IObservable<global::StrawberryShake.IOperationResult<IGetSessionsResult>> Watch(global::System.String? after, global::StrawberryShake.ExecutionStrategy? strategy = null)
+        {
+            var request = CreateRequest(after);
+            return _operationExecutor.Watch(request, strategy);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest(global::System.String? after)
+        {
+            var variables = new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>();
+            variables.Add("after", FormatAfter(after));
+            return CreateRequest(variables);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return new global::StrawberryShake.OperationRequest(id: GetSessionsQueryDocument.Instance.Hash.Value, name: "GetSessions", document: GetSessionsQueryDocument.Instance, strategy: global::StrawberryShake.RequestStrategy.Default, variables: variables);
+        }
+
+        private global::System.Object? FormatAfter(global::System.String? value)
+        {
+            if (value is null)
+            {
+                return value;
+            }
+            else
+            {
+                return _stringFormatter.Format(value);
+            }
+        }
+
+        global::StrawberryShake.OperationRequest global::StrawberryShake.IOperationRequestFactory.Create(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return CreateRequest(variables!);
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the GetSessions GraphQL operation
+    /// <code>
+    /// query GetSessions($after: String = null) {
+    ///   sessions(after: $after, first: 10) {
+    ///     __typename
+    ///     nodes {
+    ///       __typename
+    ///       ... SessionInfo
+    ///       ... on Session {
+    ///         id
+    ///       }
+    ///     }
+    ///     pageInfo {
+    ///       __typename
+    ///       endCursor
+    ///     }
+    ///   }
+    /// }
+    /// 
+    /// fragment SessionInfo on Session {
+    ///   id
+    ///   title
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public interface IGetSessionsQuery : global::StrawberryShake.IOperationRequestFactory
+    {
+        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetSessionsResult>> ExecuteAsync(global::System.String? after, global::System.Threading.CancellationToken cancellationToken = default);
+        global::System.IObservable<global::StrawberryShake.IOperationResult<IGetSessionsResult>> Watch(global::System.String? after, global::StrawberryShake.ExecutionStrategy? strategy = null);
     }
 
     /// <summary>
@@ -1392,166 +1698,6 @@ namespace Demo
     }
 
     /// <summary>
-    /// Represents the operation service of the GetSessions GraphQL operation
-    /// <code>
-    /// query GetSessions($after: String = null) {
-    ///   sessions(after: $after, first: 10) {
-    ///     __typename
-    ///     nodes {
-    ///       __typename
-    ///       ... SessionInfo
-    ///       ... on Session {
-    ///         id
-    ///       }
-    ///     }
-    ///     pageInfo {
-    ///       __typename
-    ///       endCursor
-    ///     }
-    ///   }
-    /// }
-    /// 
-    /// fragment SessionInfo on Session {
-    ///   id
-    ///   title
-    /// }
-    /// </code>
-    /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class GetSessionsQueryDocument : global::StrawberryShake.IDocument
-    {
-        private GetSessionsQueryDocument()
-        {
-        }
-
-        public static GetSessionsQueryDocument Instance { get; } = new GetSessionsQueryDocument();
-        public global::StrawberryShake.OperationKind Kind => global::StrawberryShake.OperationKind.Query;
-        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]{0x71, 0x75, 0x65, 0x72, 0x79, 0x20, 0x47, 0x65, 0x74, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x28, 0x24, 0x61, 0x66, 0x74, 0x65, 0x72, 0x3a, 0x20, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x20, 0x3d, 0x20, 0x6e, 0x75, 0x6c, 0x6c, 0x29, 0x20, 0x7b, 0x20, 0x73, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x28, 0x61, 0x66, 0x74, 0x65, 0x72, 0x3a, 0x20, 0x24, 0x61, 0x66, 0x74, 0x65, 0x72, 0x2c, 0x20, 0x66, 0x69, 0x72, 0x73, 0x74, 0x3a, 0x20, 0x31, 0x30, 0x29, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x6e, 0x6f, 0x64, 0x65, 0x73, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x6e, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x70, 0x61, 0x67, 0x65, 0x49, 0x6e, 0x66, 0x6f, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x65, 0x6e, 0x64, 0x43, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x66, 0x72, 0x61, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x20, 0x6f, 0x6e, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x20, 0x7d};
-        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "e39e4c3344498404742a77ca0eda0108");
-        public override global::System.String ToString()
-        {
-#if NETSTANDARD2_0
-        return global::System.Text.Encoding.UTF8.GetString(Body.ToArray());
-#else
-            return global::System.Text.Encoding.UTF8.GetString(Body);
-#endif
-        }
-    }
-
-    /// <summary>
-    /// Represents the operation service of the GetSessions GraphQL operation
-    /// <code>
-    /// query GetSessions($after: String = null) {
-    ///   sessions(after: $after, first: 10) {
-    ///     __typename
-    ///     nodes {
-    ///       __typename
-    ///       ... SessionInfo
-    ///       ... on Session {
-    ///         id
-    ///       }
-    ///     }
-    ///     pageInfo {
-    ///       __typename
-    ///       endCursor
-    ///     }
-    ///   }
-    /// }
-    /// 
-    /// fragment SessionInfo on Session {
-    ///   id
-    ///   title
-    /// }
-    /// </code>
-    /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class GetSessionsQuery : global::Demo.IGetSessionsQuery
-    {
-        private readonly global::StrawberryShake.IOperationExecutor<IGetSessionsResult> _operationExecutor;
-        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _stringFormatter;
-        public GetSessionsQuery(global::StrawberryShake.IOperationExecutor<IGetSessionsResult> operationExecutor, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
-        {
-            _operationExecutor = operationExecutor ?? throw new global::System.ArgumentNullException(nameof(operationExecutor));
-            _stringFormatter = serializerResolver.GetInputValueFormatter("String");
-        }
-
-        global::System.Type global::StrawberryShake.IOperationRequestFactory.ResultType => typeof(IGetSessionsResult);
-        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetSessionsResult>> ExecuteAsync(global::System.String? after, global::System.Threading.CancellationToken cancellationToken = default)
-        {
-            var request = CreateRequest(after);
-            return await _operationExecutor.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
-        }
-
-        public global::System.IObservable<global::StrawberryShake.IOperationResult<IGetSessionsResult>> Watch(global::System.String? after, global::StrawberryShake.ExecutionStrategy? strategy = null)
-        {
-            var request = CreateRequest(after);
-            return _operationExecutor.Watch(request, strategy);
-        }
-
-        private global::StrawberryShake.OperationRequest CreateRequest(global::System.String? after)
-        {
-            var variables = new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>();
-            variables.Add("after", FormatAfter(after));
-            return CreateRequest(variables);
-        }
-
-        private global::StrawberryShake.OperationRequest CreateRequest(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
-        {
-            return new global::StrawberryShake.OperationRequest(id: GetSessionsQueryDocument.Instance.Hash.Value, name: "GetSessions", document: GetSessionsQueryDocument.Instance, strategy: global::StrawberryShake.RequestStrategy.Default, variables: variables);
-        }
-
-        private global::System.Object? FormatAfter(global::System.String? value)
-        {
-            if (value is null)
-            {
-                return value;
-            }
-            else
-            {
-                return _stringFormatter.Format(value);
-            }
-        }
-
-        global::StrawberryShake.OperationRequest global::StrawberryShake.IOperationRequestFactory.Create(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
-        {
-            return CreateRequest(variables!);
-        }
-    }
-
-    /// <summary>
-    /// Represents the operation service of the GetSessions GraphQL operation
-    /// <code>
-    /// query GetSessions($after: String = null) {
-    ///   sessions(after: $after, first: 10) {
-    ///     __typename
-    ///     nodes {
-    ///       __typename
-    ///       ... SessionInfo
-    ///       ... on Session {
-    ///         id
-    ///       }
-    ///     }
-    ///     pageInfo {
-    ///       __typename
-    ///       endCursor
-    ///     }
-    ///   }
-    /// }
-    /// 
-    /// fragment SessionInfo on Session {
-    ///   id
-    ///   title
-    /// }
-    /// </code>
-    /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface IGetSessionsQuery : global::StrawberryShake.IOperationRequestFactory
-    {
-        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetSessionsResult>> ExecuteAsync(global::System.String? after, global::System.Threading.CancellationToken cancellationToken = default);
-        global::System.IObservable<global::StrawberryShake.IOperationResult<IGetSessionsResult>> Watch(global::System.String? after, global::StrawberryShake.ExecutionStrategy? strategy = null);
-    }
-
-    /// <summary>
     /// Represents the operation service of the OnSessionChnaged GraphQL operation
     /// <code>
     /// subscription OnSessionChnaged {
@@ -1686,174 +1832,28 @@ namespace Demo
     }
 
     /// <summary>
-    /// Represents the operation service of the RenameSession GraphQL operation
-    /// <code>
-    /// mutation RenameSession($input: RenameSessionInput!) {
-    ///   renameSession(input: $input) {
-    ///     __typename
-    ///     session {
-    ///       __typename
-    ///       ... SessionInfo
-    ///       ... on Session {
-    ///         id
-    ///       }
-    ///     }
-    ///   }
-    /// }
-    /// 
-    /// fragment SessionInfo on Session {
-    ///   id
-    ///   title
-    /// }
-    /// </code>
-    /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class RenameSessionMutationDocument : global::StrawberryShake.IDocument
-    {
-        private RenameSessionMutationDocument()
-        {
-        }
-
-        public static RenameSessionMutationDocument Instance { get; } = new RenameSessionMutationDocument();
-        public global::StrawberryShake.OperationKind Kind => global::StrawberryShake.OperationKind.Mutation;
-        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]{0x6d, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x20, 0x52, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x28, 0x24, 0x69, 0x6e, 0x70, 0x75, 0x74, 0x3a, 0x20, 0x52, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x21, 0x29, 0x20, 0x7b, 0x20, 0x72, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x28, 0x69, 0x6e, 0x70, 0x75, 0x74, 0x3a, 0x20, 0x24, 0x69, 0x6e, 0x70, 0x75, 0x74, 0x29, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x73, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x6e, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x66, 0x72, 0x61, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x20, 0x6f, 0x6e, 0x20, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x20, 0x7d};
-        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "9ac393a1cfb679615b1c8b89a274bb39");
-        public override global::System.String ToString()
-        {
-#if NETSTANDARD2_0
-        return global::System.Text.Encoding.UTF8.GetString(Body.ToArray());
-#else
-            return global::System.Text.Encoding.UTF8.GetString(Body);
-#endif
-        }
-    }
-
-    /// <summary>
-    /// Represents the operation service of the RenameSession GraphQL operation
-    /// <code>
-    /// mutation RenameSession($input: RenameSessionInput!) {
-    ///   renameSession(input: $input) {
-    ///     __typename
-    ///     session {
-    ///       __typename
-    ///       ... SessionInfo
-    ///       ... on Session {
-    ///         id
-    ///       }
-    ///     }
-    ///   }
-    /// }
-    /// 
-    /// fragment SessionInfo on Session {
-    ///   id
-    ///   title
-    /// }
-    /// </code>
-    /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class RenameSessionMutation : global::Demo.IRenameSessionMutation
-    {
-        private readonly global::StrawberryShake.IOperationExecutor<IRenameSessionResult> _operationExecutor;
-        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _renameSessionInputFormatter;
-        public RenameSessionMutation(global::StrawberryShake.IOperationExecutor<IRenameSessionResult> operationExecutor, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
-        {
-            _operationExecutor = operationExecutor ?? throw new global::System.ArgumentNullException(nameof(operationExecutor));
-            _renameSessionInputFormatter = serializerResolver.GetInputValueFormatter("RenameSessionInput");
-        }
-
-        global::System.Type global::StrawberryShake.IOperationRequestFactory.ResultType => typeof(IRenameSessionResult);
-        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IRenameSessionResult>> ExecuteAsync(global::Demo.RenameSessionInput input, global::System.Threading.CancellationToken cancellationToken = default)
-        {
-            var request = CreateRequest(input);
-            return await _operationExecutor.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
-        }
-
-        public global::System.IObservable<global::StrawberryShake.IOperationResult<IRenameSessionResult>> Watch(global::Demo.RenameSessionInput input, global::StrawberryShake.ExecutionStrategy? strategy = null)
-        {
-            var request = CreateRequest(input);
-            return _operationExecutor.Watch(request, strategy);
-        }
-
-        private global::StrawberryShake.OperationRequest CreateRequest(global::Demo.RenameSessionInput input)
-        {
-            var variables = new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>();
-            variables.Add("input", FormatInput(input));
-            return CreateRequest(variables);
-        }
-
-        private global::StrawberryShake.OperationRequest CreateRequest(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
-        {
-            return new global::StrawberryShake.OperationRequest(id: RenameSessionMutationDocument.Instance.Hash.Value, name: "RenameSession", document: RenameSessionMutationDocument.Instance, strategy: global::StrawberryShake.RequestStrategy.Default, variables: variables);
-        }
-
-        private global::System.Object? FormatInput(global::Demo.RenameSessionInput value)
-        {
-            if (value is null)
-            {
-                throw new global::System.ArgumentNullException(nameof(value));
-            }
-
-            return _renameSessionInputFormatter.Format(value);
-        }
-
-        global::StrawberryShake.OperationRequest global::StrawberryShake.IOperationRequestFactory.Create(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
-        {
-            return CreateRequest(variables!);
-        }
-    }
-
-    /// <summary>
-    /// Represents the operation service of the RenameSession GraphQL operation
-    /// <code>
-    /// mutation RenameSession($input: RenameSessionInput!) {
-    ///   renameSession(input: $input) {
-    ///     __typename
-    ///     session {
-    ///       __typename
-    ///       ... SessionInfo
-    ///       ... on Session {
-    ///         id
-    ///       }
-    ///     }
-    ///   }
-    /// }
-    /// 
-    /// fragment SessionInfo on Session {
-    ///   id
-    ///   title
-    /// }
-    /// </code>
-    /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public interface IRenameSessionMutation : global::StrawberryShake.IOperationRequestFactory
-    {
-        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IRenameSessionResult>> ExecuteAsync(global::Demo.RenameSessionInput input, global::System.Threading.CancellationToken cancellationToken = default);
-        global::System.IObservable<global::StrawberryShake.IOperationResult<IRenameSessionResult>> Watch(global::Demo.RenameSessionInput input, global::StrawberryShake.ExecutionStrategy? strategy = null);
-    }
-
-    /// <summary>
     /// Represents the ConferenceClient GraphQL client
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
     public partial class ConferenceClient : global::Demo.IConferenceClient
     {
-        private readonly global::Demo.ISearchSessionQuery _searchSession;
-        private readonly global::Demo.IGetSessionsQuery _getSessions;
-        private readonly global::Demo.IOnSessionChnagedSubscription _onSessionChnaged;
         private readonly global::Demo.IRenameSessionMutation _renameSession;
-        public ConferenceClient(global::Demo.ISearchSessionQuery searchSession, global::Demo.IGetSessionsQuery getSessions, global::Demo.IOnSessionChnagedSubscription onSessionChnaged, global::Demo.IRenameSessionMutation renameSession)
+        private readonly global::Demo.IGetSessionsQuery _getSessions;
+        private readonly global::Demo.ISearchSessionQuery _searchSession;
+        private readonly global::Demo.IOnSessionChnagedSubscription _onSessionChnaged;
+        public ConferenceClient(global::Demo.IRenameSessionMutation renameSession, global::Demo.IGetSessionsQuery getSessions, global::Demo.ISearchSessionQuery searchSession, global::Demo.IOnSessionChnagedSubscription onSessionChnaged)
         {
-            _searchSession = searchSession ?? throw new global::System.ArgumentNullException(nameof(searchSession));
-            _getSessions = getSessions ?? throw new global::System.ArgumentNullException(nameof(getSessions));
-            _onSessionChnaged = onSessionChnaged ?? throw new global::System.ArgumentNullException(nameof(onSessionChnaged));
             _renameSession = renameSession ?? throw new global::System.ArgumentNullException(nameof(renameSession));
+            _getSessions = getSessions ?? throw new global::System.ArgumentNullException(nameof(getSessions));
+            _searchSession = searchSession ?? throw new global::System.ArgumentNullException(nameof(searchSession));
+            _onSessionChnaged = onSessionChnaged ?? throw new global::System.ArgumentNullException(nameof(onSessionChnaged));
         }
 
         public static global::System.String ClientName => "ConferenceClient";
-        public global::Demo.ISearchSessionQuery SearchSession => _searchSession;
-        public global::Demo.IGetSessionsQuery GetSessions => _getSessions;
-        public global::Demo.IOnSessionChnagedSubscription OnSessionChnaged => _onSessionChnaged;
         public global::Demo.IRenameSessionMutation RenameSession => _renameSession;
+        public global::Demo.IGetSessionsQuery GetSessions => _getSessions;
+        public global::Demo.ISearchSessionQuery SearchSession => _searchSession;
+        public global::Demo.IOnSessionChnagedSubscription OnSessionChnaged => _onSessionChnaged;
     }
 
     /// <summary>
@@ -1862,13 +1862,13 @@ namespace Demo
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
     public interface IConferenceClient
     {
-        global::Demo.ISearchSessionQuery SearchSession { get; }
+        global::Demo.IRenameSessionMutation RenameSession { get; }
 
         global::Demo.IGetSessionsQuery GetSessions { get; }
 
-        global::Demo.IOnSessionChnagedSubscription OnSessionChnaged { get; }
+        global::Demo.ISearchSessionQuery SearchSession { get; }
 
-        global::Demo.IRenameSessionMutation RenameSession { get; }
+        global::Demo.IOnSessionChnagedSubscription OnSessionChnaged { get; }
     }
 }
 
@@ -1895,43 +1895,38 @@ namespace Demo.State
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class SearchSessionResultFactory : global::StrawberryShake.IOperationResultDataFactory<global::Demo.SearchSessionResult>
+    public partial class RenameSessionResultFactory : global::StrawberryShake.IOperationResultDataFactory<global::Demo.RenameSessionResult>
     {
         private readonly global::StrawberryShake.IEntityStore _entityStore;
-        private readonly global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, SearchSession_Sessions_Nodes_Session> _searchSession_Sessions_Nodes_SessionFromSessionEntityMapper;
-        public SearchSessionResultFactory(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, SearchSession_Sessions_Nodes_Session> searchSession_Sessions_Nodes_SessionFromSessionEntityMapper)
+        private readonly global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, RenameSession_RenameSession_Session_Session> _renameSession_RenameSession_Session_SessionFromSessionEntityMapper;
+        public RenameSessionResultFactory(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, RenameSession_RenameSession_Session_Session> renameSession_RenameSession_Session_SessionFromSessionEntityMapper)
         {
             _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
-            _searchSession_Sessions_Nodes_SessionFromSessionEntityMapper = searchSession_Sessions_Nodes_SessionFromSessionEntityMapper ?? throw new global::System.ArgumentNullException(nameof(searchSession_Sessions_Nodes_SessionFromSessionEntityMapper));
+            _renameSession_RenameSession_Session_SessionFromSessionEntityMapper = renameSession_RenameSession_Session_SessionFromSessionEntityMapper ?? throw new global::System.ArgumentNullException(nameof(renameSession_RenameSession_Session_SessionFromSessionEntityMapper));
         }
 
-        global::System.Type global::StrawberryShake.IOperationResultDataFactory.ResultType => typeof(global::Demo.ISearchSessionResult);
-        public SearchSessionResult Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        global::System.Type global::StrawberryShake.IOperationResultDataFactory.ResultType => typeof(global::Demo.IRenameSessionResult);
+        public RenameSessionResult Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
         {
             if (snapshot is null)
             {
                 snapshot = _entityStore.CurrentSnapshot;
             }
 
-            if (dataInfo is SearchSessionResultInfo info)
+            if (dataInfo is RenameSessionResultInfo info)
             {
-                return new SearchSessionResult(MapISearchSession_Sessions(info.Sessions, snapshot));
+                return new RenameSessionResult(MapNonNullableIRenameSession_RenameSession(info.RenameSession, snapshot));
             }
 
-            throw new global::System.ArgumentException("SearchSessionResultInfo expected.");
+            throw new global::System.ArgumentException("RenameSessionResultInfo expected.");
         }
 
-        private global::Demo.ISearchSession_Sessions? MapISearchSession_Sessions(global::Demo.State.SessionConnectionData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        private global::Demo.IRenameSession_RenameSession MapNonNullableIRenameSession_RenameSession(global::Demo.State.RenameSessionPayloadData data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
         {
-            if (data is null)
+            IRenameSession_RenameSession returnValue = default !;
+            if (data.__typename.Equals("RenameSessionPayload", global::System.StringComparison.Ordinal))
             {
-                return null;
-            }
-
-            ISearchSession_Sessions returnValue = default !;
-            if (data?.__typename.Equals("SessionConnection", global::System.StringComparison.Ordinal) ?? false)
-            {
-                returnValue = new SearchSession_Sessions_SessionConnection(MapISearchSession_Sessions_NodesNonNullableArray(data.Nodes, snapshot), MapNonNullableISearchSession_Sessions_PageInfo(data.PageInfo ?? throw new global::System.ArgumentNullException(), snapshot));
+                returnValue = new RenameSession_RenameSession_RenameSessionPayload(MapIRenameSession_RenameSession_Session(data.Session, snapshot));
             }
             else
             {
@@ -1941,45 +1936,19 @@ namespace Demo.State
             return returnValue;
         }
 
-        private global::System.Collections.Generic.IReadOnlyList<global::Demo.ISearchSession_Sessions_Nodes>? MapISearchSession_Sessions_NodesNonNullableArray(global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId>? list, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        private global::Demo.IRenameSession_RenameSession_Session? MapIRenameSession_RenameSession_Session(global::StrawberryShake.EntityId? entityId, global::StrawberryShake.IEntityStoreSnapshot snapshot)
         {
-            if (list is null)
+            if (entityId is null)
             {
                 return null;
             }
 
-            var sessions = new global::System.Collections.Generic.List<global::Demo.ISearchSession_Sessions_Nodes>();
-            foreach (global::StrawberryShake.EntityId child in list)
+            if (entityId.Value.Name.Equals("Session", global::System.StringComparison.Ordinal))
             {
-                sessions.Add(MapNonNullableISearchSession_Sessions_Nodes(child, snapshot));
-            }
-
-            return sessions;
-        }
-
-        private global::Demo.ISearchSession_Sessions_Nodes MapNonNullableISearchSession_Sessions_Nodes(global::StrawberryShake.EntityId entityId, global::StrawberryShake.IEntityStoreSnapshot snapshot)
-        {
-            if (entityId.Name.Equals("Session", global::System.StringComparison.Ordinal))
-            {
-                return _searchSession_Sessions_Nodes_SessionFromSessionEntityMapper.Map(snapshot.GetEntity<global::Demo.State.SessionEntity>(entityId) ?? throw new global::StrawberryShake.GraphQLClientException());
+                return _renameSession_RenameSession_Session_SessionFromSessionEntityMapper.Map(snapshot.GetEntity<global::Demo.State.SessionEntity>(entityId.Value) ?? throw new global::StrawberryShake.GraphQLClientException());
             }
 
             throw new global::System.NotSupportedException();
-        }
-
-        private global::Demo.ISearchSession_Sessions_PageInfo MapNonNullableISearchSession_Sessions_PageInfo(global::Demo.State.PageInfoData data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
-        {
-            ISearchSession_Sessions_PageInfo returnValue = default !;
-            if (data.__typename.Equals("PageInfo", global::System.StringComparison.Ordinal))
-            {
-                returnValue = new SearchSession_Sessions_PageInfo_PageInfo(data.EndCursor);
-            }
-            else
-            {
-                throw new global::System.NotSupportedException();
-            }
-
-            return returnValue;
         }
 
         global::System.Object global::StrawberryShake.IOperationResultDataFactory.Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot)
@@ -1989,44 +1958,44 @@ namespace Demo.State
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class SearchSessionResultInfo : global::StrawberryShake.IOperationResultDataInfo
+    public partial class RenameSessionResultInfo : global::StrawberryShake.IOperationResultDataInfo
     {
         private readonly global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> _entityIds;
         private readonly global::System.UInt64 _version;
-        public SearchSessionResultInfo(global::Demo.State.SessionConnectionData? sessions, global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> entityIds, global::System.UInt64 version)
+        public RenameSessionResultInfo(global::Demo.State.RenameSessionPayloadData renameSession, global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> entityIds, global::System.UInt64 version)
         {
-            Sessions = sessions;
+            RenameSession = renameSession;
             _entityIds = entityIds ?? throw new global::System.ArgumentNullException(nameof(entityIds));
             _version = version;
         }
 
-        public global::Demo.State.SessionConnectionData? Sessions { get; }
+        public global::Demo.State.RenameSessionPayloadData RenameSession { get; }
 
         public global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> EntityIds => _entityIds;
         public global::System.UInt64 Version => _version;
         public global::StrawberryShake.IOperationResultDataInfo WithVersion(global::System.UInt64 version)
         {
-            return new SearchSessionResultInfo(Sessions, _entityIds, version);
+            return new RenameSessionResultInfo(RenameSession, _entityIds, version);
         }
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class SearchSession_Sessions_Nodes_SessionFromSessionEntityMapper : global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, SearchSession_Sessions_Nodes_Session>
+    public partial class RenameSession_RenameSession_Session_SessionFromSessionEntityMapper : global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, RenameSession_RenameSession_Session_Session>
     {
         private readonly global::StrawberryShake.IEntityStore _entityStore;
-        public SearchSession_Sessions_Nodes_SessionFromSessionEntityMapper(global::StrawberryShake.IEntityStore entityStore)
+        public RenameSession_RenameSession_Session_SessionFromSessionEntityMapper(global::StrawberryShake.IEntityStore entityStore)
         {
             _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
         }
 
-        public SearchSession_Sessions_Nodes_Session Map(global::Demo.State.SessionEntity entity, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        public RenameSession_RenameSession_Session_Session Map(global::Demo.State.SessionEntity entity, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
         {
             if (snapshot is null)
             {
                 snapshot = _entityStore.CurrentSnapshot;
             }
 
-            return new SearchSession_Sessions_Nodes_Session(entity.Id, entity.Title);
+            return new RenameSession_RenameSession_Session_Session(entity.Id, entity.Title);
         }
     }
 
@@ -2167,6 +2136,142 @@ namespace Demo.State
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public partial class SearchSessionResultFactory : global::StrawberryShake.IOperationResultDataFactory<global::Demo.SearchSessionResult>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        private readonly global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, SearchSession_Sessions_Nodes_Session> _searchSession_Sessions_Nodes_SessionFromSessionEntityMapper;
+        public SearchSessionResultFactory(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, SearchSession_Sessions_Nodes_Session> searchSession_Sessions_Nodes_SessionFromSessionEntityMapper)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+            _searchSession_Sessions_Nodes_SessionFromSessionEntityMapper = searchSession_Sessions_Nodes_SessionFromSessionEntityMapper ?? throw new global::System.ArgumentNullException(nameof(searchSession_Sessions_Nodes_SessionFromSessionEntityMapper));
+        }
+
+        global::System.Type global::StrawberryShake.IOperationResultDataFactory.ResultType => typeof(global::Demo.ISearchSessionResult);
+        public SearchSessionResult Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        {
+            if (snapshot is null)
+            {
+                snapshot = _entityStore.CurrentSnapshot;
+            }
+
+            if (dataInfo is SearchSessionResultInfo info)
+            {
+                return new SearchSessionResult(MapISearchSession_Sessions(info.Sessions, snapshot));
+            }
+
+            throw new global::System.ArgumentException("SearchSessionResultInfo expected.");
+        }
+
+        private global::Demo.ISearchSession_Sessions? MapISearchSession_Sessions(global::Demo.State.SessionConnectionData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            ISearchSession_Sessions returnValue = default !;
+            if (data?.__typename.Equals("SessionConnection", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new SearchSession_Sessions_SessionConnection(MapISearchSession_Sessions_NodesNonNullableArray(data.Nodes, snapshot), MapNonNullableISearchSession_Sessions_PageInfo(data.PageInfo ?? throw new global::System.ArgumentNullException(), snapshot));
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::Demo.ISearchSession_Sessions_Nodes>? MapISearchSession_Sessions_NodesNonNullableArray(global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId>? list, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (list is null)
+            {
+                return null;
+            }
+
+            var sessions = new global::System.Collections.Generic.List<global::Demo.ISearchSession_Sessions_Nodes>();
+            foreach (global::StrawberryShake.EntityId child in list)
+            {
+                sessions.Add(MapNonNullableISearchSession_Sessions_Nodes(child, snapshot));
+            }
+
+            return sessions;
+        }
+
+        private global::Demo.ISearchSession_Sessions_Nodes MapNonNullableISearchSession_Sessions_Nodes(global::StrawberryShake.EntityId entityId, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (entityId.Name.Equals("Session", global::System.StringComparison.Ordinal))
+            {
+                return _searchSession_Sessions_Nodes_SessionFromSessionEntityMapper.Map(snapshot.GetEntity<global::Demo.State.SessionEntity>(entityId) ?? throw new global::StrawberryShake.GraphQLClientException());
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::Demo.ISearchSession_Sessions_PageInfo MapNonNullableISearchSession_Sessions_PageInfo(global::Demo.State.PageInfoData data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            ISearchSession_Sessions_PageInfo returnValue = default !;
+            if (data.__typename.Equals("PageInfo", global::System.StringComparison.Ordinal))
+            {
+                returnValue = new SearchSession_Sessions_PageInfo_PageInfo(data.EndCursor);
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        global::System.Object global::StrawberryShake.IOperationResultDataFactory.Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot)
+        {
+            return Create(dataInfo, snapshot);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public partial class SearchSessionResultInfo : global::StrawberryShake.IOperationResultDataInfo
+    {
+        private readonly global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> _entityIds;
+        private readonly global::System.UInt64 _version;
+        public SearchSessionResultInfo(global::Demo.State.SessionConnectionData? sessions, global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> entityIds, global::System.UInt64 version)
+        {
+            Sessions = sessions;
+            _entityIds = entityIds ?? throw new global::System.ArgumentNullException(nameof(entityIds));
+            _version = version;
+        }
+
+        public global::Demo.State.SessionConnectionData? Sessions { get; }
+
+        public global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> EntityIds => _entityIds;
+        public global::System.UInt64 Version => _version;
+        public global::StrawberryShake.IOperationResultDataInfo WithVersion(global::System.UInt64 version)
+        {
+            return new SearchSessionResultInfo(Sessions, _entityIds, version);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public partial class SearchSession_Sessions_Nodes_SessionFromSessionEntityMapper : global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, SearchSession_Sessions_Nodes_Session>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        public SearchSession_Sessions_Nodes_SessionFromSessionEntityMapper(global::StrawberryShake.IEntityStore entityStore)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+        }
+
+        public SearchSession_Sessions_Nodes_Session Map(global::Demo.State.SessionEntity entity, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        {
+            if (snapshot is null)
+            {
+                snapshot = _entityStore.CurrentSnapshot;
+            }
+
+            return new SearchSession_Sessions_Nodes_Session(entity.Id, entity.Title);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
     public partial class OnSessionChnagedResultFactory : global::StrawberryShake.IOperationResultDataFactory<global::Demo.OnSessionChnagedResult>
     {
         private readonly global::StrawberryShake.IEntityStore _entityStore;
@@ -2252,111 +2357,6 @@ namespace Demo.State
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class RenameSessionResultFactory : global::StrawberryShake.IOperationResultDataFactory<global::Demo.RenameSessionResult>
-    {
-        private readonly global::StrawberryShake.IEntityStore _entityStore;
-        private readonly global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, RenameSession_RenameSession_Session_Session> _renameSession_RenameSession_Session_SessionFromSessionEntityMapper;
-        public RenameSessionResultFactory(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, RenameSession_RenameSession_Session_Session> renameSession_RenameSession_Session_SessionFromSessionEntityMapper)
-        {
-            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
-            _renameSession_RenameSession_Session_SessionFromSessionEntityMapper = renameSession_RenameSession_Session_SessionFromSessionEntityMapper ?? throw new global::System.ArgumentNullException(nameof(renameSession_RenameSession_Session_SessionFromSessionEntityMapper));
-        }
-
-        global::System.Type global::StrawberryShake.IOperationResultDataFactory.ResultType => typeof(global::Demo.IRenameSessionResult);
-        public RenameSessionResult Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
-        {
-            if (snapshot is null)
-            {
-                snapshot = _entityStore.CurrentSnapshot;
-            }
-
-            if (dataInfo is RenameSessionResultInfo info)
-            {
-                return new RenameSessionResult(MapNonNullableIRenameSession_RenameSession(info.RenameSession, snapshot));
-            }
-
-            throw new global::System.ArgumentException("RenameSessionResultInfo expected.");
-        }
-
-        private global::Demo.IRenameSession_RenameSession MapNonNullableIRenameSession_RenameSession(global::Demo.State.RenameSessionPayloadData data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
-        {
-            IRenameSession_RenameSession returnValue = default !;
-            if (data.__typename.Equals("RenameSessionPayload", global::System.StringComparison.Ordinal))
-            {
-                returnValue = new RenameSession_RenameSession_RenameSessionPayload(MapIRenameSession_RenameSession_Session(data.Session, snapshot));
-            }
-            else
-            {
-                throw new global::System.NotSupportedException();
-            }
-
-            return returnValue;
-        }
-
-        private global::Demo.IRenameSession_RenameSession_Session? MapIRenameSession_RenameSession_Session(global::StrawberryShake.EntityId? entityId, global::StrawberryShake.IEntityStoreSnapshot snapshot)
-        {
-            if (entityId is null)
-            {
-                return null;
-            }
-
-            if (entityId.Value.Name.Equals("Session", global::System.StringComparison.Ordinal))
-            {
-                return _renameSession_RenameSession_Session_SessionFromSessionEntityMapper.Map(snapshot.GetEntity<global::Demo.State.SessionEntity>(entityId.Value) ?? throw new global::StrawberryShake.GraphQLClientException());
-            }
-
-            throw new global::System.NotSupportedException();
-        }
-
-        global::System.Object global::StrawberryShake.IOperationResultDataFactory.Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot)
-        {
-            return Create(dataInfo, snapshot);
-        }
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class RenameSessionResultInfo : global::StrawberryShake.IOperationResultDataInfo
-    {
-        private readonly global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> _entityIds;
-        private readonly global::System.UInt64 _version;
-        public RenameSessionResultInfo(global::Demo.State.RenameSessionPayloadData renameSession, global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> entityIds, global::System.UInt64 version)
-        {
-            RenameSession = renameSession;
-            _entityIds = entityIds ?? throw new global::System.ArgumentNullException(nameof(entityIds));
-            _version = version;
-        }
-
-        public global::Demo.State.RenameSessionPayloadData RenameSession { get; }
-
-        public global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> EntityIds => _entityIds;
-        public global::System.UInt64 Version => _version;
-        public global::StrawberryShake.IOperationResultDataInfo WithVersion(global::System.UInt64 version)
-        {
-            return new RenameSessionResultInfo(RenameSession, _entityIds, version);
-        }
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class RenameSession_RenameSession_Session_SessionFromSessionEntityMapper : global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, RenameSession_RenameSession_Session_Session>
-    {
-        private readonly global::StrawberryShake.IEntityStore _entityStore;
-        public RenameSession_RenameSession_Session_SessionFromSessionEntityMapper(global::StrawberryShake.IEntityStore entityStore)
-        {
-            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
-        }
-
-        public RenameSession_RenameSession_Session_Session Map(global::Demo.State.SessionEntity entity, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
-        {
-            if (snapshot is null)
-            {
-                snapshot = _entityStore.CurrentSnapshot;
-            }
-
-            return new RenameSession_RenameSession_Session_Session(entity.Id, entity.Title);
-        }
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
     internal interface IRenameSessionInputInfo
     {
         global::System.Boolean IsSessionIdSet { get; }
@@ -2365,25 +2365,25 @@ namespace Demo.State
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class SearchSessionBuilder : global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.ISearchSessionResult>
+    public partial class RenameSessionBuilder : global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.IRenameSessionResult>
     {
         private readonly global::StrawberryShake.IEntityStore _entityStore;
         private readonly global::StrawberryShake.IEntityIdSerializer _idSerializer;
-        private readonly global::StrawberryShake.IOperationResultDataFactory<global::Demo.ISearchSessionResult> _resultDataFactory;
-        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
+        private readonly global::StrawberryShake.IOperationResultDataFactory<global::Demo.IRenameSessionResult> _resultDataFactory;
         private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _iDParser;
-        public SearchSessionBuilder(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityIdSerializer idSerializer, global::StrawberryShake.IOperationResultDataFactory<global::Demo.ISearchSessionResult> resultDataFactory, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
+        public RenameSessionBuilder(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityIdSerializer idSerializer, global::StrawberryShake.IOperationResultDataFactory<global::Demo.IRenameSessionResult> resultDataFactory, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
         {
             _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
             _idSerializer = idSerializer ?? throw new global::System.ArgumentNullException(nameof(idSerializer));
             _resultDataFactory = resultDataFactory ?? throw new global::System.ArgumentNullException(nameof(resultDataFactory));
-            _stringParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("String") ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
             _iDParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("ID") ?? throw new global::System.ArgumentException("No serializer for type `ID` found.");
+            _stringParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("String") ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
         }
 
-        public global::StrawberryShake.IOperationResult<ISearchSessionResult> Build(global::StrawberryShake.Response<global::System.Text.Json.JsonDocument> response)
+        public global::StrawberryShake.IOperationResult<IRenameSessionResult> Build(global::StrawberryShake.Response<global::System.Text.Json.JsonDocument> response)
         {
-            (ISearchSessionResult Result, SearchSessionResultInfo Info)? data = null;
+            (IRenameSessionResult Result, RenameSessionResultInfo Info)? data = null;
             global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.IClientError>? errors = null;
             if (response.Exception is null)
             {
@@ -2412,60 +2412,44 @@ namespace Demo.State
                 errors = new global::StrawberryShake.IClientError[]{new global::StrawberryShake.ClientError(response.Exception.Message, exception: response.Exception, extensions: new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>{{"body", response.Body?.RootElement.ToString()}})};
             }
 
-            return new global::StrawberryShake.OperationResult<ISearchSessionResult>(data?.Result, data?.Info, _resultDataFactory, errors);
+            return new global::StrawberryShake.OperationResult<IRenameSessionResult>(data?.Result, data?.Info, _resultDataFactory, errors);
         }
 
-        private (ISearchSessionResult, SearchSessionResultInfo) BuildData(global::System.Text.Json.JsonElement obj)
+        private (IRenameSessionResult, RenameSessionResultInfo) BuildData(global::System.Text.Json.JsonElement obj)
         {
             var entityIds = new global::System.Collections.Generic.HashSet<global::StrawberryShake.EntityId>();
             global::StrawberryShake.IEntityStoreSnapshot snapshot = default !;
-            global::Demo.State.SessionConnectionData? sessionsId = default !;
+            global::Demo.State.RenameSessionPayloadData renameSessionId = default !;
             _entityStore.Update(session =>
             {
-                sessionsId = DeserializeISearchSession_Sessions(session, global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "sessions"), entityIds);
+                renameSessionId = DeserializeNonNullableIRenameSession_RenameSession(session, global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "renameSession"), entityIds);
                 snapshot = session.CurrentSnapshot;
             });
-            var resultInfo = new SearchSessionResultInfo(sessionsId, entityIds, snapshot.Version);
+            var resultInfo = new RenameSessionResultInfo(renameSessionId, entityIds, snapshot.Version);
             return (_resultDataFactory.Create(resultInfo), resultInfo);
         }
 
-        private global::Demo.State.SessionConnectionData? DeserializeISearchSession_Sessions(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        private global::Demo.State.RenameSessionPayloadData DeserializeNonNullableIRenameSession_RenameSession(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
         {
             if (!obj.HasValue)
             {
-                return null;
+                throw new global::System.ArgumentNullException();
             }
 
             var typename = obj.Value.GetProperty("__typename").GetString();
-            if (typename?.Equals("SessionConnection", global::System.StringComparison.Ordinal) ?? false)
+            if (typename?.Equals("RenameSessionPayload", global::System.StringComparison.Ordinal) ?? false)
             {
-                return new global::Demo.State.SessionConnectionData(typename, nodes: UpdateISearchSession_Sessions_NodesEntityNonNullableArray(session, global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "nodes"), entityIds), pageInfo: DeserializeNonNullableISearchSession_Sessions_PageInfo(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "pageInfo")));
+                return new global::Demo.State.RenameSessionPayloadData(typename, session: UpdateIRenameSession_RenameSession_SessionEntity(session, global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "session"), entityIds));
             }
 
             throw new global::System.NotSupportedException();
         }
 
-        private global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId>? UpdateISearchSession_Sessions_NodesEntityNonNullableArray(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        private global::StrawberryShake.EntityId? UpdateIRenameSession_RenameSession_SessionEntity(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
         {
             if (!obj.HasValue)
             {
                 return null;
-            }
-
-            var sessions = new global::System.Collections.Generic.List<global::StrawberryShake.EntityId>();
-            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
-            {
-                sessions.Add(UpdateNonNullableISearchSession_Sessions_NodesEntity(session, child, entityIds));
-            }
-
-            return sessions;
-        }
-
-        private global::StrawberryShake.EntityId UpdateNonNullableISearchSession_Sessions_NodesEntity(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
-        {
-            if (!obj.HasValue)
-            {
-                throw new global::System.ArgumentNullException();
             }
 
             global::StrawberryShake.EntityId entityId = _idSerializer.Parse(obj.Value);
@@ -2495,32 +2479,6 @@ namespace Demo.State
             }
 
             return _iDParser.Parse(obj.Value.GetString()!);
-        }
-
-        private global::Demo.State.PageInfoData DeserializeNonNullableISearchSession_Sessions_PageInfo(global::System.Text.Json.JsonElement? obj)
-        {
-            if (!obj.HasValue)
-            {
-                throw new global::System.ArgumentNullException();
-            }
-
-            var typename = obj.Value.GetProperty("__typename").GetString();
-            if (typename?.Equals("PageInfo", global::System.StringComparison.Ordinal) ?? false)
-            {
-                return new global::Demo.State.PageInfoData(typename, endCursor: DeserializeString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "endCursor")));
-            }
-
-            throw new global::System.NotSupportedException();
-        }
-
-        private global::System.String? DeserializeString(global::System.Text.Json.JsonElement? obj)
-        {
-            if (!obj.HasValue)
-            {
-                return null;
-            }
-
-            return _stringParser.Parse(obj.Value.GetString()!);
         }
     }
 
@@ -2685,6 +2643,166 @@ namespace Demo.State
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
+    public partial class SearchSessionBuilder : global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.ISearchSessionResult>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        private readonly global::StrawberryShake.IEntityIdSerializer _idSerializer;
+        private readonly global::StrawberryShake.IOperationResultDataFactory<global::Demo.ISearchSessionResult> _resultDataFactory;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _iDParser;
+        public SearchSessionBuilder(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityIdSerializer idSerializer, global::StrawberryShake.IOperationResultDataFactory<global::Demo.ISearchSessionResult> resultDataFactory, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+            _idSerializer = idSerializer ?? throw new global::System.ArgumentNullException(nameof(idSerializer));
+            _resultDataFactory = resultDataFactory ?? throw new global::System.ArgumentNullException(nameof(resultDataFactory));
+            _stringParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("String") ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
+            _iDParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("ID") ?? throw new global::System.ArgumentException("No serializer for type `ID` found.");
+        }
+
+        public global::StrawberryShake.IOperationResult<ISearchSessionResult> Build(global::StrawberryShake.Response<global::System.Text.Json.JsonDocument> response)
+        {
+            (ISearchSessionResult Result, SearchSessionResultInfo Info)? data = null;
+            global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.IClientError>? errors = null;
+            if (response.Exception is null)
+            {
+                try
+                {
+                    if (response.Body != null)
+                    {
+                        if (response.Body.RootElement.TryGetProperty("data", out global::System.Text.Json.JsonElement dataElement) && dataElement.ValueKind == global::System.Text.Json.JsonValueKind.Object)
+                        {
+                            data = BuildData(dataElement);
+                        }
+
+                        if (response.Body.RootElement.TryGetProperty("errors", out global::System.Text.Json.JsonElement errorsElement))
+                        {
+                            errors = global::StrawberryShake.Json.JsonErrorParser.ParseErrors(errorsElement);
+                        }
+                    }
+                }
+                catch (global::System.Exception ex)
+                {
+                    errors = new global::StrawberryShake.IClientError[]{new global::StrawberryShake.ClientError(ex.Message, exception: ex, extensions: new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>{{"body", response.Body?.RootElement.ToString()}})};
+                }
+            }
+            else
+            {
+                errors = new global::StrawberryShake.IClientError[]{new global::StrawberryShake.ClientError(response.Exception.Message, exception: response.Exception, extensions: new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>{{"body", response.Body?.RootElement.ToString()}})};
+            }
+
+            return new global::StrawberryShake.OperationResult<ISearchSessionResult>(data?.Result, data?.Info, _resultDataFactory, errors);
+        }
+
+        private (ISearchSessionResult, SearchSessionResultInfo) BuildData(global::System.Text.Json.JsonElement obj)
+        {
+            var entityIds = new global::System.Collections.Generic.HashSet<global::StrawberryShake.EntityId>();
+            global::StrawberryShake.IEntityStoreSnapshot snapshot = default !;
+            global::Demo.State.SessionConnectionData? sessionsId = default !;
+            _entityStore.Update(session =>
+            {
+                sessionsId = DeserializeISearchSession_Sessions(session, global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "sessions"), entityIds);
+                snapshot = session.CurrentSnapshot;
+            });
+            var resultInfo = new SearchSessionResultInfo(sessionsId, entityIds, snapshot.Version);
+            return (_resultDataFactory.Create(resultInfo), resultInfo);
+        }
+
+        private global::Demo.State.SessionConnectionData? DeserializeISearchSession_Sessions(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("SessionConnection", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::Demo.State.SessionConnectionData(typename, nodes: UpdateISearchSession_Sessions_NodesEntityNonNullableArray(session, global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "nodes"), entityIds), pageInfo: DeserializeNonNullableISearchSession_Sessions_PageInfo(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "pageInfo")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId>? UpdateISearchSession_Sessions_NodesEntityNonNullableArray(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            var sessions = new global::System.Collections.Generic.List<global::StrawberryShake.EntityId>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                sessions.Add(UpdateNonNullableISearchSession_Sessions_NodesEntity(session, child, entityIds));
+            }
+
+            return sessions;
+        }
+
+        private global::StrawberryShake.EntityId UpdateNonNullableISearchSession_Sessions_NodesEntity(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            global::StrawberryShake.EntityId entityId = _idSerializer.Parse(obj.Value);
+            entityIds.Add(entityId);
+            if (entityId.Name.Equals("Session", global::System.StringComparison.Ordinal))
+            {
+                if (session.CurrentSnapshot.TryGetEntity(entityId, out global::Demo.State.SessionEntity? entity))
+                {
+                    session.SetEntity(entityId, new global::Demo.State.SessionEntity(DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "title")), entity.StartTime, entity.Duration));
+                }
+                else
+                {
+                    session.SetEntity(entityId, new global::Demo.State.SessionEntity(DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "title")), default !, default !));
+                }
+
+                return entityId;
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.String DeserializeNonNullableString(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _iDParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::Demo.State.PageInfoData DeserializeNonNullableISearchSession_Sessions_PageInfo(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("PageInfo", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::Demo.State.PageInfoData(typename, endCursor: DeserializeString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "endCursor")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.String? DeserializeString(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            return _stringParser.Parse(obj.Value.GetString()!);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
     public partial class OnSessionChnagedBuilder : global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.IOnSessionChnagedResult>
     {
         private readonly global::StrawberryShake.IEntityStore _entityStore;
@@ -2811,121 +2929,17 @@ namespace Demo.State
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial class RenameSessionBuilder : global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.IRenameSessionResult>
+    public partial record RenameSessionPayloadData
     {
-        private readonly global::StrawberryShake.IEntityStore _entityStore;
-        private readonly global::StrawberryShake.IEntityIdSerializer _idSerializer;
-        private readonly global::StrawberryShake.IOperationResultDataFactory<global::Demo.IRenameSessionResult> _resultDataFactory;
-        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _iDParser;
-        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
-        public RenameSessionBuilder(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityIdSerializer idSerializer, global::StrawberryShake.IOperationResultDataFactory<global::Demo.IRenameSessionResult> resultDataFactory, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        public RenameSessionPayloadData(global::System.String __typename, global::StrawberryShake.EntityId? session = default !)
         {
-            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
-            _idSerializer = idSerializer ?? throw new global::System.ArgumentNullException(nameof(idSerializer));
-            _resultDataFactory = resultDataFactory ?? throw new global::System.ArgumentNullException(nameof(resultDataFactory));
-            _iDParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("ID") ?? throw new global::System.ArgumentException("No serializer for type `ID` found.");
-            _stringParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("String") ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
+            this.__typename = __typename ?? throw new global::System.ArgumentNullException(nameof(__typename));
+            Session = session;
         }
 
-        public global::StrawberryShake.IOperationResult<IRenameSessionResult> Build(global::StrawberryShake.Response<global::System.Text.Json.JsonDocument> response)
-        {
-            (IRenameSessionResult Result, RenameSessionResultInfo Info)? data = null;
-            global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.IClientError>? errors = null;
-            if (response.Exception is null)
-            {
-                try
-                {
-                    if (response.Body != null)
-                    {
-                        if (response.Body.RootElement.TryGetProperty("data", out global::System.Text.Json.JsonElement dataElement) && dataElement.ValueKind == global::System.Text.Json.JsonValueKind.Object)
-                        {
-                            data = BuildData(dataElement);
-                        }
+        public global::System.String __typename { get; init; }
 
-                        if (response.Body.RootElement.TryGetProperty("errors", out global::System.Text.Json.JsonElement errorsElement))
-                        {
-                            errors = global::StrawberryShake.Json.JsonErrorParser.ParseErrors(errorsElement);
-                        }
-                    }
-                }
-                catch (global::System.Exception ex)
-                {
-                    errors = new global::StrawberryShake.IClientError[]{new global::StrawberryShake.ClientError(ex.Message, exception: ex, extensions: new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>{{"body", response.Body?.RootElement.ToString()}})};
-                }
-            }
-            else
-            {
-                errors = new global::StrawberryShake.IClientError[]{new global::StrawberryShake.ClientError(response.Exception.Message, exception: response.Exception, extensions: new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>{{"body", response.Body?.RootElement.ToString()}})};
-            }
-
-            return new global::StrawberryShake.OperationResult<IRenameSessionResult>(data?.Result, data?.Info, _resultDataFactory, errors);
-        }
-
-        private (IRenameSessionResult, RenameSessionResultInfo) BuildData(global::System.Text.Json.JsonElement obj)
-        {
-            var entityIds = new global::System.Collections.Generic.HashSet<global::StrawberryShake.EntityId>();
-            global::StrawberryShake.IEntityStoreSnapshot snapshot = default !;
-            global::Demo.State.RenameSessionPayloadData renameSessionId = default !;
-            _entityStore.Update(session =>
-            {
-                renameSessionId = DeserializeNonNullableIRenameSession_RenameSession(session, global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "renameSession"), entityIds);
-                snapshot = session.CurrentSnapshot;
-            });
-            var resultInfo = new RenameSessionResultInfo(renameSessionId, entityIds, snapshot.Version);
-            return (_resultDataFactory.Create(resultInfo), resultInfo);
-        }
-
-        private global::Demo.State.RenameSessionPayloadData DeserializeNonNullableIRenameSession_RenameSession(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
-        {
-            if (!obj.HasValue)
-            {
-                throw new global::System.ArgumentNullException();
-            }
-
-            var typename = obj.Value.GetProperty("__typename").GetString();
-            if (typename?.Equals("RenameSessionPayload", global::System.StringComparison.Ordinal) ?? false)
-            {
-                return new global::Demo.State.RenameSessionPayloadData(typename, session: UpdateIRenameSession_RenameSession_SessionEntity(session, global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "session"), entityIds));
-            }
-
-            throw new global::System.NotSupportedException();
-        }
-
-        private global::StrawberryShake.EntityId? UpdateIRenameSession_RenameSession_SessionEntity(global::StrawberryShake.IEntityStoreUpdateSession session, global::System.Text.Json.JsonElement? obj, global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
-        {
-            if (!obj.HasValue)
-            {
-                return null;
-            }
-
-            global::StrawberryShake.EntityId entityId = _idSerializer.Parse(obj.Value);
-            entityIds.Add(entityId);
-            if (entityId.Name.Equals("Session", global::System.StringComparison.Ordinal))
-            {
-                if (session.CurrentSnapshot.TryGetEntity(entityId, out global::Demo.State.SessionEntity? entity))
-                {
-                    session.SetEntity(entityId, new global::Demo.State.SessionEntity(DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "title")), entity.StartTime, entity.Duration));
-                }
-                else
-                {
-                    session.SetEntity(entityId, new global::Demo.State.SessionEntity(DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id")), DeserializeNonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "title")), default !, default !));
-                }
-
-                return entityId;
-            }
-
-            throw new global::System.NotSupportedException();
-        }
-
-        private global::System.String DeserializeNonNullableString(global::System.Text.Json.JsonElement? obj)
-        {
-            if (!obj.HasValue)
-            {
-                throw new global::System.ArgumentNullException();
-            }
-
-            return _iDParser.Parse(obj.Value.GetString()!);
-        }
+        public global::StrawberryShake.EntityId? Session { get; init; }
     }
 
     ///<summary>A connection to a list of items.</summary>
@@ -2962,20 +2976,6 @@ namespace Demo.State
 
         ///<summary>When paginating forwards, the cursor to continue.</summary>
         public global::System.String? EndCursor { get; init; }
-    }
-
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
-    public partial record RenameSessionPayloadData
-    {
-        public RenameSessionPayloadData(global::System.String __typename, global::StrawberryShake.EntityId? session = default !)
-        {
-            this.__typename = __typename ?? throw new global::System.ArgumentNullException(nameof(__typename));
-            Session = session;
-        }
-
-        public global::System.String __typename { get; init; }
-
-        public global::StrawberryShake.EntityId? Session { get; init; }
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.2.0.0")]
@@ -3043,10 +3043,10 @@ namespace Microsoft.Extensions.DependencyInjection
                 return new ClientServiceProvider(global::Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(serviceCollection));
             });
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => new global::Demo.State.ConferenceClientStoreAccessor(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IEntityStore>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IEntityIdSerializer>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::System.Collections.Generic.IEnumerable<global::StrawberryShake.IOperationRequestFactory>>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::System.Collections.Generic.IEnumerable<global::StrawberryShake.IOperationResultDataFactory>>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp))));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.SearchSessionQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.GetSessionsQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.OnSessionChnagedSubscription>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.RenameSessionMutation>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.GetSessionsQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.SearchSessionQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.OnSessionChnagedSubscription>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.ConferenceClient>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.IConferenceClient>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             return new global::StrawberryShake.ClientBuilder<global::Demo.State.ConferenceClientStoreAccessor>("ConferenceClient", services, serviceCollection);
@@ -3066,10 +3066,10 @@ namespace Microsoft.Extensions.DependencyInjection
                 var clientFactory = global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::System.Net.Http.IHttpClientFactory>(parentServices);
                 return new global::StrawberryShake.Transport.Http.HttpConnection(() => clientFactory.CreateClient("ConferenceClient"));
             });
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, global::Demo.SearchSession_Sessions_Nodes_Session>, global::Demo.State.SearchSession_Sessions_Nodes_SessionFromSessionEntityMapper>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, global::Demo.GetSessions_Sessions_Nodes_Session>, global::Demo.State.GetSessions_Sessions_Nodes_SessionFromSessionEntityMapper>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, global::Demo.OnSessionChnaged_Session_Session>, global::Demo.State.OnSessionChnaged_Session_SessionFromSessionEntityMapper>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, global::Demo.RenameSession_RenameSession_Session_Session>, global::Demo.State.RenameSession_RenameSession_Session_SessionFromSessionEntityMapper>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, global::Demo.GetSessions_Sessions_Nodes_Session>, global::Demo.State.GetSessions_Sessions_Nodes_SessionFromSessionEntityMapper>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, global::Demo.SearchSession_Sessions_Nodes_Session>, global::Demo.State.SearchSession_Sessions_Nodes_SessionFromSessionEntityMapper>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::Demo.State.SessionEntity, global::Demo.OnSessionChnaged_Session_Session>, global::Demo.State.OnSessionChnaged_Session_SessionFromSessionEntityMapper>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::StrawberryShake.Serialization.StringSerializer>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::StrawberryShake.Serialization.BooleanSerializer>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::StrawberryShake.Serialization.ByteSerializer>(services);
@@ -3087,27 +3087,6 @@ namespace Microsoft.Extensions.DependencyInjection
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::StrawberryShake.Serialization.TimeSpanSerializer>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::Demo.RenameSessionInputInputValueFormatter>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializerResolver>(services, sp => new global::StrawberryShake.Serialization.SerializerResolver(global::System.Linq.Enumerable.Concat(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::System.Collections.Generic.IEnumerable<global::StrawberryShake.Serialization.ISerializer>>(parentServices), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::System.Collections.Generic.IEnumerable<global::StrawberryShake.Serialization.ISerializer>>(sp))));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::Demo.ISearchSessionResult>, global::Demo.State.SearchSessionResultFactory>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::Demo.ISearchSessionResult>>(sp));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.ISearchSessionQuery>(sp));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.ISearchSessionResult>, global::Demo.State.SearchSessionBuilder>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationExecutor<global::Demo.ISearchSessionResult>>(services, sp => new global::StrawberryShake.OperationExecutor<global::System.Text.Json.JsonDocument, global::Demo.ISearchSessionResult>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.Transport.Http.IHttpConnection>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.ISearchSessionResult>>(sp), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(sp), strategy));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.SearchSessionQuery>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.ISearchSessionQuery>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.SearchSessionQuery>(sp));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::Demo.IGetSessionsResult>, global::Demo.State.GetSessionsResultFactory>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::Demo.IGetSessionsResult>>(sp));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.IGetSessionsQuery>(sp));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.IGetSessionsResult>, global::Demo.State.GetSessionsBuilder>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationExecutor<global::Demo.IGetSessionsResult>>(services, sp => new global::StrawberryShake.OperationExecutor<global::System.Text.Json.JsonDocument, global::Demo.IGetSessionsResult>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.Transport.Http.IHttpConnection>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.IGetSessionsResult>>(sp), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(sp), strategy));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.GetSessionsQuery>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.IGetSessionsQuery>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.GetSessionsQuery>(sp));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::Demo.IOnSessionChnagedResult>, global::Demo.State.OnSessionChnagedResultFactory>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::Demo.IOnSessionChnagedResult>>(sp));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.IOnSessionChnagedSubscription>(sp));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.IOnSessionChnagedResult>, global::Demo.State.OnSessionChnagedBuilder>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationExecutor<global::Demo.IOnSessionChnagedResult>>(services, sp => new global::StrawberryShake.OperationExecutor<global::System.Text.Json.JsonDocument, global::Demo.IOnSessionChnagedResult>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.Transport.WebSockets.IWebSocketConnection>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.IOnSessionChnagedResult>>(sp), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(sp), strategy));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.OnSessionChnagedSubscription>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.IOnSessionChnagedSubscription>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.OnSessionChnagedSubscription>(sp));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::Demo.IRenameSessionResult>, global::Demo.State.RenameSessionResultFactory>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::Demo.IRenameSessionResult>>(sp));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.IRenameSessionMutation>(sp));
@@ -3115,6 +3094,27 @@ namespace Microsoft.Extensions.DependencyInjection
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationExecutor<global::Demo.IRenameSessionResult>>(services, sp => new global::StrawberryShake.OperationExecutor<global::System.Text.Json.JsonDocument, global::Demo.IRenameSessionResult>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.Transport.Http.IHttpConnection>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.IRenameSessionResult>>(sp), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(sp), strategy));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.RenameSessionMutation>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.IRenameSessionMutation>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.RenameSessionMutation>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::Demo.IGetSessionsResult>, global::Demo.State.GetSessionsResultFactory>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::Demo.IGetSessionsResult>>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.IGetSessionsQuery>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.IGetSessionsResult>, global::Demo.State.GetSessionsBuilder>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationExecutor<global::Demo.IGetSessionsResult>>(services, sp => new global::StrawberryShake.OperationExecutor<global::System.Text.Json.JsonDocument, global::Demo.IGetSessionsResult>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.Transport.Http.IHttpConnection>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.IGetSessionsResult>>(sp), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(sp), strategy));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.GetSessionsQuery>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.IGetSessionsQuery>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.GetSessionsQuery>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::Demo.ISearchSessionResult>, global::Demo.State.SearchSessionResultFactory>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::Demo.ISearchSessionResult>>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.ISearchSessionQuery>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.ISearchSessionResult>, global::Demo.State.SearchSessionBuilder>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationExecutor<global::Demo.ISearchSessionResult>>(services, sp => new global::StrawberryShake.OperationExecutor<global::System.Text.Json.JsonDocument, global::Demo.ISearchSessionResult>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.Transport.Http.IHttpConnection>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.ISearchSessionResult>>(sp), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(sp), strategy));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.SearchSessionQuery>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.ISearchSessionQuery>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.SearchSessionQuery>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::Demo.IOnSessionChnagedResult>, global::Demo.State.OnSessionChnagedResultFactory>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::Demo.IOnSessionChnagedResult>>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.IOnSessionChnagedSubscription>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.IOnSessionChnagedResult>, global::Demo.State.OnSessionChnagedBuilder>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationExecutor<global::Demo.IOnSessionChnagedResult>>(services, sp => new global::StrawberryShake.OperationExecutor<global::System.Text.Json.JsonDocument, global::Demo.IOnSessionChnagedResult>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.Transport.WebSockets.IWebSocketConnection>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::Demo.IOnSessionChnagedResult>>(sp), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(sp), strategy));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.OnSessionChnagedSubscription>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.IOnSessionChnagedSubscription>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.OnSessionChnagedSubscription>(sp));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityIdSerializer, global::Demo.State.ConferenceClientEntityIdFactory>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.ConferenceClient>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Demo.IConferenceClient>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::Demo.ConferenceClient>(sp));

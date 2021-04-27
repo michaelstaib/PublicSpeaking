@@ -1,0 +1,8 @@
+query GetSessions {
+  sessions(order: { title: ASC }) {
+    nodes {
+      id
+      title
+    }
+  }
+}

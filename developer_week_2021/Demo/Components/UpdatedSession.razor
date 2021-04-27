@@ -1,0 +1,34 @@
+@inherits DataComponent<OnSessionChnagedSubscription>
+
+@code {
+    private List<ISessionInfo> sessions = new();
+    
+    protected override void OnInitialized()
+    {
+        Subscribe(operation => operation
+            .Watch()
+            .Where(result => result.IsSuccessResult())
+            .Select(result => result.Data!.Session)
+            .Subscribe(result =>
+            {
+                sessions.Insert(0, result);
+
+                if (sessions.Count > 5)
+                {
+                    sessions.RemoveAt(sessions.Count - 1);
+                }
+            }));
+    }
+}
+
+@if (sessions.Count > 0)
+{
+    <h3>Updates:</h3>
+    
+    <ul>
+        @foreach (var session in sessions)
+        {
+            <li>@session.Title will be starting at </li>
+        }
+    </ul>
+}

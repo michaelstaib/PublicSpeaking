@@ -1,0 +1,13 @@
+﻿@page "/"
+@inject ConferenceClient ConferenceClient
+
+@code {
+    private string after = null;
+}
+
+<GetSessionsRenderer Strategy="ExecutionStrategy.CacheFirst" After="@after">
+    <Content>
+        <SessionList Sessions="context.Sessions!.Nodes" />
+        <button @onclick="() => after = context.Sessions.PageInfo.EndCursor">Next</button>
+    </Content>
+</GetSessionsRenderer>
