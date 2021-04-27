@@ -4,6 +4,7 @@
   "extensions": {
     "strawberryShake": {
       "name": "ConferenceClient",
+      "namespace": "Demo",
       "url": "https://hc-conference-app.azurewebsites.net/graphql/",
       "dependencyInjection": true,
       "strictSchemaValidation": true,
@@ -16,7 +17,7 @@
       "razorComponents": true,
       "records": {
         "inputs": false,
-        "entities": true
+        "entities": false
       },
       "transportProfiles": [
         {

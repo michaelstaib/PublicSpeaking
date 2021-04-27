@@ -27,6 +27,7 @@ type Mutation {
   addSession(input: AddSessionInput!): AddSessionPayload!
   scheduleSession(input: ScheduleSessionInput!): ScheduleSessionPayload!
   renameSession(input: RenameSessionInput!): RenameSessionPayload!
+  sendMessage(input: MessageInput!): MessagePayload!
   addSpeaker(input: AddSpeakerInput!): AddSpeakerPayload!
   modifySpeaker(input: ModifySpeakerInput!): ModifySpeakerPayload!
   addTrack(input: AddTrackInput!): AddTrackPayload!
@@ -36,6 +37,7 @@ type Mutation {
 type Subscription {
   onAttendeeCheckedIn(sessionId: ID!): SessionAttendeeCheckIn!
   onSessionScheduled: Session!
+  onMessageReceived: Message!
 }
 
 "The node interface is implemented by entities that have a global unique identifier."
@@ -326,11 +328,6 @@ input AttendeeFilterInput {
   sessionsAttendees: ListFilterInputTypeOfSessionAttendeeFilterInput
 }
 
-input RenameSessionInput {
-  sessionId: ID!
-  title: String!
-}
-
 input ScheduleSessionInput {
   sessionId: ID!
   trackId: ID!
@@ -342,6 +339,10 @@ input AddSessionInput {
   title: String!
   abstract: String
   speakerIds: [ID!]!
+}
+
+type MessagePayload {
+  message: Message!
 }
 
 type RenameSessionPayload {
@@ -397,6 +398,15 @@ scalar DateTime
 "The `TimeSpan` scalar represents an ISO-8601 compliant duration type."
 scalar TimeSpan
 
+input RenameSessionInput {
+  sessionId: ID!
+  title: String!
+}
+
+input MessageInput {
+  body: String!
+}
+
 type AddSpeakerPayload {
   speaker: Speaker
   errors: [UserError!]
@@ -445,6 +455,11 @@ type SessionAttendeeCheckIn {
   session: Session!
   attendeeId: ID!
   sessionId: ID!
+}
+
+type Message {
+  id: ID!
+  body: String
 }
 
 type SessionSpeaker {

@@ -1,7 +1,0 @@
-mutation RenameSession($input: RenameSessionInput!) {
-    renameSession(input: $input) {
-        session {
-            ... SessionInfo
-        }
-    }
-}
