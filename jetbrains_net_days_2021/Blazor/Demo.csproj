@@ -15,4 +15,8 @@
     <PackageReference Include="StrawberryShake.Transport.Websockets" Version="11.2.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components" />
+  </ItemGroup>
+
 </Project>
