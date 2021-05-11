@@ -1,0 +1,16 @@
+query GetSessions {
+  sessions(order: { title: ASC }) {
+    nodes {
+      id
+      title
+    }
+  }
+}
+
+mutation UpdateSessionTitle($sessionId: ID! $title: String!) {
+  renameSession(input: { sessionId: $sessionId title: $title }) {
+    session {
+      title
+    }
+  }
+}
