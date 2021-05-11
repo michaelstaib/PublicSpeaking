@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <StrawberryShake_DesignTimeBuild>false</StrawberryShake_DesignTimeBuild>
   </PropertyGroup>
 
   <ItemGroup>
