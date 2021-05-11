@@ -1,1 +1,16 @@
 ﻿@page "/"
+
+@code {
+    private string after = null;
+}
+
+<GetSessionsRenderer After="@after" Strategy="ExecutionStrategy.CacheFirst">
+    <Content>
+        <SocialMessages />
+        <SessionList Sessions="@context.Sessions!.Nodes"/>
+        <button @onclick="() => after = context.Sessions!.PageInfo.EndCursor">Next</button>
+    </Content>
+    <Loading>
+        Loading ...
+    </Loading>
+</GetSessionsRenderer>

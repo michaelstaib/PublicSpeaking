@@ -1,1 +1,17 @@
 ﻿@page "/Edit"
+
+@code {
+    private string after = null;
+    private ISessionInfo selectedSession;
+}
+
+<GetSessionsRenderer After="@after" Strategy="ExecutionStrategy.CacheFirst">
+    <Content>
+        <SessionList Sessions="@context.Sessions!.Nodes" OnSessionSelected="@(session => selectedSession = session)" AllowSelect="true" />
+        <RenameSession Session="@selectedSession" Completed="@(() => selectedSession = null)"/>
+        <button @onclick="() => after = context.Sessions!.PageInfo.EndCursor">Next</button>
+    </Content>
+    <Loading>
+        Loading ...
+    </Loading>
+</GetSessionsRenderer>

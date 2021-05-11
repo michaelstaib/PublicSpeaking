@@ -17,6 +17,14 @@ namespace Demo
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
+            builder.Services
+                .AddConferenceClient()
+                .ConfigureHttpClient(client =>
+                    client.BaseAddress =
+                        new Uri("https://hc-conference-app.azurewebsites.net/graphql/"))
+                .ConfigureWebSocketClient(client =>
+                    client.Uri = new Uri("wss://hc-conference-app.azurewebsites.net/graphql/"));
+
             await builder.Build().RunAsync();
         }
     }
