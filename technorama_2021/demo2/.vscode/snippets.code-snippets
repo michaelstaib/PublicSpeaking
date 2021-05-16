@@ -1,0 +1,53 @@
+{
+    "_AddContext": {
+        "prefix": "_AddContext",
+        "body": [
+            ".AddPooledDbContextFactory<BookContext>(",
+            "    (s, o) => o",
+            "        .UseSqlite(\"Data Source=books.db\")",
+            "        .UseLoggerFactory(s.GetRequiredService<ILoggerFactory>()))"
+        ],
+    },
+    "_UseDbContext": {
+        "prefix": "_UseDbContext",
+        "body": [
+            "[UseDbContext(typeof(BookContext))]"
+        ]
+    },
+    "_UsePaging": {
+        "prefix": "_UsePaging",
+        "body": [
+            "[UsePaging]"
+        ],
+        "description": "_UsePaging"
+    },
+    "_UseProjection": {
+        "prefix": "_UseProjection",
+        "body": [
+            "[UseProjection]"
+        ],
+        "description": "_UseProjection"
+    },
+    "_UseFiltering": {
+        "prefix": "_UseFiltering",
+        "body": [
+            "[UseFiltering]"
+        ],
+        "description": "_UseFiltering"
+    },
+    "_UseSorting": {
+        "prefix": "_UseSorting",
+        "body": [
+            "[UseSorting]"
+        ],
+        "description": "_UseSorting"
+    },
+    "_GetBooks": {
+        "prefix": "_GetBooks",
+        "body": [
+            "public IQueryable<Book> GetBooks([ScopedService] BookContext context) =>",
+            "    context.Books;"
+        ],
+        "description": "_GetBooks"
+    }
+}
