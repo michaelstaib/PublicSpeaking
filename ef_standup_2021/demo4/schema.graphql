@@ -1,0 +1,165 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  books(first: Int after: String last: Int before: String where: BookFilterInput order: [BookSortInput!]): BookConnection
+  authors(first: Int after: String last: Int before: String where: AuthorFilterInput order: [AuthorSortInput!]): AuthorConnection
+  authorById(id: Int!): Author
+}
+
+type Mutation {
+  addAuthor(input: AddAuthorInput!): AddAuthorPayload!
+  addBook(input: AddBookInput!): AddBookPayload!
+}
+
+input BookFilterInput {
+  and: [BookFilterInput!]
+  or: [BookFilterInput!]
+  id: ComparableInt32OperationFilterInput
+  authorId: ComparableInt32OperationFilterInput
+  title: StringOperationFilterInput
+  author: AuthorFilterInput
+}
+
+input BookSortInput {
+  id: SortEnumType
+  authorId: SortEnumType
+  title: SortEnumType
+  author: AuthorSortInput
+}
+
+input AuthorFilterInput {
+  and: [AuthorFilterInput!]
+  or: [AuthorFilterInput!]
+  id: ComparableInt32OperationFilterInput
+  name: StringOperationFilterInput
+  books: ListFilterInputTypeOfBookFilterInput
+}
+
+input AuthorSortInput {
+  id: SortEnumType
+  name: SortEnumType
+}
+
+"A connection to a list of items."
+type BookConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [BookEdge!]
+  "A flattened list of the nodes."
+  nodes: [Book!]
+}
+
+"A connection to a list of items."
+type AuthorConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [AuthorEdge!]
+  "A flattened list of the nodes."
+  nodes: [Author!]
+}
+
+input ComparableInt32OperationFilterInput {
+  eq: Int
+  neq: Int
+  in: [Int!]
+  nin: [Int!]
+  gt: Int
+  ngt: Int
+  gte: Int
+  ngte: Int
+  lt: Int
+  nlt: Int
+  lte: Int
+  nlte: Int
+}
+
+input StringOperationFilterInput {
+  and: [StringOperationFilterInput!]
+  or: [StringOperationFilterInput!]
+  eq: String
+  neq: String
+  contains: String
+  ncontains: String
+  in: [String]
+  nin: [String]
+  startsWith: String
+  nstartsWith: String
+  endsWith: String
+  nendsWith: String
+}
+
+enum SortEnumType {
+  ASC
+  DESC
+}
+
+input ListFilterInputTypeOfBookFilterInput {
+  all: BookFilterInput
+  none: BookFilterInput
+  some: BookFilterInput
+  any: Boolean
+}
+
+type Book {
+  id: Int!
+  authorId: Int!
+  title: String!
+  author: Author
+  description: String
+}
+
+"Information about pagination in a connection."
+type PageInfo {
+  "Indicates whether more edges exist following the set defined by the clients arguments."
+  hasNextPage: Boolean!
+  "Indicates whether more edges exist prior the set defined by the clients arguments."
+  hasPreviousPage: Boolean!
+  "When paginating backwards, the cursor to continue."
+  startCursor: String
+  "When paginating forwards, the cursor to continue."
+  endCursor: String
+}
+
+"An edge in a connection."
+type BookEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Book!
+}
+
+type Author {
+  id: Int!
+  name: String!
+  books: [Book!]!
+}
+
+"An edge in a connection."
+type AuthorEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Author!
+}
+
+type AddBookPayload {
+  book: Book!
+}
+
+type AddAuthorPayload {
+  author: Author!
+}
+
+input AddAuthorInput {
+  name: String!
+}
+
+input AddBookInput {
+  title: String!
+  authorId: Int!
+}

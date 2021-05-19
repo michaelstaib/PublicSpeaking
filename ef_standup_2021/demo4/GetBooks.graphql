@@ -1,0 +1,23 @@
+query GetBooks {
+  books {
+    nodes {
+      ... BookWithAuthor
+    }
+  }
+}
+
+fragment Book on Book {
+  title
+  description
+}
+
+fragment BookWithAuthor on Book {
+  ...Book
+  author {
+    ...Author
+  }
+}
+
+fragment Author on Author {
+  name
+}

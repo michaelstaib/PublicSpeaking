@@ -17,6 +17,8 @@ namespace Demo
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .AddCors()
+
                 // DBContext
                 .AddDbContext<BookContext>(
                     (s, o) => o
@@ -47,6 +49,8 @@ namespace Demo
             }
 
             app.UseWebSockets();
+
+            app.UseCors(c => c.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseRouting();
 
