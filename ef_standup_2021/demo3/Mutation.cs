@@ -1,34 +1,35 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Demo.Data;
-using HotChocolate;
-using HotChocolate.Data;
-using HotChocolate.Subscriptions;
 
 namespace Demo
 {
     public class Mutation
     {
-        [UseDbContext(typeof(BookContext))]
+        private readonly BookContext _bookContext;
+
+        public Mutation(BookContext bookContext)
+        {
+            _bookContext = bookContext;
+        }
+
         public async Task<AddAuthorPayload> AddAuthorAsync(
             AddAuthorInput input,
-            [ScopedService] BookContext dbContext)
+            CancellationToken cancellationToken)
         {
             var author = new Author 
             {
                 Name = input.Name
             };
 
-            dbContext.Authors.Add(author);
-            await dbContext.SaveChangesAsync();
+            _bookContext.Authors.Add(author);
+            await _bookContext.SaveChangesAsync(cancellationToken);
 
             return new AddAuthorPayload(author);
         }
 
-        [UseDbContext(typeof(BookContext))]
         public async Task<AddBookPayload> AddBookAsync(
             AddBookInput input,
-            [ScopedService] BookContext dbContext,
             CancellationToken cancellationToken)
         {
             var book = new Book 
@@ -37,8 +38,8 @@ namespace Demo
                 AuthorId = input.AuthorId
             };
 
-            dbContext.Books.Add(book);
-            await dbContext.SaveChangesAsync(cancellationToken);
+            _bookContext.Books.Add(book);
+            await _bookContext.SaveChangesAsync(cancellationToken);
 
             return new AddBookPayload(book);
         }
