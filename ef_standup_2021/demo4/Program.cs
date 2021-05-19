@@ -19,8 +19,6 @@ namespace Demo4
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            builder.Services.AddBookClient().ConfigureHttpClient(c => c.BaseAddress = new Uri("http://localhost:5000/"));
-
             await builder.Build().RunAsync();
         }
     }

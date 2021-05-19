@@ -1,15 +1,1 @@
 ﻿@page "/"
-
-<Demo4.Components.GetBooksRenderer Strategy="@StrawberryShake.ExecutionStrategy.CacheFirst">
-    <Content>
-        <ul>
-        @foreach (var item in context.Books.Nodes)
-        {
-            <li>@item.Title</li>
-        }
-        </ul>
-    </Content>
-    <Loading>
-        Loading ...
-    </Loading>
-</Demo4.Components.GetBooksRenderer>
