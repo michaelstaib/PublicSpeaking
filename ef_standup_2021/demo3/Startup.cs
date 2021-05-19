@@ -52,7 +52,7 @@ namespace Demo
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGraphQL();
+                endpoints.MapGraphQL("/");
             });
         }
     }

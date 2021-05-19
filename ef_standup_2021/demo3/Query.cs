@@ -37,7 +37,7 @@ namespace Demo
 
         [UseFirstOrDefault]
         [UseProjection]
-        public IQueryable<Author> GetAuthorByIdAsync(int id) => 
+        public IQueryable<Author> GetAuthorById(int id) => 
             _bookContext.Authors.Where(t => t.Id == id);
     }
 }
