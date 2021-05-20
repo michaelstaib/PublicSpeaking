@@ -2,12 +2,18 @@ using System.Linq;
 using Demo.Data;
 using HotChocolate;
 using HotChocolate.Data;
+using HotChocolate.Data.Filters;
 using HotChocolate.Types;
 
 namespace Demo
 {
-    public class Query 
+    public class Query
     {
-        public Book GetBook() => new Book { Title = "C# in Depth", Author = new Author { Name = "Jon Skeet" } };
+        [Serial]
+        [UseProjection]
+        [UseFiltering]
+        [UseSorting]
+        public IQueryable<Book> GetBooks([Service] BookContext context) =>
+            context.Books;
     }
 }

@@ -33,10 +33,12 @@ namespace Demo
                 .AddGraphQLServer()
                     .AddQueryType<Query>()
                     .AddMutationType<Mutation>()
+                    .AddSubscriptionType<Subscription>()
                     .AddTypeExtension<BookDetails>()
                     .AddProjections()
                     .AddFiltering()
                     .AddSorting()
+                    .AddInMemorySubscriptions()
                     .ModifyOptions(o => o.DefaultResolverStrategy = ExecutionStrategy.Serial);
         }
 
