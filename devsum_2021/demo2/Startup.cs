@@ -20,8 +20,18 @@ namespace Demo
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .AddDbContext<BookContext>(
+                    (s, o) => o
+                        .UseSqlite("Data Source=books.db")
+                        .UseLoggerFactory(s.GetRequiredService<ILoggerFactory>()));
+
+            services
                 .AddGraphQLServer()
-                .AddQueryType<Query>();
+                .AddQueryType<Query>()
+                .AddTypeExtension<BookDetails>()
+                .AddProjections()
+                .AddFiltering()
+                .AddSorting();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

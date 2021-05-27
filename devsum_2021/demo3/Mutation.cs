@@ -1,6 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Demo.Data;
+using HotChocolate;
+using HotChocolate.Subscriptions;
 
 namespace Demo
 {
@@ -30,6 +32,7 @@ namespace Demo
 
         public async Task<AddBookPayload> AddBookAsync(
             AddBookInput input,
+            [Service] ITopicEventSender eventSender,
             CancellationToken cancellationToken)
         {
             var book = new Book 
@@ -40,6 +43,11 @@ namespace Demo
 
             _bookContext.Books.Add(book);
             await _bookContext.SaveChangesAsync(cancellationToken);
+
+            await eventSender.SendAsync(
+                nameof(Subscription.OnBookReleased), 
+                book, 
+                cancellationToken);
 
             return new AddBookPayload(book);
         }

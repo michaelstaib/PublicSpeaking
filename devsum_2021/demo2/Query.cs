@@ -6,8 +6,19 @@ using HotChocolate.Types;
 
 namespace Demo
 {
-    public class Query 
+    public class Query
     {
-        public Book GetBook() => new Book { Title = "C# in Depth", Author = new Author { Name = "Jon Skeet" } };
+        [UsePaging]
+        [UseProjection]
+        [UseFiltering]
+        [UseSorting]
+        public IQueryable<Book> GetBooks([Service] BookContext context) =>
+            context.Books;
+    }
+
+    [ExtendObjectType(typeof(Book))]
+    public class BookDetails
+    {
+        public string GetSummary() => "Something bla bla";
     }
 }
