@@ -1,0 +1,30 @@
+{
+	"_Query": {
+        "prefix": "_Query",
+        "body": [
+            "namespace Demo",
+            "{",
+            "    public class Query ",
+            "    {",
+            "        public Book GetBook() => new Book { Title = \"C# in Depth\", Author = \"Jon Skeet\" };",
+            "    }",
+            "}",
+            ""
+        ]
+	},
+	"_Book": {
+        "prefix": "_Book",
+        "body": [
+            "namespace Demo",
+            "{",
+            "    public class Book",
+            "    {",
+            "        public string Title { get; set; }",
+            "",
+            "        public string Author { get; set; }",
+            "    }",
+            "}",
+            ""
+        ]
+    }
+}
