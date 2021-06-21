@@ -1,0 +1,24 @@
+{
+  "update-session": {
+    "prefix": "update-session",
+    "body": [
+      "Console.WriteLine(\"waiting 5 sek ...\");",
+      "await Task.Delay(5000);",
+      "",
+      "storeAccessor.EntityStore.Update(s => ",
+      "{",
+      "    var id = new EntityId(\"Session\", \"U2Vzc2lvbgppMzU=\");",
+      "    var entity = s.CurrentSnapshot.GetEntity<SessionEntity>(id);",
+      "    s.SetEntity(id, entity with { Title = \"Foo\" });",
+      "});"
+    ],
+    "description": "update-session"
+  },
+  "store-accessor": {
+    "prefix": "store-accessor",
+    "body": [
+        "IStoreAccessor storeAccessor = services.GetRequiredService<ConferenceClientStoreAccessor>();"
+    ],
+    "description": "store-accessor"
+}
+}
