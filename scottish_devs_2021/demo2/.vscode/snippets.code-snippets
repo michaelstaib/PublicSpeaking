@@ -1,0 +1,118 @@
+{
+    "_AddContext": {
+        "prefix": "_AddContext",
+        "body": [
+            ".AddDbContext<BookContext>(",
+            "    (s, o) => o",
+            "        .UseSqlite(\"Data Source=books.db\")",
+            "        .UseLoggerFactory(s.GetRequiredService<ILoggerFactory>()))"
+        ],
+    },
+    "_UseDbContext": {
+        "prefix": "_UseDbContext",
+        "body": [
+            "[UseDbContext(typeof(BookContext))]"
+        ]
+    },
+    "_UsePaging": {
+        "prefix": "_UsePaging",
+        "body": [
+            "[UsePaging]"
+        ],
+        "description": "_UsePaging"
+    },
+    "_UseProjection": {
+        "prefix": "_UseProjection",
+        "body": [
+            "[UseProjection]"
+        ],
+        "description": "_UseProjection"
+    },
+    "_UseFiltering": {
+        "prefix": "_UseFiltering",
+        "body": [
+            "[UseFiltering]"
+        ],
+        "description": "_UseFiltering"
+    },
+    "_UseSorting": {
+        "prefix": "_UseSorting",
+        "body": [
+            "[UseSorting]"
+        ],
+        "description": "_UseSorting"
+    },
+    "_GetBooks": {
+        "prefix": "_GetBooks",
+        "body": [
+            "public IQueryable<Book> GetBooks([Service] BookContext context) =>",
+            "    context.Books;"
+        ],
+        "description": "_GetBooks"
+    },
+    "_DataLoader": {
+        "prefix": "_DataLoader",
+        "body": [
+            "public class BookDescriptionByIdDataLoader : BatchDataLoader<int, string?>",
+            "{",
+            "    public BookDescriptionByIdDataLoader(IBatchScheduler batchScheduler)",
+            "        : base(batchScheduler)",
+            "    {",
+            "    }",
+            "",
+            "    protected override async Task<IReadOnlyDictionary<int, string?>> LoadBatchAsync(",
+            "        IReadOnlyList<int> keys,",
+            "        CancellationToken cancellationToken)",
+            "    {",
+            "        Console.WriteLine($\"Reading {string.Join(\", \", keys)} ...\");",
+            "",
+            "        var buffer = await File.ReadAllBytesAsync(\"book-details.json\", cancellationToken);",
+            "        var details = JsonSerializer.Deserialize<List<BookDetails>>(",
+            "            buffer, ",
+            "            new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;",
+            "        var map = new Dictionary<int, string?>();",
+            "        var set = new HashSet<int>(keys);",
+            "",
+            "        foreach (BookDetails detail in details)",
+            "        {",
+            "            if (set.Contains(detail.Id))",
+            "            {",
+            "                map[detail.Id] = detail.Description;",
+            "            }",
+            "        }",
+            "",
+            "        return map;",
+            "    }",
+            "",
+            "    private class BookDetails",
+            "    {",
+            "        public int Id { get; set; }",
+            "        public string Description { get; set; } = default!;",
+            "    }",
+            "}"
+        ],
+        "description": "_DataLoader"
+    },
+    "_GetDescription": {
+        "prefix": "_GetDescription",
+        "body": [
+            "public Task<string?> GetDescriptionAsync(",
+            "    [Parent] Book book,",
+            "    BookDescriptionByIdDataLoader detailsById,",
+            "    CancellationToken cancellationToken)",
+            "    => detailsById.LoadAsync(book.Id, cancellationToken);"
+        ],
+        "description": "_GetDescription"
+    },
+    "_BookDetails": {
+        "prefix": "_BookDetails",
+        "body": [
+            "[ExtendObjectType(typeof(Book))]",
+            "public class BookDetails",
+            "{",
+            "    ",
+            "}"
+        ],
+        "description": "_BookDetails"
+    }
+}
