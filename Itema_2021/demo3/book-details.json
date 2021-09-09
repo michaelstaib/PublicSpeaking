@@ -1,0 +1,10 @@
+[
+    {
+        "id": 1,
+        "description": "C# in Depth is a book for those who are passionate about C#. It aims to be a bridge between the existing introductory books and the language specification: something readable but detailed, exploring every aspect of the language from version 2 onwards."
+    },
+    {
+        "id": 5,
+        "description": "Dig deep and master the intricacies of the common language runtime, C#, and .NET development. Led by programming expert Jeffrey Richter, a longtime consultant to the Microsoft .NET team - you’ll gain pragmatic insights for building robust, reliable, and responsive apps and components."
+    }
+]
