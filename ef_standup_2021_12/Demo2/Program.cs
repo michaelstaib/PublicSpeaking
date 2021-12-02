@@ -1,7 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .AddDbContext<BookContext>(
+    .AddPooledDbContextFactory<BookContext>(
         (s, o) => o
             .UseSqlite("Data Source=books.db")
             .UseLoggerFactory(s.GetRequiredService<ILoggerFactory>()))
@@ -10,7 +10,7 @@ builder.Services
     .AddProjections()
     .AddFiltering()
     .AddSorting()
-    .RegisterDbContext<BookContext>();
+    .RegisterDbContext<BookContext>(kind: DbContextKind.Resolver);
 
 var app = builder.Build();
 

@@ -11,5 +11,16 @@ public class Query
             await Task.Delay(500);
             yield return book;
         }
-    }   
+    }
+}
+
+
+[ExtendObjectType(typeof(Book))]
+public class BookDetails
+{
+    public async Task<string> GetDetails()
+    {
+        await Task.Delay(500);
+        return "hello";
+    }
 }

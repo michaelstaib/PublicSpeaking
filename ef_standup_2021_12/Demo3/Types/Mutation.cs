@@ -2,20 +2,23 @@ namespace Demo;
 
 public class Mutation
 {
-    public async Task<AddAuthorPayload> AddAuthorAsync(
-        AddAuthorInput input,
+    [Payload, Input, Error(typeof(InvalidOperationException))]
+    public async Task<Author> AddAuthorAsync(
+        string name,
         BookContext bookContext,
         CancellationToken cancellationToken)
     {
         var author = new Author
         {
-            Name = input.Name
+            Name = name
         };
+
+        throw new InvalidOperationException("Foo");
 
         bookContext.Authors.Add(author);
         await bookContext.SaveChangesAsync(cancellationToken);
 
-        return new AddAuthorPayload(author);
+        return author;
     }
 
     public async Task<AddBookPayload> AddBookAsync(

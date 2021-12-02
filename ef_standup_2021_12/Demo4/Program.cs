@@ -12,6 +12,7 @@ builder.Services
     .AddType<Magazine>()
     .AddType<Book>()
     .AddQueryType<Query>()
+    .AddTypeExtension<MagazineInfo>()
     .AddProjections()
     .AddFiltering()
     .AddSorting()

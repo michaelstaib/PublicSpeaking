@@ -8,6 +8,7 @@ builder.Services
     
     .AddGraphQLServer()
     .AddQueryType<Query>()
+    .AddTypeExtension<BookDetails>()
     .EnableMutationConventions()
     .RegisterDbContext<BookContext>()
     .ModifyRequestOptions(o => o.IncludeExceptionDetails = true);
