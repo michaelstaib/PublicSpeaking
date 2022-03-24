@@ -5,7 +5,15 @@ builder.Services
 
 builder.Services
     .AddGraphQLServer()
-    .AddQueryType<Query>();
+    .AddQueryType<Query>()
+    .AddMutationType<Mutation>()
+    .AddSubscriptionType<Subscription>()
+    .AddMutationConventions()
+    .AddInMemorySubscriptions()
+    .RegisterDbContext<SchoolContext>(DbContextKind.Pooled)
+    .AddProjections()
+    .AddFiltering()
+    .AddSorting();
 
 var app = builder.Build();
 
