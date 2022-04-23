@@ -1,0 +1,42 @@
+receivers:
+  hostmetrics:
+    collection_interval: 30s
+    scrapers:
+      cpu:
+      memory:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  batch:
+
+exporters:
+  logging:
+    loglevel: warn
+    # loglevel: debug
+  otlp/elastic:
+    endpoint: "apm:8200"
+    tls:
+      insecure: true
+
+extensions:
+  health_check:
+  zpages:
+    endpoint: 0.0.0.0:5679
+
+service:
+  extensions: [zpages, health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/elastic]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/elastic]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/elastic, logging]
