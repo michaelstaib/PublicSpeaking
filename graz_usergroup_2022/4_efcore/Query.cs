@@ -32,7 +32,7 @@ public class Mutation
         context.Students.Add(student);
         await context.SaveChangesAsync(cancellationToken);
 
-        await sender.SendAsync("OnRegisterStudent", student.Id, cancellationToken);
+        await sender.SendAsync("OnRegisterStudentAsync", student.Id, cancellationToken);
 
         return student;
     }
@@ -41,11 +41,9 @@ public class Mutation
 public class Subscription
 {
     [Subscribe]
-    [Topic("OnRegisterStudent")]
+    [Topic]
     public async Task<Student> OnRegisterStudentAsync(
         [EventMessage] int studentId,
         SchoolContext context)
-    {
-        return await context.Students.Where(s => s.Id == studentId).FirstAsync();
-    }
+        => await context.Students.Where(s => s.Id == studentId).FirstAsync();
 }
