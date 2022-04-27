@@ -1,0 +1,12 @@
+{
+	"name": "@proactive/prettier-config",
+	"private": true,
+	"version": "0.0.1",
+	"main": "index.js",
+	"dependencies": {
+		"@proactive/prettier-plugin-sort-imports": "*"
+	},
+	"devDependencies": {
+		"@proactive/prettier-plugin-sort-imports": "patch:@trivago/prettier-plugin-sort-imports@3.1.1#./patches/sort-imports.patch"
+	}
+}

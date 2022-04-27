@@ -1,0 +1,37 @@
+# dependencies
+node_modules/
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# testing
+reports/
+coverage/
+
+# production
+build/
+lib/
+dist/
+
+# temporary
+.tmp/
+tmp/
+*.tmp
+.next/
+
+# misc
+.DS_Store
+.env.local
+.env.*.local
+
+# logs
+*.log*
+
+# vscode stuff
+.vscode/
+!.vscode/launch.json
+*.code-workspace

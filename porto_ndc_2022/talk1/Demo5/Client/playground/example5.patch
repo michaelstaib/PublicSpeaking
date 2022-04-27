@@ -1,0 +1,6394 @@
+diff --git a/crypto/frontend/generated/DashboardSpotlightItemRAFWMutation.graphql.js b/crypto/frontend/generated/DashboardSpotlightItemRAFWMutation.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..5245694196cc88c3fb164e07a8257facd02da372
+--- /dev/null
++++ b/crypto/frontend/generated/DashboardSpotlightItemRAFWMutation.graphql.js
+@@ -0,0 +1,140 @@
++/**
++ * @generated SignedSource<<ef85392ff89f3814e3d6f5d96b52dab3>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { ConcreteRequest, Mutation } from 'relay-runtime';
++export type RemoveAssetFromWatchlistInput = {|
++  symbol: string,
++|};
++export type DashboardSpotlightItemRAFWMutation$variables = {|
++  input: RemoveAssetFromWatchlistInput,
++|};
++export type DashboardSpotlightItemRAFWMutation$data = {|
++  +removeAssetFromWatchlist: {|
++    +removedAsset: ?{|
++      +isInWatchlist: ?boolean,
++    |},
++  |},
++|};
++export type DashboardSpotlightItemRAFWMutation = {|
++  variables: DashboardSpotlightItemRAFWMutation$variables,
++  response: DashboardSpotlightItemRAFWMutation$data,
++|};
++*/
++
++var node/*: ConcreteRequest*/ = (function(){
++var v0 = [
++  {
++    "defaultValue": null,
++    "kind": "LocalArgument",
++    "name": "input"
++  }
++],
++v1 = [
++  {
++    "kind": "Variable",
++    "name": "input",
++    "variableName": "input"
++  }
++],
++v2 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "isInWatchlist",
++  "storageKey": null
++};
++return {
++  "fragment": {
++    "argumentDefinitions": (v0/*: any*/),
++    "kind": "Fragment",
++    "metadata": null,
++    "name": "DashboardSpotlightItemRAFWMutation",
++    "selections": [
++      {
++        "alias": null,
++        "args": (v1/*: any*/),
++        "concreteType": "RemoveAssetFromWatchlistPayload",
++        "kind": "LinkedField",
++        "name": "removeAssetFromWatchlist",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "Asset",
++            "kind": "LinkedField",
++            "name": "removedAsset",
++            "plural": false,
++            "selections": [
++              (v2/*: any*/)
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": null
++      }
++    ],
++    "type": "Mutation",
++    "abstractKey": null
++  },
++  "kind": "Request",
++  "operation": {
++    "argumentDefinitions": (v0/*: any*/),
++    "kind": "Operation",
++    "name": "DashboardSpotlightItemRAFWMutation",
++    "selections": [
++      {
++        "alias": null,
++        "args": (v1/*: any*/),
++        "concreteType": "RemoveAssetFromWatchlistPayload",
++        "kind": "LinkedField",
++        "name": "removeAssetFromWatchlist",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "Asset",
++            "kind": "LinkedField",
++            "name": "removedAsset",
++            "plural": false,
++            "selections": [
++              (v2/*: any*/),
++              {
++                "alias": null,
++                "args": null,
++                "kind": "ScalarField",
++                "name": "id",
++                "storageKey": null
++              }
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": null
++      }
++    ]
++  },
++  "params": {
++    "cacheID": "60ed51f0b6702a39d92a34f8ff578106",
++    "id": null,
++    "metadata": {},
++    "name": "DashboardSpotlightItemRAFWMutation",
++    "operationKind": "mutation",
++    "text": "mutation DashboardSpotlightItemRAFWMutation(\n  $input: RemoveAssetFromWatchlistInput!\n) {\n  removeAssetFromWatchlist(input: $input) {\n    removedAsset {\n      isInWatchlist\n      id\n    }\n  }\n}\n"
++  }
++};
++})();
++
++(node/*: any*/).hash = "60863eaa03ebbbbac4b6b845f1222bc8";
++
++export default node;
+diff --git a/crypto/frontend/scenes/settings/SettingsContainer.js b/crypto/frontend/scenes/settings/SettingsContainer.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..0aaf8535e57544d4c3a176a64c43248195bce3f7
+--- /dev/null
++++ b/crypto/frontend/scenes/settings/SettingsContainer.js
+@@ -0,0 +1,33 @@
++import {memo} from 'react';
++import {useState} from 'react';
++import {graphql, useLazyLoadQuery} from 'react-relay';
++
++import SettingsCredentials from './SettingsCredentials';
++import SettingsLinks from './SettingsLinks';
++import SettingsProfile from './SettingsProfile';
++
++export default memo(function SettingsContainer({cacheBuster}) {
++  const data = useLazyLoadQuery(
++    graphql`
++      query SettingsContainerQuery {
++        ...SettingsProfileFragment_query
++      }
++    `,
++    {},
++    {fetchKey: cacheBuster},
++  );
++
++  const [active, setActive] = useState('profile');
++
++  return (
++    <>
++      <SettingsLinks active={active} onChange={setActive} />
++      <SettingsCredentials active={active} onChange={setActive} />
++      <SettingsProfile
++        fragmentRef={data}
++        active={active}
++        onChange={setActive}
++      />
++    </>
++  );
++});
+diff --git a/crypto/frontend/scenes/dashboard/index.js b/crypto/frontend/scenes/dashboard/index.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..312b9c8e79235017f7e38340d94ce7d54a77e940
+--- /dev/null
++++ b/crypto/frontend/scenes/dashboard/index.js
+@@ -0,0 +1,15 @@
++import {Suspense} from 'react';
++
++import {ActivityIndicator, ErrorBoundaryWithRetry} from '@/components';
++
++import DashboardContainer from './DashboardContainer';
++
++export const Dashboard = () => (
++  <ErrorBoundaryWithRetry>
++    {({cacheBuster}) => (
++      <Suspense fallback={<ActivityIndicator />}>
++        <DashboardContainer cacheBuster={cacheBuster} />
++      </Suspense>
++    )}
++  </ErrorBoundaryWithRetry>
++);
+diff --git a/crypto/frontend/generated/SettingsProfileUUPMutation.graphql.js b/crypto/frontend/generated/SettingsProfileUUPMutation.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..9b7514a2f866e74bf6803b88ee7bbf28d6ef0740
+--- /dev/null
++++ b/crypto/frontend/generated/SettingsProfileUUPMutation.graphql.js
+@@ -0,0 +1,151 @@
++/**
++ * @generated SignedSource<<3699babae7f4e2e294b2bab2b594aee5>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { ConcreteRequest, Mutation } from 'relay-runtime';
++export type UpdateUserProfileInput = {|
++  displayName?: ?string,
++  image?: ?null,
++|};
++export type SettingsProfileUUPMutation$variables = {|
++  input: UpdateUserProfileInput,
++|};
++export type SettingsProfileUUPMutation$data = {|
++  +updateUserProfile: {|
++    +updatedUser: ?{|
++      +displayName: ?string,
++      +imageUrl: ?string,
++    |},
++  |},
++|};
++export type SettingsProfileUUPMutation = {|
++  variables: SettingsProfileUUPMutation$variables,
++  response: SettingsProfileUUPMutation$data,
++|};
++*/
++
++var node/*: ConcreteRequest*/ = (function(){
++var v0 = [
++  {
++    "defaultValue": null,
++    "kind": "LocalArgument",
++    "name": "input"
++  }
++],
++v1 = [
++  {
++    "kind": "Variable",
++    "name": "input",
++    "variableName": "input"
++  }
++],
++v2 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "displayName",
++  "storageKey": null
++},
++v3 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "imageUrl",
++  "storageKey": null
++};
++return {
++  "fragment": {
++    "argumentDefinitions": (v0/*: any*/),
++    "kind": "Fragment",
++    "metadata": null,
++    "name": "SettingsProfileUUPMutation",
++    "selections": [
++      {
++        "alias": null,
++        "args": (v1/*: any*/),
++        "concreteType": "UpdateUserProfilePayload",
++        "kind": "LinkedField",
++        "name": "updateUserProfile",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "User",
++            "kind": "LinkedField",
++            "name": "updatedUser",
++            "plural": false,
++            "selections": [
++              (v2/*: any*/),
++              (v3/*: any*/)
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": null
++      }
++    ],
++    "type": "Mutation",
++    "abstractKey": null
++  },
++  "kind": "Request",
++  "operation": {
++    "argumentDefinitions": (v0/*: any*/),
++    "kind": "Operation",
++    "name": "SettingsProfileUUPMutation",
++    "selections": [
++      {
++        "alias": null,
++        "args": (v1/*: any*/),
++        "concreteType": "UpdateUserProfilePayload",
++        "kind": "LinkedField",
++        "name": "updateUserProfile",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "User",
++            "kind": "LinkedField",
++            "name": "updatedUser",
++            "plural": false,
++            "selections": [
++              (v2/*: any*/),
++              (v3/*: any*/),
++              {
++                "alias": null,
++                "args": null,
++                "kind": "ScalarField",
++                "name": "id",
++                "storageKey": null
++              }
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": null
++      }
++    ]
++  },
++  "params": {
++    "cacheID": "5465ae30971c9b3b44211dc703959812",
++    "id": null,
++    "metadata": {},
++    "name": "SettingsProfileUUPMutation",
++    "operationKind": "mutation",
++    "text": "mutation SettingsProfileUUPMutation(\n  $input: UpdateUserProfileInput!\n) {\n  updateUserProfile(input: $input) {\n    updatedUser {\n      displayName\n      imageUrl\n      id\n    }\n  }\n}\n"
++  }
++};
++})();
++
++(node/*: any*/).hash = "dfb0375f9e1199ed14b99df82fdde270";
++
++export default node;
+diff --git a/crypto/frontend/scenes/dashboard/DashboardContainer.js b/crypto/frontend/scenes/dashboard/DashboardContainer.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..6bfe25be57a2e8ad5b6a6f7e971cee48b8e4233c
+--- /dev/null
++++ b/crypto/frontend/scenes/dashboard/DashboardContainer.js
+@@ -0,0 +1,36 @@
++import {Divider, Stack} from '@mui/material';
++import ErrorPage from 'next/error';
++import {memo} from 'react';
++import {graphql, useLazyLoadQuery} from 'react-relay';
++
++import DashboardFeatured from './DashboardFeatured';
++import DashboardSpotlight from './DashboardSpotlight';
++import DashboardTicker from './DashboardTicker';
++
++export default memo(function DashboardContainer({cacheBuster}) {
++  const data = useLazyLoadQuery(
++    graphql`
++      query DashboardContainerQuery {
++        ...DashboardTickerFragment_query
++        ...DashboardFeaturedFragment_query
++        ...DashboardSpotlightFragment_query @defer(label: "spotlight")
++      }
++    `,
++    {},
++    {fetchKey: cacheBuster},
++  );
++
++  if (!data) {
++    return <ErrorPage statusCode={404} title="Out of service" />;
++  }
++
++  return (
++    <Stack gap={2}>
++      <DashboardTicker fragmentRef={data} />
++      <Divider />
++      <DashboardFeatured fragmentRef={data} />
++      <Divider />
++      <DashboardSpotlight fragmentRef={data} />
++    </Stack>
++  );
++});
+diff --git a/crypto/frontend/generated/DashboardFeaturedCardFragment_asset.graphql.js b/crypto/frontend/generated/DashboardFeaturedCardFragment_asset.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..0ec89e43d0bcaa398487b2be4d2489ba171ab37f
+--- /dev/null
++++ b/crypto/frontend/generated/DashboardFeaturedCardFragment_asset.graphql.js
+@@ -0,0 +1,153 @@
++/**
++ * @generated SignedSource<<de8e8dda676013290f6fa040294cffdc>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { Fragment, ReaderFragment } from 'relay-runtime';
++import type { FragmentType } from "relay-runtime";
++declare export opaque type DashboardFeaturedCardFragment_asset$fragmentType: FragmentType;
++export type DashboardFeaturedCardFragment_asset$data = {|
++  +symbol: string,
++  +color: string,
++  +price: {|
++    +currency: string,
++    +lastPrice: number,
++    +change24Hour: number,
++    +change: ?{|
++      +history: ?{|
++        +nodes: ?$ReadOnlyArray<?{|
++          +epoch: number,
++          +price: number,
++        |}>,
++      |},
++    |},
++  |},
++  +$fragmentType: DashboardFeaturedCardFragment_asset$fragmentType,
++|};
++export type DashboardFeaturedCardFragment_asset$key = {
++  +$data?: DashboardFeaturedCardFragment_asset$data,
++  +$fragmentSpreads: DashboardFeaturedCardFragment_asset$fragmentType,
++  ...
++};
++*/
++
++var node/*: ReaderFragment*/ = {
++  "argumentDefinitions": [],
++  "kind": "Fragment",
++  "metadata": null,
++  "name": "DashboardFeaturedCardFragment_asset",
++  "selections": [
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "symbol",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "color",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "concreteType": "AssetPrice",
++      "kind": "LinkedField",
++      "name": "price",
++      "plural": false,
++      "selections": [
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "currency",
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "lastPrice",
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "change24Hour",
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": [
++            {
++              "kind": "Literal",
++              "name": "span",
++              "value": "DAY"
++            }
++          ],
++          "concreteType": "AssetPriceChange",
++          "kind": "LinkedField",
++          "name": "change",
++          "plural": false,
++          "selections": [
++            {
++              "alias": null,
++              "args": null,
++              "concreteType": "HistoryConnection",
++              "kind": "LinkedField",
++              "name": "history",
++              "plural": false,
++              "selections": [
++                {
++                  "alias": null,
++                  "args": null,
++                  "concreteType": "AssetPriceHistory",
++                  "kind": "LinkedField",
++                  "name": "nodes",
++                  "plural": true,
++                  "selections": [
++                    {
++                      "alias": null,
++                      "args": null,
++                      "kind": "ScalarField",
++                      "name": "epoch",
++                      "storageKey": null
++                    },
++                    {
++                      "alias": null,
++                      "args": null,
++                      "kind": "ScalarField",
++                      "name": "price",
++                      "storageKey": null
++                    }
++                  ],
++                  "storageKey": null
++                }
++              ],
++              "storageKey": null
++            }
++          ],
++          "storageKey": "change(span:\"DAY\")"
++        }
++      ],
++      "storageKey": null
++    }
++  ],
++  "type": "Asset",
++  "abstractKey": null
++};
++
++(node/*: any*/).hash = "84fbaa9ed175eb10f5836bccda54fd3c";
++
++export default node;
+diff --git a/crypto/frontend/generated/DashboardSpotlightLosersFragment_query.graphql.js b/crypto/frontend/generated/DashboardSpotlightLosersFragment_query.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..37ad4e02879cd11397977f04ad43710f5dd67a2e
+--- /dev/null
++++ b/crypto/frontend/generated/DashboardSpotlightLosersFragment_query.graphql.js
+@@ -0,0 +1,90 @@
++/**
++ * @generated SignedSource<<dcd8f9e545a082e73cf0c6a63c7a0500>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { Fragment, ReaderFragment } from 'relay-runtime';
++import type { DashboardSpotlightCardFragment_asset$fragmentType } from "./DashboardSpotlightCardFragment_asset.graphql";
++import type { FragmentType } from "relay-runtime";
++declare export opaque type DashboardSpotlightLosersFragment_query$fragmentType: FragmentType;
++export type DashboardSpotlightLosersFragment_query$data = {|
++  +losers: ?{|
++    +$fragmentSpreads: DashboardSpotlightCardFragment_asset$fragmentType,
++  |},
++  +$fragmentType: DashboardSpotlightLosersFragment_query$fragmentType,
++|};
++export type DashboardSpotlightLosersFragment_query$key = {
++  +$data?: DashboardSpotlightLosersFragment_query$data,
++  +$fragmentSpreads: DashboardSpotlightLosersFragment_query$fragmentType,
++  ...
++};
++*/
++
++var node/*: ReaderFragment*/ = {
++  "argumentDefinitions": [],
++  "kind": "Fragment",
++  "metadata": null,
++  "name": "DashboardSpotlightLosersFragment_query",
++  "selections": [
++    {
++      "alias": "losers",
++      "args": [
++        {
++          "kind": "Literal",
++          "name": "first",
++          "value": 5
++        },
++        {
++          "kind": "Literal",
++          "name": "order",
++          "value": {
++            "price": {
++              "change24Hour": "ASC"
++            }
++          }
++        },
++        {
++          "kind": "Literal",
++          "name": "where",
++          "value": {
++            "price": {
++              "change24Hour": {
++                "lt": 0
++              }
++            }
++          }
++        }
++      ],
++      "concreteType": "AssetsConnection",
++      "kind": "LinkedField",
++      "name": "assets",
++      "plural": false,
++      "selections": [
++        {
++          "kind": "Defer",
++          "selections": [
++            {
++              "args": null,
++              "kind": "FragmentSpread",
++              "name": "DashboardSpotlightCardFragment_asset"
++            }
++          ]
++        }
++      ],
++      "storageKey": "assets(first:5,order:{\"price\":{\"change24Hour\":\"ASC\"}},where:{\"price\":{\"change24Hour\":{\"lt\":0}}})"
++    }
++  ],
++  "type": "Query",
++  "abstractKey": null
++};
++
++(node/*: any*/).hash = "19f11d0101e887bfd7c7dfb49ab9c2c0";
++
++export default node;
+diff --git a/crypto/frontend/generated/DashboardSpotlightItemAATWMutation.graphql.js b/crypto/frontend/generated/DashboardSpotlightItemAATWMutation.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..8accd936dc3f30d1010b01005dbf7dce5bed7f59
+--- /dev/null
++++ b/crypto/frontend/generated/DashboardSpotlightItemAATWMutation.graphql.js
+@@ -0,0 +1,190 @@
++/**
++ * @generated SignedSource<<5c89fbcba3e927fc8887a5fe744dcec3>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { ConcreteRequest, Mutation } from 'relay-runtime';
++export type AddAssetToWatchlistInput = {|
++  symbol: string,
++|};
++export type DashboardSpotlightItemAATWMutation$variables = {|
++  input: AddAssetToWatchlistInput,
++|};
++export type DashboardSpotlightItemAATWMutation$data = {|
++  +addAssetToWatchlist: {|
++    +watchlist: ?{|
++      +assets: ?{|
++        +nodes: ?$ReadOnlyArray<{|
++          +isInWatchlist: ?boolean,
++        |}>,
++      |},
++    |},
++  |},
++|};
++export type DashboardSpotlightItemAATWMutation = {|
++  variables: DashboardSpotlightItemAATWMutation$variables,
++  response: DashboardSpotlightItemAATWMutation$data,
++|};
++*/
++
++var node/*: ConcreteRequest*/ = (function(){
++var v0 = [
++  {
++    "defaultValue": null,
++    "kind": "LocalArgument",
++    "name": "input"
++  }
++],
++v1 = [
++  {
++    "kind": "Variable",
++    "name": "input",
++    "variableName": "input"
++  }
++],
++v2 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "isInWatchlist",
++  "storageKey": null
++},
++v3 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "id",
++  "storageKey": null
++};
++return {
++  "fragment": {
++    "argumentDefinitions": (v0/*: any*/),
++    "kind": "Fragment",
++    "metadata": null,
++    "name": "DashboardSpotlightItemAATWMutation",
++    "selections": [
++      {
++        "alias": null,
++        "args": (v1/*: any*/),
++        "concreteType": "AddAssetToWatchlistPayload",
++        "kind": "LinkedField",
++        "name": "addAssetToWatchlist",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "Watchlist",
++            "kind": "LinkedField",
++            "name": "watchlist",
++            "plural": false,
++            "selections": [
++              {
++                "alias": null,
++                "args": null,
++                "concreteType": "AssetsConnection",
++                "kind": "LinkedField",
++                "name": "assets",
++                "plural": false,
++                "selections": [
++                  {
++                    "alias": null,
++                    "args": null,
++                    "concreteType": "Asset",
++                    "kind": "LinkedField",
++                    "name": "nodes",
++                    "plural": true,
++                    "selections": [
++                      (v2/*: any*/)
++                    ],
++                    "storageKey": null
++                  }
++                ],
++                "storageKey": null
++              }
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": null
++      }
++    ],
++    "type": "Mutation",
++    "abstractKey": null
++  },
++  "kind": "Request",
++  "operation": {
++    "argumentDefinitions": (v0/*: any*/),
++    "kind": "Operation",
++    "name": "DashboardSpotlightItemAATWMutation",
++    "selections": [
++      {
++        "alias": null,
++        "args": (v1/*: any*/),
++        "concreteType": "AddAssetToWatchlistPayload",
++        "kind": "LinkedField",
++        "name": "addAssetToWatchlist",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "Watchlist",
++            "kind": "LinkedField",
++            "name": "watchlist",
++            "plural": false,
++            "selections": [
++              {
++                "alias": null,
++                "args": null,
++                "concreteType": "AssetsConnection",
++                "kind": "LinkedField",
++                "name": "assets",
++                "plural": false,
++                "selections": [
++                  {
++                    "alias": null,
++                    "args": null,
++                    "concreteType": "Asset",
++                    "kind": "LinkedField",
++                    "name": "nodes",
++                    "plural": true,
++                    "selections": [
++                      (v2/*: any*/),
++                      (v3/*: any*/)
++                    ],
++                    "storageKey": null
++                  }
++                ],
++                "storageKey": null
++              },
++              (v3/*: any*/)
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": null
++      }
++    ]
++  },
++  "params": {
++    "cacheID": "bdbf38341afd6a6748bb72a83c2489fb",
++    "id": null,
++    "metadata": {},
++    "name": "DashboardSpotlightItemAATWMutation",
++    "operationKind": "mutation",
++    "text": "mutation DashboardSpotlightItemAATWMutation(\n  $input: AddAssetToWatchlistInput!\n) {\n  addAssetToWatchlist(input: $input) {\n    watchlist {\n      assets {\n        nodes {\n          isInWatchlist\n          id\n        }\n      }\n      id\n    }\n  }\n}\n"
++  }
++};
++})();
++
++(node/*: any*/).hash = "4ee83c83a1c115bf65a9bc0b5e278e2a";
++
++export default node;
+diff --git a/crypto/frontend/generated/DashboardTickerFragment_query.graphql.js b/crypto/frontend/generated/DashboardTickerFragment_query.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..1cd9d84fc4bae8968c3fc31f8c8d9e9804d20a10
+--- /dev/null
++++ b/crypto/frontend/generated/DashboardTickerFragment_query.graphql.js
+@@ -0,0 +1,95 @@
++/**
++ * @generated SignedSource<<1a794a330ef39838b1430058acc4583a>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { Fragment, ReaderFragment } from 'relay-runtime';
++import type { DashboardTickerItemFragment_asset$fragmentType } from "./DashboardTickerItemFragment_asset.graphql";
++import type { FragmentType } from "relay-runtime";
++declare export opaque type DashboardTickerFragment_query$fragmentType: FragmentType;
++export type DashboardTickerFragment_query$data = {|
++  +ticker: ?{|
++    +nodes: ?$ReadOnlyArray<{|
++      +symbol: string,
++      +$fragmentSpreads: DashboardTickerItemFragment_asset$fragmentType,
++    |}>,
++  |},
++  +$fragmentType: DashboardTickerFragment_query$fragmentType,
++|};
++export type DashboardTickerFragment_query$key = {
++  +$data?: DashboardTickerFragment_query$data,
++  +$fragmentSpreads: DashboardTickerFragment_query$fragmentType,
++  ...
++};
++*/
++
++var node/*: ReaderFragment*/ = {
++  "argumentDefinitions": [],
++  "kind": "Fragment",
++  "metadata": null,
++  "name": "DashboardTickerFragment_query",
++  "selections": [
++    {
++      "alias": "ticker",
++      "args": [
++        {
++          "kind": "Literal",
++          "name": "first",
++          "value": 10
++        },
++        {
++          "kind": "Literal",
++          "name": "order",
++          "value": {
++            "price": {
++              "tradableMarketCapRank": "ASC"
++            }
++          }
++        }
++      ],
++      "concreteType": "AssetsConnection",
++      "kind": "LinkedField",
++      "name": "assets",
++      "plural": false,
++      "selections": [
++        {
++          "alias": null,
++          "args": null,
++          "concreteType": "Asset",
++          "kind": "LinkedField",
++          "name": "nodes",
++          "plural": true,
++          "selections": [
++            {
++              "alias": null,
++              "args": null,
++              "kind": "ScalarField",
++              "name": "symbol",
++              "storageKey": null
++            },
++            {
++              "args": null,
++              "kind": "FragmentSpread",
++              "name": "DashboardTickerItemFragment_asset"
++            }
++          ],
++          "storageKey": null
++        }
++      ],
++      "storageKey": "assets(first:10,order:{\"price\":{\"tradableMarketCapRank\":\"ASC\"}})"
++    }
++  ],
++  "type": "Query",
++  "abstractKey": null
++};
++
++(node/*: any*/).hash = "a1d1707a6b22dc5363ea81b06c9e911e";
++
++export default node;
+diff --git a/crypto/frontend/generated/ScreenerContainerQuery.graphql.js b/crypto/frontend/generated/ScreenerContainerQuery.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..e2b0eec35233ac3b55f4384b3e87f154299d5d6e
+--- /dev/null
++++ b/crypto/frontend/generated/ScreenerContainerQuery.graphql.js
+@@ -0,0 +1,239 @@
++/**
++ * @generated SignedSource<<6176dd66825256b4d3c6fadbf0903c5d>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { ConcreteRequest, Query } from 'relay-runtime';
++import type { ScreenerListFragment_query$fragmentType } from "./ScreenerListFragment_query.graphql";
++export type ScreenerContainerQuery$variables = {||};
++export type ScreenerContainerQuery$data = {|
++  +$fragmentSpreads: ScreenerListFragment_query$fragmentType,
++|};
++export type ScreenerContainerQuery = {|
++  variables: ScreenerContainerQuery$variables,
++  response: ScreenerContainerQuery$data,
++|};
++*/
++
++var node/*: ConcreteRequest*/ = (function(){
++var v0 = [
++  {
++    "kind": "Literal",
++    "name": "first",
++    "value": 10
++  },
++  {
++    "kind": "Literal",
++    "name": "order",
++    "value": {
++      "price": {
++        "marketCap": "DESC"
++      }
++    }
++  }
++],
++v1 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "id",
++  "storageKey": null
++};
++return {
++  "fragment": {
++    "argumentDefinitions": [],
++    "kind": "Fragment",
++    "metadata": null,
++    "name": "ScreenerContainerQuery",
++    "selections": [
++      {
++        "args": null,
++        "kind": "FragmentSpread",
++        "name": "ScreenerListFragment_query"
++      }
++    ],
++    "type": "Query",
++    "abstractKey": null
++  },
++  "kind": "Request",
++  "operation": {
++    "argumentDefinitions": [],
++    "kind": "Operation",
++    "name": "ScreenerContainerQuery",
++    "selections": [
++      {
++        "alias": null,
++        "args": (v0/*: any*/),
++        "concreteType": "AssetsConnection",
++        "kind": "LinkedField",
++        "name": "assets",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "AssetsEdge",
++            "kind": "LinkedField",
++            "name": "edges",
++            "plural": true,
++            "selections": [
++              {
++                "alias": null,
++                "args": null,
++                "concreteType": "Asset",
++                "kind": "LinkedField",
++                "name": "node",
++                "plural": false,
++                "selections": [
++                  (v1/*: any*/),
++                  {
++                    "alias": null,
++                    "args": null,
++                    "kind": "ScalarField",
++                    "name": "symbol",
++                    "storageKey": null
++                  },
++                  {
++                    "alias": null,
++                    "args": null,
++                    "kind": "ScalarField",
++                    "name": "name",
++                    "storageKey": null
++                  },
++                  {
++                    "alias": null,
++                    "args": null,
++                    "kind": "ScalarField",
++                    "name": "imageUrl",
++                    "storageKey": null
++                  },
++                  {
++                    "alias": null,
++                    "args": null,
++                    "kind": "ScalarField",
++                    "name": "isInWatchlist",
++                    "storageKey": null
++                  },
++                  {
++                    "alias": null,
++                    "args": null,
++                    "concreteType": "AssetPrice",
++                    "kind": "LinkedField",
++                    "name": "price",
++                    "plural": false,
++                    "selections": [
++                      {
++                        "alias": null,
++                        "args": null,
++                        "kind": "ScalarField",
++                        "name": "currency",
++                        "storageKey": null
++                      },
++                      {
++                        "alias": null,
++                        "args": null,
++                        "kind": "ScalarField",
++                        "name": "lastPrice",
++                        "storageKey": null
++                      },
++                      {
++                        "alias": null,
++                        "args": null,
++                        "kind": "ScalarField",
++                        "name": "change24Hour",
++                        "storageKey": null
++                      },
++                      {
++                        "alias": null,
++                        "args": null,
++                        "kind": "ScalarField",
++                        "name": "marketCap",
++                        "storageKey": null
++                      },
++                      (v1/*: any*/)
++                    ],
++                    "storageKey": null
++                  },
++                  {
++                    "alias": null,
++                    "args": null,
++                    "kind": "ScalarField",
++                    "name": "__typename",
++                    "storageKey": null
++                  }
++                ],
++                "storageKey": null
++              },
++              {
++                "alias": null,
++                "args": null,
++                "kind": "ScalarField",
++                "name": "cursor",
++                "storageKey": null
++              }
++            ],
++            "storageKey": null
++          },
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "PageInfo",
++            "kind": "LinkedField",
++            "name": "pageInfo",
++            "plural": false,
++            "selections": [
++              {
++                "alias": null,
++                "args": null,
++                "kind": "ScalarField",
++                "name": "endCursor",
++                "storageKey": null
++              },
++              {
++                "alias": null,
++                "args": null,
++                "kind": "ScalarField",
++                "name": "hasNextPage",
++                "storageKey": null
++              }
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": "assets(first:10,order:{\"price\":{\"marketCap\":\"DESC\"}})"
++      },
++      {
++        "alias": null,
++        "args": (v0/*: any*/),
++        "filters": [
++          "where",
++          "order"
++        ],
++        "handle": "connection",
++        "key": "ScreenerList_assets",
++        "kind": "LinkedHandle",
++        "name": "assets"
++      }
++    ]
++  },
++  "params": {
++    "cacheID": "492d28fc64bcbdbd430058c60eb38491",
++    "id": null,
++    "metadata": {},
++    "name": "ScreenerContainerQuery",
++    "operationKind": "query",
++    "text": "query ScreenerContainerQuery {\n  ...ScreenerListFragment_query\n}\n\nfragment ScreenerListFragment_query on Query {\n  assets(first: 10, order: {price: {marketCap: DESC}}) {\n    edges {\n      node {\n        id\n        ...ScreenerListItemFragment_asset\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ScreenerListItemFragment_asset on Asset {\n  id\n  symbol\n  name\n  imageUrl\n  isInWatchlist\n  price {\n    currency\n    lastPrice\n    change24Hour\n    marketCap\n    id\n  }\n}\n"
++  }
++};
++})();
++
++(node/*: any*/).hash = "c90dc624939d180141b397f1a9deeb85";
++
++export default node;
+diff --git a/crypto/frontend/scenes/dashboard/DashboardFeaturedCard.js b/crypto/frontend/scenes/dashboard/DashboardFeaturedCard.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..06beb8f3edb97993351b4e41ae157d45b748ff8d
+--- /dev/null
++++ b/crypto/frontend/scenes/dashboard/DashboardFeaturedCard.js
+@@ -0,0 +1,135 @@
++import {
++  Box,
++  Card,
++  CardContent,
++  Link,
++  Stack,
++  Typography,
++  useTheme,
++} from '@mui/material';
++import NextLink from 'next/link';
++import {memo} from 'react';
++import {graphql, useFragment} from 'react-relay';
++
++import {MiniChart} from '@/components';
++import {
++  direction,
++  findClosestAccessibleColor,
++  formatCurrency,
++  formatPercent,
++} from '@/utils';
++
++const Symbol = memo(function Symbol({value, color}) {
++  return (
++    <Typography
++      variant="caption"
++      sx={(theme) => ({
++        color: findClosestAccessibleColor(
++          color,
++          theme.palette.background.default,
++          3,
++        ),
++        fontSize: theme.typography.fontSizeMedium,
++        fontWeight: theme.typography.fontWeightMedium,
++        lineHeight: 1,
++      })}
++    >
++      {value}
++    </Typography>
++  );
++});
++
++const Price = ({value, options, locales}) => (
++  <Typography
++    variant="caption"
++    sx={(theme) => ({
++      color: theme.palette.text.primary,
++      fontSize: theme.typography.fontSizeMedium,
++      fontWeight: theme.typography.fontWeightMedium,
++      lineHeight: 1,
++    })}
++  >
++    {formatCurrency(value, options, locales)}
++  </Typography>
++);
++
++const Change = ({value, options, locales}) => (
++  <Typography
++    variant="caption"
++    sx={(theme) => ({
++      color: theme.palette.trend[direction(value)],
++      fontSize: theme.typography.fontSizeMedium,
++      fontWeight: theme.typography.fontWeightMedium,
++      lineHeight: 1,
++    })}
++  >
++    {formatPercent(value, options, locales)}
++  </Typography>
++);
++
++const SmartChart = memo(function SmartChart({color, data}) {
++  const theme = useTheme();
++
++  return (
++    <MiniChart
++      color={findClosestAccessibleColor(
++        color,
++        theme.palette.background.default,
++        3,
++      )}
++      data={data.map((item) => [item.price, item.epoch * 1000])}
++    />
++  );
++});
++
++export default memo(function DashboardFeaturedCard({fragmentRef}) {
++  const asset = useFragment(
++    graphql`
++      fragment DashboardFeaturedCardFragment_asset on Asset {
++        symbol
++        color
++        price {
++          currency
++          lastPrice
++          change24Hour
++          change(span: DAY) {
++            history {
++              nodes {
++                epoch
++                price
++              }
++            }
++          }
++        }
++      }
++    `,
++    fragmentRef,
++  );
++  const {price} = asset;
++
++  return (
++    <NextLink
++      href="/currencies/[symbol]"
++      as={`/currencies/${asset.symbol}`}
++      passHref
++    >
++      <Link underline="none">
++        <Card variant="outlined">
++          <CardContent>
++            <Stack direction="row" gap={4}>
++              <Symbol value={asset.symbol} color={asset.color} />
++              <Price
++                value={price.lastPrice}
++                options={{currency: price.currency}}
++              />
++              <Change value={price.change24Hour} />
++            </Stack>
++          </CardContent>
++          <Box>
++            <SmartChart color={asset.color} data={price.change.history.nodes} />
++          </Box>
++        </Card>
++      </Link>
++    </NextLink>
++  );
++});
+diff --git a/crypto/frontend/scenes/dashboard/DashboardTickerItem.js b/crypto/frontend/scenes/dashboard/DashboardTickerItem.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..15b7199d20d492ccbf930e735802b394e2ce6930
+--- /dev/null
++++ b/crypto/frontend/scenes/dashboard/DashboardTickerItem.js
+@@ -0,0 +1,93 @@
++import {Link, Stack, Typography} from '@mui/material';
++import NextLink from 'next/link';
++import {memo} from 'react';
++import {graphql, useFragment} from 'react-relay';
++
++import {
++  direction,
++  findClosestAccessibleColor,
++  formatCurrency,
++  formatPercent,
++} from '@/utils';
++
++const Symbol = memo(function Symbol({value, color}) {
++  return (
++    <Typography
++      variant="caption"
++      sx={(theme) => ({
++        color: findClosestAccessibleColor(
++          color,
++          theme.palette.background.default,
++          3,
++        ),
++        fontSize: theme.typography.fontSizeTiny,
++        fontWeight: theme.typography.fontWeightMedium,
++        lineHeight: 1,
++      })}
++    >
++      {value}
++    </Typography>
++  );
++});
++
++const Price = ({value, options, locales}) => (
++  <Typography
++    variant="caption"
++    sx={(theme) => ({
++      color: theme.palette.text.primary,
++      fontSize: theme.typography.fontSizeMedium,
++      fontWeight: theme.typography.fontWeightMedium,
++      lineHeight: 1,
++    })}
++  >
++    {formatCurrency(value, options, locales)}
++  </Typography>
++);
++
++const Change = ({value, options, locales}) => (
++  <Typography
++    variant="caption"
++    sx={(theme) => ({
++      color: theme.palette.trend[direction(value)],
++      fontSize: theme.typography.fontSizeTiny,
++      fontWeight: theme.typography.fontWeightMedium,
++      lineHeight: 1,
++    })}
++  >
++    {formatPercent(value, options, locales)}
++  </Typography>
++);
++
++export default memo(function DashboardTickerItem({fragmentRef}) {
++  const asset = useFragment(
++    graphql`
++      fragment DashboardTickerItemFragment_asset on Asset {
++        symbol
++        color
++        price {
++          currency
++          lastPrice
++          change24Hour
++        }
++      }
++    `,
++    fragmentRef,
++  );
++  const {price} = asset;
++
++  return (
++    <NextLink
++      href="/currencies/[symbol]"
++      as={`/currencies/${asset.symbol}`}
++      passHref
++    >
++      <Link underline="none">
++        <Stack direction="column" spacing={1} minWidth={100}>
++          <Symbol value={asset.symbol} color={asset.color} />
++          <Price value={price.lastPrice} options={{currency: price.currency}} />
++          <Change value={price.change24Hour} />
++        </Stack>
++      </Link>
++    </NextLink>
++  );
++});
+diff --git a/crypto/frontend/scenes/screener/ScreenerContainer.js b/crypto/frontend/scenes/screener/ScreenerContainer.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..f569c1d51e402c59ea6fb7c423c3b3ba9467e940
+--- /dev/null
++++ b/crypto/frontend/scenes/screener/ScreenerContainer.js
+@@ -0,0 +1,23 @@
++import {Stack} from '@mui/material';
++import {memo} from 'react';
++import {graphql, useLazyLoadQuery} from 'react-relay';
++
++import ScreenerList from './ScreenerList';
++
++export default memo(function ScreenerContainer({cacheBuster}) {
++  const data = useLazyLoadQuery(
++    graphql`
++      query ScreenerContainerQuery {
++        ...ScreenerListFragment_query
++      }
++    `,
++    {},
++    {fetchKey: cacheBuster},
++  );
++
++  return (
++    <Stack gap={2}>
++      <ScreenerList fragmentRef={data} />
++    </Stack>
++  );
++});
+diff --git a/crypto/frontend/scenes/screener/ScreenerList.js b/crypto/frontend/scenes/screener/ScreenerList.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..25a62d8bfffd36cfbc798de3c9cb0f92ae93c1e0
+--- /dev/null
++++ b/crypto/frontend/scenes/screener/ScreenerList.js
+@@ -0,0 +1,172 @@
++import {
++  Divider,
++  InputAdornment,
++  Stack,
++  Table,
++  TableBody,
++  TableCell,
++  TableFooter,
++  TableRow,
++  TextField,
++} from '@mui/material';
++import {
++  memo,
++  useDeferredValue,
++  useEffect,
++  useRef,
++  useState,
++  useTransition,
++} from 'react';
++import {graphql, usePaginationFragment} from 'react-relay';
++
++import {
++  LoadMoreButton,
++  NoData,
++  SortButton,
++  TransitionIndicator,
++} from '@/components';
++import {useSize} from '@/hooks';
++import {SearchIcon} from '@/icons';
++
++import ScreenerListItem from './ScreenerListItem';
++
++const Order = [
++  {
++    title: 'Market cap ↓',
++    expression: {price: {marketCap: 'DESC'}},
++  },
++  {
++    title: 'Change 24H ↓',
++    expression: {price: {change24Hour: 'DESC'}},
++  },
++  {
++    title: 'Change 24H ↑',
++    expression: {price: {change24Hour: 'ASC'}},
++  },
++  {
++    title: 'Symbol ↑',
++    expression: {symbol: 'ASC'},
++  },
++  {
++    title: 'Slug ↑',
++    expression: {slug: 'ASC'},
++  },
++  {
++    title: 'Name ↑',
++    expression: {name: 'ASC'},
++  },
++];
++
++export default memo(function ScreenerList({fragmentRef}) {
++  const {data, hasNext, loadNext, isLoadingNext, refetch} =
++    usePaginationFragment(
++      graphql`
++        fragment ScreenerListFragment_query on Query
++        @argumentDefinitions(
++          cursor: {type: "String"}
++          count: {type: "Int", defaultValue: 10}
++          where: {type: "AssetFilterInput"}
++          order: {
++            type: "[AssetSortInput!]"
++            defaultValue: {price: {marketCap: DESC}}
++          }
++        )
++        @refetchable(queryName: "ScreenerListRefetchableQuery") {
++          assets(after: $cursor, first: $count, where: $where, order: $order)
++            @connection(key: "ScreenerList_assets") {
++            edges {
++              node {
++                id
++                ...ScreenerListItemFragment_asset
++              }
++            }
++          }
++        }
++      `,
++      fragmentRef,
++    );
++
++  const [q, setQ] = useState('');
++  const qRef = useRef(q);
++  const deferredQ = useDeferredValue(q, {timeoutMs: 1000});
++
++  const [order, setOrder] = useState(0);
++  const orderRef = useRef(order);
++
++  const [busy, startTransition] = useTransition();
++
++  useEffect(() => {
++    if (qRef.current !== deferredQ || orderRef.current !== order) {
++      // ... ?
++    }
++  }, [deferredQ, order]);
++
++  const [tableRef, size] = useSize();
++  const extended = size?.width > 400;
++
++  const assets = data.assets.edges;
++
++  return (
++    <Stack gap={2}>
++      <Stack
++        direction="row"
++        justifyContent="space-between"
++        alignItems="center"
++        px={2}
++        gap={20}
++      >
++        <TextField
++          type="search"
++          variant="standard"
++          value={q}
++          placeholder="Search all assets"
++          autoComplete="off"
++          size="small"
++          InputProps={{
++            startAdornment: (
++              <InputAdornment position="start">
++                <SearchIcon />
++              </InputAdornment>
++            ),
++            disableUnderline: true,
++          }}
++          autoFocus
++          sx={{flex: 1, border: 0}}
++          onChange={(e) => {
++            setQ(e.target.value);
++          }}
++        />
++        <SortButton options={Order} active={order} onChange={setOrder} />
++      </Stack>
++      <Divider />
++      <Stack px={4}>
++        {assets?.length || hasNext ? (
++          <TransitionIndicator in={busy}>
++            <Table ref={tableRef} size="medium">
++              <TableBody>
++                {assets.map(({node}) => (
++                  <ScreenerListItem
++                    key={node.id}
++                    fragmentRef={node}
++                    extended={extended}
++                  />
++                ))}
++              </TableBody>
++              {hasNext && (
++                <TableFooter>
++                  <TableRow>
++                    <TableCell colSpan={5} align="center">
++                      <LoadMoreButton busy={isLoadingNext} onClick={loadNext} />
++                    </TableCell>
++                  </TableRow>
++                </TableFooter>
++              )}
++            </Table>
++          </TransitionIndicator>
++        ) : (
++          <NoData message="Hmm, we can't find that asset." />
++        )}
++      </Stack>
++    </Stack>
++  );
++});
+diff --git a/crypto/frontend/client/index.js b/crypto/frontend/client/index.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..ba7f1d72553d0d6282bda51657fa7260a2aa6322
+--- /dev/null
++++ b/crypto/frontend/client/index.js
+@@ -0,0 +1,286 @@
++import extractFiles from 'extract-files/extractFiles.mjs';
++import isExtractableFile from 'extract-files/isExtractableFile.mjs';
++import {createClient} from 'graphql-ws';
++import {meros} from 'meros/browser';
++import {useMemo} from 'react';
++import {
++  Environment,
++  Network,
++  Observable,
++  RecordSource,
++  Store,
++} from 'relay-runtime';
++
++import {Config} from '@/config';
++import {isAsyncIterable, merge, pause} from '@/utils';
++
++let relayEnvironment;
++
++const ErrorMessages = {
++  FAILED_FETCH: 'Failed to fetch',
++  ERROR_FETCH: 'Error in fetch',
++  UNWORKABLE_FETCH: 'Unworkable fetch',
++  SOCKET_CLOSED: 'Socket closed',
++  GRAPHQL_ERRORS: 'GraphQL error',
++};
++
++class NetworkError extends Error {
++  constructor(message, options) {
++    super(message, options);
++
++    this.name = 'NetworkError';
++
++    if (options) {
++      const {cause, ...meta} = options;
++
++      Object.assign(this, meta);
++    }
++  }
++}
++
++const fetchFn = (operation, variables, cacheConfig, uploadables) => {
++  const httpEndpoint = Config.HTTP_ENDPOINT;
++  const authToken = Config.AUTH_TOKEN;
++
++  return Observable.create((sink) => {
++    const init = {
++      method: 'POST',
++      headers: {
++        Accept: 'application/json',
++        Authorization: authToken ? `basic ${authToken}` : undefined,
++      },
++    };
++
++    const {clone, files} = extractFiles(
++      {
++        id: operation.id ?? undefined,
++        query: operation.text ?? undefined,
++        variables,
++      },
++      isExtractableFile,
++    );
++
++    if (files.size) {
++      const form = new FormData();
++
++      form.set('operations', JSON.stringify(clone));
++
++      const map = {};
++      let i = 0;
++
++      files.forEach((paths) => {
++        map[i++] = paths;
++      });
++
++      form.set('map', JSON.stringify(map));
++
++      i = 0;
++      files.forEach((paths, file) => {
++        form.set(`${i++}`, file, file.name);
++      });
++
++      merge(init, {
++        body: form,
++      });
++    } else {
++      merge(init, {
++        headers: {
++          'Content-Type': 'application/json',
++        },
++        body: JSON.stringify(clone),
++      });
++    }
++
++    (async () => {
++      const request = new Request(httpEndpoint, init);
++
++      try {
++        const response = await fetch(request);
++
++        // Status code in range 200-299 inclusive (2xx).
++        if (response.ok) {
++          try {
++            const parts = await meros(response);
++
++            if (isAsyncIterable(parts)) {
++              for await (const part of parts) {
++                if (!part.json) {
++                  sink.error(
++                    new NetworkError(ErrorMessages.UNWORKABLE_FETCH, {
++                      request,
++                      response,
++                    }),
++                  );
++                  break;
++                }
++
++                // If any exceptions occurred when processing the request,
++                // throw an error to indicate to the developer what went wrong.
++                if (Array.isArray(part.body.errors)) {
++                  sink.error(
++                    new NetworkError(ErrorMessages.GRAPHQL_ERRORS, {
++                      request,
++                      response,
++                    }),
++                  );
++                  break;
++                }
++
++                // DEMO: delay chunked responses
++                // await pause(2_000);
++
++                // HACK: if `label` is present, also `path` is required, remove once fixed in HC
++                // @see https://github.com/maraisr/meros/issues/15#issuecomment-1054268416
++                if (part.body.label && !part.body.path) {
++                  part.body.path = [];
++                }
++
++                sink.next(part.body);
++              }
++            } else {
++              const json = await response.json();
++
++              // If any exceptions occurred when processing the request,
++              // throw an error to indicate to the developer what went wrong.
++              if (Array.isArray(json.errors)) {
++                sink.error(
++                  new NetworkError(ErrorMessages.GRAPHQL_ERRORS, {
++                    request,
++                    response,
++                  }),
++                );
++              } else {
++                // DEMO: delay response
++                // await pause(2_000);
++
++                sink.next(json);
++              }
++            }
++
++            sink.complete();
++          } catch (err) {
++            sink.error(
++              new NetworkError(ErrorMessages.UNWORKABLE_FETCH, {
++                cause: err,
++                request,
++                response,
++              }),
++              true,
++            );
++          }
++        } else {
++          sink.error(
++            new NetworkError(ErrorMessages.ERROR_FETCH, {request, response}),
++          );
++        }
++      } catch (err) {
++        sink.error(
++          new NetworkError(ErrorMessages.FAILED_FETCH, {cause: err, request}),
++          true,
++        );
++      }
++    })();
++  });
++};
++
++let wsClient;
++
++/**
++ * With `graphql-ws`.
++ * @see https://github.com/enisdenjo/graphql-ws
++ */
++const subscribeFn = (operation, variables) => {
++  const wsEndpoint = Config.WS_ENDPOINT;
++  const authToken = Config.AUTH_TOKEN;
++
++  const client = (wsClient ??= createClient({
++    url: wsEndpoint,
++    connectionParams: {
++      Authorization: authToken ? `basic ${authToken}` : undefined,
++    },
++  }));
++
++  return Observable.create((sink) =>
++    client.subscribe(
++      {
++        id: operation.id ?? undefined,
++        query: operation.text,
++        variables,
++      },
++      {
++        ...sink,
++        error: (err) => {
++          if (Array.isArray(err)) {
++            return sink.error(
++              new NetworkError(ErrorMessages.ERROR_FETCH, {cause: err}),
++            );
++          }
++
++          if (err instanceof CloseEvent) {
++            return sink.error(
++              new NetworkError(ErrorMessages.SOCKET_CLOSED, {cause: err}),
++            );
++          }
++
++          return sink.error(err, true);
++        },
++      },
++    ),
++  );
++};
++
++const createEnvironment = (initialRecords) => {
++  const source = new RecordSource(initialRecords);
++
++  /**
++   * Presence of Data
++   * @see https://relay.dev/docs/guided-tour/reusing-cached-data/presence-of-data/
++   *
++   * - Note that having a buffer size of 0 is equivalent to not having the release buffer, which means that queries will be immediately released and collected.
++   * - By default, environments have a release buffer size of 10.
++   *
++   * @example
++   * // last 10 queries
++   * gcReleaseBufferSize: 10,
++   *
++   *
++   * Staleness of Data
++   * @see https://relay.dev/docs/guided-tour/reusing-cached-data/staleness-of-data/
++   *
++   * - If the query cache expiration time is not provided, staleness checks only look at whether the referenced records have been invalidated.
++   *
++   * @example
++   * // 1 min
++   * queryCacheExpirationTime: 60 * 1_000,
++   */
++  const options = {};
++
++  const store = new Store(source, options);
++
++  const network = Network.create(fetchFn, subscribeFn);
++
++  return new Environment({
++    network,
++    store,
++  });
++};
++
++export const initEnvironment = (initialRecords) => {
++  // Create a network layer from the fetch function
++  const environment = relayEnvironment ?? createEnvironment(initialRecords);
++
++  // If your page has Next.js data fetching methods that use Relay, the initial records
++  // will get hydrated here
++  if (initialRecords) {
++    environment.getStore().publish(new RecordSource(initialRecords));
++  }
++  // For SSG and SSR always create a new Relay environment
++  if (typeof window === 'undefined') return environment;
++  // Create the Relay environment once in the client
++  if (!relayEnvironment) relayEnvironment = environment;
++
++  return relayEnvironment;
++};
++
++export const useEnvironment = (initialRecords) =>
++  useMemo(() => initEnvironment(initialRecords), [initialRecords]);
+diff --git a/crypto/frontend/generated/DashboardSpotlightFragment_query.graphql.js b/crypto/frontend/generated/DashboardSpotlightFragment_query.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..42378cb4504c8de5f48ccefa3a036808608a601b
+--- /dev/null
++++ b/crypto/frontend/generated/DashboardSpotlightFragment_query.graphql.js
+@@ -0,0 +1,52 @@
++/**
++ * @generated SignedSource<<cc53bd479e00b2f224ffc5ad330a33f2>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { Fragment, ReaderFragment } from 'relay-runtime';
++import type { DashboardSpotlightGainersFragment_query$fragmentType } from "./DashboardSpotlightGainersFragment_query.graphql";
++import type { DashboardSpotlightLosersFragment_query$fragmentType } from "./DashboardSpotlightLosersFragment_query.graphql";
++import type { FragmentType } from "relay-runtime";
++declare export opaque type DashboardSpotlightFragment_query$fragmentType: FragmentType;
++export type DashboardSpotlightFragment_query$data = {|
++  +$fragmentSpreads: DashboardSpotlightGainersFragment_query$fragmentType & DashboardSpotlightLosersFragment_query$fragmentType,
++  +$fragmentType: DashboardSpotlightFragment_query$fragmentType,
++|};
++export type DashboardSpotlightFragment_query$key = {
++  +$data?: DashboardSpotlightFragment_query$data,
++  +$fragmentSpreads: DashboardSpotlightFragment_query$fragmentType,
++  ...
++};
++*/
++
++var node/*: ReaderFragment*/ = {
++  "argumentDefinitions": [],
++  "kind": "Fragment",
++  "metadata": null,
++  "name": "DashboardSpotlightFragment_query",
++  "selections": [
++    {
++      "args": null,
++      "kind": "FragmentSpread",
++      "name": "DashboardSpotlightGainersFragment_query"
++    },
++    {
++      "args": null,
++      "kind": "FragmentSpread",
++      "name": "DashboardSpotlightLosersFragment_query"
++    }
++  ],
++  "type": "Query",
++  "abstractKey": null
++};
++
++(node/*: any*/).hash = "464d0a49a14335a60f0253914af8fd9e";
++
++export default node;
+diff --git a/crypto/frontend/pages/settings.js b/crypto/frontend/pages/settings.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..09b0180341866eebce62d54a8c9e5f309e7e2426
+--- /dev/null
++++ b/crypto/frontend/pages/settings.js
+@@ -0,0 +1 @@
++export {Settings as default} from '@/scenes';
+diff --git a/crypto/frontend/scenes/settings/SettingsCredentials.js b/crypto/frontend/scenes/settings/SettingsCredentials.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..e513581d7c84842de5a2bcdb6d8428b3343ee5f0
+--- /dev/null
++++ b/crypto/frontend/scenes/settings/SettingsCredentials.js
+@@ -0,0 +1,78 @@
++import {
++  AccordionActions,
++  AccordionDetails,
++  Button,
++  Stack,
++  TextField,
++} from '@mui/material';
++import {memo, useRef} from 'react';
++
++import {PasswordField} from '@/components';
++import {Config, syncWithStorage} from '@/config';
++import {CredentialsIcon} from '@/icons';
++
++import {Group} from './Group';
++
++export default memo(function SettingsCredentials({active, onChange}) {
++  const usernameRef = useRef(null);
++  const passwordRef = useRef(null);
++
++  return (
++    <Group
++      id="credentials"
++      icon={CredentialsIcon}
++      title="Credentials"
++      active={active}
++      onChange={onChange}
++    >
++      <form
++        name="credentials"
++        onSubmit={(e) => {
++          e.preventDefault();
++
++          const username = usernameRef.current?.value?.trim();
++          const password = passwordRef.current?.value?.trim();
++          const token =
++            username && password
++              ? Buffer.from(`${username}:${password}`).toString('base64')
++              : null;
++
++          syncWithStorage({
++            USERNAME: username,
++            PASSWORD: password,
++            AUTH_TOKEN: token,
++          });
++        }}
++      >
++        <AccordionDetails id="panel-credentials-content" sx={{p: 6}}>
++          <Stack direction="column" gap={8}>
++            <TextField
++              inputRef={usernameRef}
++              label="Username"
++              defaultValue={Config.USERNAME}
++              autoComplete="username"
++              fullWidth
++            />
++            <PasswordField
++              inputRef={passwordRef}
++              label="Password"
++              defaultValue={Config.PASSWORD}
++              autoComplete="current-password"
++              fullWidth
++            />
++          </Stack>
++        </AccordionDetails>
++        <AccordionActions
++          sx={{flexDirection: 'row-reverse', justifyContent: 'flex-start'}}
++        >
++          <Button type="submit" color="primary">
++            Save
++          </Button>
++          <Button type="reset" color="secondary">
++            Cancel
++          </Button>
++        </AccordionActions>
++      </form>
++    </Group>
++  );
++});
+diff --git a/crypto/frontend/generated/ScreenerListItemAATWMutation.graphql.js b/crypto/frontend/generated/ScreenerListItemAATWMutation.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..55978b02c198da0224017303983d9a5a06f933b6
+--- /dev/null
++++ b/crypto/frontend/generated/ScreenerListItemAATWMutation.graphql.js
+@@ -0,0 +1,190 @@
++/**
++ * @generated SignedSource<<c2e271ca522e004fedf89fc4365324a8>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { ConcreteRequest, Mutation } from 'relay-runtime';
++export type AddAssetToWatchlistInput = {|
++  symbol: string,
++|};
++export type ScreenerListItemAATWMutation$variables = {|
++  input: AddAssetToWatchlistInput,
++|};
++export type ScreenerListItemAATWMutation$data = {|
++  +addAssetToWatchlist: {|
++    +watchlist: ?{|
++      +assets: ?{|
++        +nodes: ?$ReadOnlyArray<{|
++          +isInWatchlist: ?boolean,
++        |}>,
++      |},
++    |},
++  |},
++|};
++export type ScreenerListItemAATWMutation = {|
++  variables: ScreenerListItemAATWMutation$variables,
++  response: ScreenerListItemAATWMutation$data,
++|};
++*/
++
++var node/*: ConcreteRequest*/ = (function(){
++var v0 = [
++  {
++    "defaultValue": null,
++    "kind": "LocalArgument",
++    "name": "input"
++  }
++],
++v1 = [
++  {
++    "kind": "Variable",
++    "name": "input",
++    "variableName": "input"
++  }
++],
++v2 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "isInWatchlist",
++  "storageKey": null
++},
++v3 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "id",
++  "storageKey": null
++};
++return {
++  "fragment": {
++    "argumentDefinitions": (v0/*: any*/),
++    "kind": "Fragment",
++    "metadata": null,
++    "name": "ScreenerListItemAATWMutation",
++    "selections": [
++      {
++        "alias": null,
++        "args": (v1/*: any*/),
++        "concreteType": "AddAssetToWatchlistPayload",
++        "kind": "LinkedField",
++        "name": "addAssetToWatchlist",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "Watchlist",
++            "kind": "LinkedField",
++            "name": "watchlist",
++            "plural": false,
++            "selections": [
++              {
++                "alias": null,
++                "args": null,
++                "concreteType": "AssetsConnection",
++                "kind": "LinkedField",
++                "name": "assets",
++                "plural": false,
++                "selections": [
++                  {
++                    "alias": null,
++                    "args": null,
++                    "concreteType": "Asset",
++                    "kind": "LinkedField",
++                    "name": "nodes",
++                    "plural": true,
++                    "selections": [
++                      (v2/*: any*/)
++                    ],
++                    "storageKey": null
++                  }
++                ],
++                "storageKey": null
++              }
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": null
++      }
++    ],
++    "type": "Mutation",
++    "abstractKey": null
++  },
++  "kind": "Request",
++  "operation": {
++    "argumentDefinitions": (v0/*: any*/),
++    "kind": "Operation",
++    "name": "ScreenerListItemAATWMutation",
++    "selections": [
++      {
++        "alias": null,
++        "args": (v1/*: any*/),
++        "concreteType": "AddAssetToWatchlistPayload",
++        "kind": "LinkedField",
++        "name": "addAssetToWatchlist",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "Watchlist",
++            "kind": "LinkedField",
++            "name": "watchlist",
++            "plural": false,
++            "selections": [
++              {
++                "alias": null,
++                "args": null,
++                "concreteType": "AssetsConnection",
++                "kind": "LinkedField",
++                "name": "assets",
++                "plural": false,
++                "selections": [
++                  {
++                    "alias": null,
++                    "args": null,
++                    "concreteType": "Asset",
++                    "kind": "LinkedField",
++                    "name": "nodes",
++                    "plural": true,
++                    "selections": [
++                      (v2/*: any*/),
++                      (v3/*: any*/)
++                    ],
++                    "storageKey": null
++                  }
++                ],
++                "storageKey": null
++              },
++              (v3/*: any*/)
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": null
++      }
++    ]
++  },
++  "params": {
++    "cacheID": "f9ed1d998b7dfe8c0542022d616b6aaa",
++    "id": null,
++    "metadata": {},
++    "name": "ScreenerListItemAATWMutation",
++    "operationKind": "mutation",
++    "text": "mutation ScreenerListItemAATWMutation(\n  $input: AddAssetToWatchlistInput!\n) {\n  addAssetToWatchlist(input: $input) {\n    watchlist {\n      assets {\n        nodes {\n          isInWatchlist\n          id\n        }\n      }\n      id\n    }\n  }\n}\n"
++  }
++};
++})();
++
++(node/*: any*/).hash = "24ebbb47454cfa90979bbfaa64e60a1b";
++
++export default node;
+diff --git a/crypto/frontend/generated/ScreenerListRefetchableQuery.graphql.js b/crypto/frontend/generated/ScreenerListRefetchableQuery.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..0a0ad39dd53a8766f0cbd556f5927cf05a29ca41
+--- /dev/null
++++ b/crypto/frontend/generated/ScreenerListRefetchableQuery.graphql.js
+@@ -0,0 +1,407 @@
++/**
++ * @generated SignedSource<<8bf27bfdf3003a8ce6eee8e557c25d7c>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { ConcreteRequest, Query } from 'relay-runtime';
++import type { FragmentType } from "relay-runtime";
++import type { ScreenerListFragment_query$fragmentType } from "./ScreenerListFragment_query.graphql";
++export type SortEnumType = "ASC" | "DESC" | "%future added value";
++export type AssetSortInput = {|
++  name?: ?SortEnumType,
++  price?: ?AssetPriceSortInput,
++  slug?: ?SortEnumType,
++  symbol?: ?SortEnumType,
++|};
++export type AssetPriceSortInput = {|
++  asset?: ?AssetSortInput,
++  assetId?: ?SortEnumType,
++  change24Hour?: ?SortEnumType,
++  circulatingSupply?: ?SortEnumType,
++  currency?: ?SortEnumType,
++  high24Hour?: ?SortEnumType,
++  id?: ?SortEnumType,
++  lastPrice?: ?SortEnumType,
++  low24Hour?: ?SortEnumType,
++  marketCap?: ?SortEnumType,
++  maxSupply?: ?SortEnumType,
++  modifiedAt?: ?SortEnumType,
++  open24Hour?: ?SortEnumType,
++  symbol?: ?SortEnumType,
++  tradableMarketCapRank?: ?SortEnumType,
++  tradingActivity?: ?SortEnumType,
++  volume24Hour?: ?SortEnumType,
++  volumePercentChange24Hour?: ?SortEnumType,
++|};
++export type AssetFilterInput = {|
++  and?: ?$ReadOnlyArray<AssetFilterInput>,
++  description?: ?StringOperationFilterInput,
++  name?: ?StringOperationFilterInput,
++  or?: ?$ReadOnlyArray<AssetFilterInput>,
++  price?: ?AssetPriceFilterInput,
++  slug?: ?StringOperationFilterInput,
++  symbol?: ?StringOperationFilterInput,
++  website?: ?StringOperationFilterInput,
++|};
++export type StringOperationFilterInput = {|
++  and?: ?$ReadOnlyArray<StringOperationFilterInput>,
++  contains?: ?string,
++  endsWith?: ?string,
++  eq?: ?string,
++  in?: ?$ReadOnlyArray<?string>,
++  ncontains?: ?string,
++  nendsWith?: ?string,
++  neq?: ?string,
++  nin?: ?$ReadOnlyArray<?string>,
++  nstartsWith?: ?string,
++  or?: ?$ReadOnlyArray<StringOperationFilterInput>,
++  startsWith?: ?string,
++|};
++export type AssetPriceFilterInput = {|
++  and?: ?$ReadOnlyArray<AssetPriceFilterInput>,
++  asset?: ?AssetFilterInput,
++  assetId?: ?ComparableInt32OperationFilterInput,
++  change24Hour?: ?ComparableDoubleOperationFilterInput,
++  circulatingSupply?: ?ComparableDoubleOperationFilterInput,
++  currency?: ?StringOperationFilterInput,
++  high24Hour?: ?ComparableDoubleOperationFilterInput,
++  id?: ?ComparableInt32OperationFilterInput,
++  lastPrice?: ?ComparableDoubleOperationFilterInput,
++  low24Hour?: ?ComparableDoubleOperationFilterInput,
++  marketCap?: ?ComparableDoubleOperationFilterInput,
++  maxSupply?: ?ComparableDoubleOperationFilterInput,
++  modifiedAt?: ?ComparableNullableOfDateTimeOperationFilterInput,
++  open24Hour?: ?ComparableDoubleOperationFilterInput,
++  or?: ?$ReadOnlyArray<AssetPriceFilterInput>,
++  symbol?: ?StringOperationFilterInput,
++  tradableMarketCapRank?: ?ComparableDoubleOperationFilterInput,
++  tradingActivity?: ?ComparableDoubleOperationFilterInput,
++  volume24Hour?: ?ComparableDoubleOperationFilterInput,
++  volumePercentChange24Hour?: ?ComparableDoubleOperationFilterInput,
++|};
++export type ComparableInt32OperationFilterInput = {|
++  eq?: ?number,
++  gt?: ?number,
++  gte?: ?number,
++  in?: ?$ReadOnlyArray<number>,
++  lt?: ?number,
++  lte?: ?number,
++  neq?: ?number,
++  ngt?: ?number,
++  ngte?: ?number,
++  nin?: ?$ReadOnlyArray<number>,
++  nlt?: ?number,
++  nlte?: ?number,
++|};
++export type ComparableDoubleOperationFilterInput = {|
++  eq?: ?number,
++  gt?: ?number,
++  gte?: ?number,
++  in?: ?$ReadOnlyArray<number>,
++  lt?: ?number,
++  lte?: ?number,
++  neq?: ?number,
++  ngt?: ?number,
++  ngte?: ?number,
++  nin?: ?$ReadOnlyArray<number>,
++  nlt?: ?number,
++  nlte?: ?number,
++|};
++export type ComparableNullableOfDateTimeOperationFilterInput = {|
++  eq?: ?String,
++  gt?: ?String,
++  gte?: ?String,
++  in?: ?$ReadOnlyArray<?String>,
++  lt?: ?String,
++  lte?: ?String,
++  neq?: ?String,
++  ngt?: ?String,
++  ngte?: ?String,
++  nin?: ?$ReadOnlyArray<?String>,
++  nlt?: ?String,
++  nlte?: ?String,
++|};
++export type ScreenerListRefetchableQuery$variables = {|
++  count?: ?number,
++  cursor?: ?string,
++  order?: ?$ReadOnlyArray<AssetSortInput>,
++  where?: ?AssetFilterInput,
++|};
++export type ScreenerListRefetchableQuery$data = {|
++  +$fragmentSpreads: ScreenerListFragment_query$fragmentType,
++|};
++export type ScreenerListRefetchableQuery = {|
++  variables: ScreenerListRefetchableQuery$variables,
++  response: ScreenerListRefetchableQuery$data,
++|};
++*/
++
++var node/*: ConcreteRequest*/ = (function(){
++var v0 = [
++  {
++    "defaultValue": 10,
++    "kind": "LocalArgument",
++    "name": "count"
++  },
++  {
++    "defaultValue": null,
++    "kind": "LocalArgument",
++    "name": "cursor"
++  },
++  {
++    "defaultValue": {
++      "price": {
++        "marketCap": "DESC"
++      }
++    },
++    "kind": "LocalArgument",
++    "name": "order"
++  },
++  {
++    "defaultValue": null,
++    "kind": "LocalArgument",
++    "name": "where"
++  }
++],
++v1 = {
++  "kind": "Variable",
++  "name": "order",
++  "variableName": "order"
++},
++v2 = {
++  "kind": "Variable",
++  "name": "where",
++  "variableName": "where"
++},
++v3 = [
++  {
++    "kind": "Variable",
++    "name": "after",
++    "variableName": "cursor"
++  },
++  {
++    "kind": "Variable",
++    "name": "first",
++    "variableName": "count"
++  },
++  (v1/*: any*/),
++  (v2/*: any*/)
++],
++v4 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "id",
++  "storageKey": null
++};
++return {
++  "fragment": {
++    "argumentDefinitions": (v0/*: any*/),
++    "kind": "Fragment",
++    "metadata": null,
++    "name": "ScreenerListRefetchableQuery",
++    "selections": [
++      {
++        "args": [
++          {
++            "kind": "Variable",
++            "name": "count",
++            "variableName": "count"
++          },
++          {
++            "kind": "Variable",
++            "name": "cursor",
++            "variableName": "cursor"
++          },
++          (v1/*: any*/),
++          (v2/*: any*/)
++        ],
++        "kind": "FragmentSpread",
++        "name": "ScreenerListFragment_query"
++      }
++    ],
++    "type": "Query",
++    "abstractKey": null
++  },
++  "kind": "Request",
++  "operation": {
++    "argumentDefinitions": (v0/*: any*/),
++    "kind": "Operation",
++    "name": "ScreenerListRefetchableQuery",
++    "selections": [
++      {
++        "alias": null,
++        "args": (v3/*: any*/),
++        "concreteType": "AssetsConnection",
++        "kind": "LinkedField",
++        "name": "assets",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "AssetsEdge",
++            "kind": "LinkedField",
++            "name": "edges",
++            "plural": true,
++            "selections": [
++              {
++                "alias": null,
++                "args": null,
++                "concreteType": "Asset",
++                "kind": "LinkedField",
++                "name": "node",
++                "plural": false,
++                "selections": [
++                  (v4/*: any*/),
++                  {
++                    "alias": null,
++                    "args": null,
++                    "kind": "ScalarField",
++                    "name": "symbol",
++                    "storageKey": null
++                  },
++                  {
++                    "alias": null,
++                    "args": null,
++                    "kind": "ScalarField",
++                    "name": "name",
++                    "storageKey": null
++                  },
++                  {
++                    "alias": null,
++                    "args": null,
++                    "kind": "ScalarField",
++                    "name": "imageUrl",
++                    "storageKey": null
++                  },
++                  {
++                    "alias": null,
++                    "args": null,
++                    "kind": "ScalarField",
++                    "name": "isInWatchlist",
++                    "storageKey": null
++                  },
++                  {
++                    "alias": null,
++                    "args": null,
++                    "concreteType": "AssetPrice",
++                    "kind": "LinkedField",
++                    "name": "price",
++                    "plural": false,
++                    "selections": [
++                      {
++                        "alias": null,
++                        "args": null,
++                        "kind": "ScalarField",
++                        "name": "currency",
++                        "storageKey": null
++                      },
++                      {
++                        "alias": null,
++                        "args": null,
++                        "kind": "ScalarField",
++                        "name": "lastPrice",
++                        "storageKey": null
++                      },
++                      {
++                        "alias": null,
++                        "args": null,
++                        "kind": "ScalarField",
++                        "name": "change24Hour",
++                        "storageKey": null
++                      },
++                      {
++                        "alias": null,
++                        "args": null,
++                        "kind": "ScalarField",
++                        "name": "marketCap",
++                        "storageKey": null
++                      },
++                      (v4/*: any*/)
++                    ],
++                    "storageKey": null
++                  },
++                  {
++                    "alias": null,
++                    "args": null,
++                    "kind": "ScalarField",
++                    "name": "__typename",
++                    "storageKey": null
++                  }
++                ],
++                "storageKey": null
++              },
++              {
++                "alias": null,
++                "args": null,
++                "kind": "ScalarField",
++                "name": "cursor",
++                "storageKey": null
++              }
++            ],
++            "storageKey": null
++          },
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "PageInfo",
++            "kind": "LinkedField",
++            "name": "pageInfo",
++            "plural": false,
++            "selections": [
++              {
++                "alias": null,
++                "args": null,
++                "kind": "ScalarField",
++                "name": "endCursor",
++                "storageKey": null
++              },
++              {
++                "alias": null,
++                "args": null,
++                "kind": "ScalarField",
++                "name": "hasNextPage",
++                "storageKey": null
++              }
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": null
++      },
++      {
++        "alias": null,
++        "args": (v3/*: any*/),
++        "filters": [
++          "where",
++          "order"
++        ],
++        "handle": "connection",
++        "key": "ScreenerList_assets",
++        "kind": "LinkedHandle",
++        "name": "assets"
++      }
++    ]
++  },
++  "params": {
++    "cacheID": "39c80309903fdd0eb6fc6fc7020847b5",
++    "id": null,
++    "metadata": {},
++    "name": "ScreenerListRefetchableQuery",
++    "operationKind": "query",
++    "text": "query ScreenerListRefetchableQuery(\n  $count: Int = 10\n  $cursor: String\n  $order: [AssetSortInput!] = {price: {marketCap: DESC}}\n  $where: AssetFilterInput\n) {\n  ...ScreenerListFragment_query_2KVBjJ\n}\n\nfragment ScreenerListFragment_query_2KVBjJ on Query {\n  assets(after: $cursor, first: $count, where: $where, order: $order) {\n    edges {\n      node {\n        id\n        ...ScreenerListItemFragment_asset\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ScreenerListItemFragment_asset on Asset {\n  id\n  symbol\n  name\n  imageUrl\n  isInWatchlist\n  price {\n    currency\n    lastPrice\n    change24Hour\n    marketCap\n    id\n  }\n}\n"
++  }
++};
++})();
++
++(node/*: any*/).hash = "35a34d660d7155895c77082e8a7c5436";
++
++export default node;
+diff --git a/crypto/frontend/generated/DashboardTickerItemFragment_asset.graphql.js b/crypto/frontend/generated/DashboardTickerItemFragment_asset.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..b3491798172a78aa9669226e68fe628a1d22eb4a
+--- /dev/null
++++ b/crypto/frontend/generated/DashboardTickerItemFragment_asset.graphql.js
+@@ -0,0 +1,92 @@
++/**
++ * @generated SignedSource<<54db9757ed5f77cdea209315ec0517dd>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { Fragment, ReaderFragment } from 'relay-runtime';
++import type { FragmentType } from "relay-runtime";
++declare export opaque type DashboardTickerItemFragment_asset$fragmentType: FragmentType;
++export type DashboardTickerItemFragment_asset$data = {|
++  +symbol: string,
++  +color: string,
++  +price: {|
++    +currency: string,
++    +lastPrice: number,
++    +change24Hour: number,
++  |},
++  +$fragmentType: DashboardTickerItemFragment_asset$fragmentType,
++|};
++export type DashboardTickerItemFragment_asset$key = {
++  +$data?: DashboardTickerItemFragment_asset$data,
++  +$fragmentSpreads: DashboardTickerItemFragment_asset$fragmentType,
++  ...
++};
++*/
++
++var node/*: ReaderFragment*/ = {
++  "argumentDefinitions": [],
++  "kind": "Fragment",
++  "metadata": null,
++  "name": "DashboardTickerItemFragment_asset",
++  "selections": [
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "symbol",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "color",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "concreteType": "AssetPrice",
++      "kind": "LinkedField",
++      "name": "price",
++      "plural": false,
++      "selections": [
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "currency",
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "lastPrice",
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "change24Hour",
++          "storageKey": null
++        }
++      ],
++      "storageKey": null
++    }
++  ],
++  "type": "Asset",
++  "abstractKey": null
++};
++
++(node/*: any*/).hash = "0618973344e263ce8d730c44fc78cb88";
++
++export default node;
+diff --git a/crypto/frontend/generated/SettingsContainerQuery.graphql.js b/crypto/frontend/generated/SettingsContainerQuery.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..1915884b256218bbfc6174fd4fc97458a8dc99ea
+--- /dev/null
++++ b/crypto/frontend/generated/SettingsContainerQuery.graphql.js
+@@ -0,0 +1,100 @@
++/**
++ * @generated SignedSource<<209ad39deb7bef604bf502e896f9e111>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { ConcreteRequest, Query } from 'relay-runtime';
++import type { SettingsProfileFragment_query$fragmentType } from "./SettingsProfileFragment_query.graphql";
++export type SettingsContainerQuery$variables = {||};
++export type SettingsContainerQuery$data = {|
++  +$fragmentSpreads: SettingsProfileFragment_query$fragmentType,
++|};
++export type SettingsContainerQuery = {|
++  variables: SettingsContainerQuery$variables,
++  response: SettingsContainerQuery$data,
++|};
++*/
++
++var node/*: ConcreteRequest*/ = {
++  "fragment": {
++    "argumentDefinitions": [],
++    "kind": "Fragment",
++    "metadata": null,
++    "name": "SettingsContainerQuery",
++    "selections": [
++      {
++        "args": null,
++        "kind": "FragmentSpread",
++        "name": "SettingsProfileFragment_query"
++      }
++    ],
++    "type": "Query",
++    "abstractKey": null
++  },
++  "kind": "Request",
++  "operation": {
++    "argumentDefinitions": [],
++    "kind": "Operation",
++    "name": "SettingsContainerQuery",
++    "selections": [
++      {
++        "alias": null,
++        "args": null,
++        "concreteType": "User",
++        "kind": "LinkedField",
++        "name": "me",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "kind": "ScalarField",
++            "name": "id",
++            "storageKey": null
++          },
++          {
++            "alias": null,
++            "args": null,
++            "kind": "ScalarField",
++            "name": "name",
++            "storageKey": null
++          },
++          {
++            "alias": null,
++            "args": null,
++            "kind": "ScalarField",
++            "name": "displayName",
++            "storageKey": null
++          },
++          {
++            "alias": null,
++            "args": null,
++            "kind": "ScalarField",
++            "name": "imageUrl",
++            "storageKey": null
++          }
++        ],
++        "storageKey": null
++      }
++    ]
++  },
++  "params": {
++    "cacheID": "3c305dd58e01fc7eb0971f73ca979d49",
++    "id": null,
++    "metadata": {},
++    "name": "SettingsContainerQuery",
++    "operationKind": "query",
++    "text": "query SettingsContainerQuery {\n  ...SettingsProfileFragment_query\n}\n\nfragment SettingsProfileFragment_query on Query {\n  me {\n    id\n    name\n    displayName\n    imageUrl\n  }\n}\n"
++  }
++};
++
++(node/*: any*/).hash = "6c34ee5545809f6e1770ecf4fb9a68a5";
++
++export default node;
+diff --git a/crypto/frontend/pages/_app.js b/crypto/frontend/pages/_app.js
+index 8538cf3da3d9b697b1504a3947910a1823bea109..d430ee8773ac608e702e9e8de2c6123554c3745c 100644
+--- a/crypto/frontend/pages/_app.js
++++ b/crypto/frontend/pages/_app.js
+@@ -1,7 +1,9 @@
+ import {CacheProvider} from '@emotion/react';
+ import {CssBaseline, ThemeProvider} from '@mui/material';
+ import {useEffect} from 'react';
++import {RelayEnvironmentProvider} from 'react-relay';
+ 
++import {useEnvironment} from '@/client';
+ import {
+   Content,
+   Hacks,
+@@ -19,6 +21,7 @@ export default function MyApp({
+   emotionCache = clientSideEmotionCache,
+   pageProps,
+ }) {
++  const environment = useEnvironment(pageProps.initialRecords);
+   const [theme, mode] = usePreferredTheme();
+ 
+   useEffect(() => {
+@@ -28,19 +31,21 @@ export default function MyApp({
+   }, []);
+ 
+   return (
+-    <CacheProvider value={emotionCache}>
+-      <ThemeProvider theme={theme}>
+-        <ModeProvider value={mode}>
+-          <Metadata />
+-          <CssBaseline enableColorScheme />
+-          <SlotsProvider>
+-            <Content>
+-              <Component {...pageProps} />
+-            </Content>
+-          </SlotsProvider>
+-          <Hacks />
+-        </ModeProvider>
+-      </ThemeProvider>
+-    </CacheProvider>
++    <RelayEnvironmentProvider environment={environment}>
++      <CacheProvider value={emotionCache}>
++        <ThemeProvider theme={theme}>
++          <ModeProvider value={mode}>
++            <Metadata />
++            <CssBaseline enableColorScheme />
++            <SlotsProvider>
++              <Content variant="crypto">
++                <Component {...pageProps} />
++              </Content>
++            </SlotsProvider>
++            <Hacks />
++          </ModeProvider>
++        </ThemeProvider>
++      </CacheProvider>
++    </RelayEnvironmentProvider>
+   );
+ }
+diff --git a/crypto/frontend/pages/index.js b/crypto/frontend/pages/index.js
+index 8b3e2fa25f805f5e59f6da3bc19b8f1365bbb124..f5b3bfcc5a809b3d23c30b8a2d16fc34f5eabf4a 100644
+--- a/crypto/frontend/pages/index.js
++++ b/crypto/frontend/pages/index.js
+@@ -1 +1 @@
+-export {Dummy as default} from '@/components';
++export {Dashboard as default} from '@/scenes';
+diff --git a/crypto/frontend/pages/screener.js b/crypto/frontend/pages/screener.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..989abd76b6c37b827054f5f533900ccff7aa21d3
+--- /dev/null
++++ b/crypto/frontend/pages/screener.js
+@@ -0,0 +1 @@
++export {Screener as default} from '@/scenes';
+diff --git a/crypto/frontend/scenes/dashboard/DashboardSpotlightItem.js b/crypto/frontend/scenes/dashboard/DashboardSpotlightItem.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..db4f5008298753d18338d8e94c13889c4c2775da
+--- /dev/null
++++ b/crypto/frontend/scenes/dashboard/DashboardSpotlightItem.js
+@@ -0,0 +1,192 @@
++import {
++  Checkbox,
++  Link,
++  Stack,
++  TableCell,
++  TableRow,
++  Typography,
++} from '@mui/material';
++import NextLink from 'next/link';
++import {useCallback} from 'react';
++import {graphql, useFragment, useMutation} from 'react-relay';
++
++import {CryptoIcon, WatchIcon, WatchedIcon} from '@/icons';
++import {direction, formatCurrency, formatPercent} from '@/utils';
++
++const useAddToWatchlist = () => {
++  const [commit, isInFlight] = useMutation(graphql`
++    mutation DashboardSpotlightItemAATWMutation(
++      $input: AddAssetToWatchlistInput!
++    ) {
++      addAssetToWatchlist(input: $input) {
++        watchlist {
++          assets {
++            nodes {
++              isInWatchlist
++            }
++          }
++        }
++      }
++    }
++  `);
++
++  const execute = useCallback(
++    ({id, symbol}) => {
++      commit({
++        variables: {input: {symbol}},
++        optimisticUpdater(store) {
++          const record = store.get(id);
++
++          record.setValue(true, 'isInWatchlist');
++        },
++        onCompleted() {
++          console.log(`${symbol} was added to the watchlist`);
++        },
++        onError() {
++          console.log(
++            `there was a problem with ${symbol} while adding to the watchlist`,
++          );
++        },
++      });
++    },
++    [commit],
++  );
++
++  return [execute, isInFlight];
++};
++
++const useRemoveFromWatchlist = () => {
++  const [commit, isInFlight] = useMutation(graphql`
++    mutation DashboardSpotlightItemRAFWMutation(
++      $input: RemoveAssetFromWatchlistInput!
++    ) {
++      removeAssetFromWatchlist(input: $input) {
++        removedAsset {
++          isInWatchlist
++        }
++      }
++    }
++  `);
++
++  const execute = useCallback(
++    ({id, symbol}) => {
++      commit({
++        variables: {input: {symbol}},
++        optimisticUpdater: (store) => {
++          const record = store.get(id);
++
++          record.setValue(false, 'isInWatchlist');
++        },
++        onCompleted: () => {
++          console.log(`${symbol} was removed from the watchlist`);
++        },
++        onError: () => {
++          console.log(
++            `there was a problem with ${symbol} while removing from the watchlist`,
++          );
++        },
++      });
++    },
++    [commit],
++  );
++
++  return [execute, isInFlight];
++};
++
++export default function DashboardSpotlightItem({fragmentRef, view}) {
++  const asset = useFragment(
++    graphql`
++      fragment DashboardSpotlightItemFragment_asset on Asset {
++        id
++        symbol
++        name
++        imageUrl
++        isInWatchlist
++        price {
++          currency
++          lastPrice
++          change24Hour
++        }
++      }
++    `,
++    fragmentRef,
++  );
++  const {price} = asset;
++
++  const [addToWatchlist] = useAddToWatchlist();
++  const [removeFromWatchlist] = useRemoveFromWatchlist();
++
++  const labelId = `row:${asset.symbol}`;
++
++  return (
++    <TableRow
++      key={asset.symbol}
++      role="checkbox"
++      aria-checked={!!asset.isInWatchlist}
++      tabIndex={-1}
++      hover
++    >
++      <TableCell component="th" scope="row" sx={{width: 'auto'}}>
++        <NextLink
++          href="/currencies/[symbol]"
++          as={`/currencies/${asset.symbol}`}
++          passHref
++        >
++          <Link underline="none">
++            <Stack direction="row" alignItems="center" gap={2}>
++              <CryptoIcon src={asset.imageUrl} alt={asset.name} size="medium" />
++              <Stack direction="column">
++                <Typography id={labelId} variant="caption">
++                  {asset.name}
++                </Typography>
++                <Typography variant="caption" color="text.secondary">
++                  {asset.symbol}
++                </Typography>
++              </Stack>
++            </Stack>
++          </Link>
++        </NextLink>
++      </TableCell>
++      {view === 'price' && (
++        <TableCell
++          align="right"
++          sx={{width: 100, paddingLeft: 0, fontWeight: 600}}
++        >
++          {price && formatCurrency(price.lastPrice, {currency: price.currency})}
++        </TableCell>
++      )}
++      {view === 'change' && (
++        <TableCell
++          align="right"
++          sx={(theme) => ({
++            width: 100,
++            paddingLeft: 0,
++            color: theme.palette.trend[direction(price?.change24Hour)],
++          })}
++        >
++          {price && formatPercent(price.change24Hour)}
++        </TableCell>
++      )}
++      <TableCell align="right" sx={{width: 46, paddingLeft: 0}}>
++        <Checkbox
++          color="primary"
++          icon={<WatchIcon />}
++          checkedIcon={<WatchedIcon />}
++          checked={!!asset.isInWatchlist}
++          disabled={asset.isInWatchlist === null}
++          size="small"
++          inputProps={{
++            'aria-labelledby': labelId,
++          }}
++          onChange={(event) => {
++            if (event.target.checked) {
++              addToWatchlist(asset);
++            } else {
++              removeFromWatchlist(asset);
++            }
++          }}
++        />
++      </TableCell>
++    </TableRow>
++  );
++}
+diff --git a/crypto/frontend/scenes/index.js b/crypto/frontend/scenes/index.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..53433e4fd463c46093fec0f7743fb495be5397d8
+--- /dev/null
++++ b/crypto/frontend/scenes/index.js
+@@ -0,0 +1,3 @@
++export * from './dashboard';
++export * from './screener';
++export * from './settings';
+diff --git a/crypto/frontend/generated/SettingsProfileFragment_query.graphql.js b/crypto/frontend/generated/SettingsProfileFragment_query.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..988dac60ed4988993b17a5c8eef5f3b95ee5aa09
+--- /dev/null
++++ b/crypto/frontend/generated/SettingsProfileFragment_query.graphql.js
+@@ -0,0 +1,84 @@
++/**
++ * @generated SignedSource<<d02dff793dd8e5f772d461e71cc6f3ed>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { Fragment, ReaderFragment } from 'relay-runtime';
++import type { FragmentType } from "relay-runtime";
++declare export opaque type SettingsProfileFragment_query$fragmentType: FragmentType;
++export type SettingsProfileFragment_query$data = {|
++  +me: ?{|
++    +id: string,
++    +name: string,
++    +displayName: ?string,
++    +imageUrl: ?string,
++  |},
++  +$fragmentType: SettingsProfileFragment_query$fragmentType,
++|};
++export type SettingsProfileFragment_query$key = {
++  +$data?: SettingsProfileFragment_query$data,
++  +$fragmentSpreads: SettingsProfileFragment_query$fragmentType,
++  ...
++};
++*/
++
++var node/*: ReaderFragment*/ = {
++  "argumentDefinitions": [],
++  "kind": "Fragment",
++  "metadata": null,
++  "name": "SettingsProfileFragment_query",
++  "selections": [
++    {
++      "alias": null,
++      "args": null,
++      "concreteType": "User",
++      "kind": "LinkedField",
++      "name": "me",
++      "plural": false,
++      "selections": [
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "id",
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "name",
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "displayName",
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "imageUrl",
++          "storageKey": null
++        }
++      ],
++      "storageKey": null
++    }
++  ],
++  "type": "Query",
++  "abstractKey": null
++};
++
++(node/*: any*/).hash = "44e477a33e75832ed8eac68415b459a6";
++
++export default node;
+diff --git a/crypto/frontend/generated/DashboardContainerQuery.graphql.js b/crypto/frontend/generated/DashboardContainerQuery.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..4a6e7399cd922a55783aa8d721a7991ac926eb92
+--- /dev/null
++++ b/crypto/frontend/generated/DashboardContainerQuery.graphql.js
+@@ -0,0 +1,413 @@
++/**
++ * @generated SignedSource<<0c240d568c225fb8b186f178151132db>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { ConcreteRequest, Query } from 'relay-runtime';
++import type { DashboardFeaturedFragment_query$fragmentType } from "./DashboardFeaturedFragment_query.graphql";
++import type { DashboardSpotlightFragment_query$fragmentType } from "./DashboardSpotlightFragment_query.graphql";
++import type { DashboardTickerFragment_query$fragmentType } from "./DashboardTickerFragment_query.graphql";
++export type DashboardContainerQuery$variables = {||};
++export type DashboardContainerQuery$data = {|
++  +$fragmentSpreads: DashboardTickerFragment_query$fragmentType & DashboardFeaturedFragment_query$fragmentType & DashboardSpotlightFragment_query$fragmentType,
++|};
++export type DashboardContainerQuery = {|
++  variables: DashboardContainerQuery$variables,
++  response: DashboardContainerQuery$data,
++|};
++*/
++
++var node/*: ConcreteRequest*/ = (function(){
++var v0 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "symbol",
++  "storageKey": null
++},
++v1 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "color",
++  "storageKey": null
++},
++v2 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "currency",
++  "storageKey": null
++},
++v3 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "lastPrice",
++  "storageKey": null
++},
++v4 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "change24Hour",
++  "storageKey": null
++},
++v5 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "id",
++  "storageKey": null
++},
++v6 = {
++  "alias": null,
++  "args": null,
++  "concreteType": "AssetPrice",
++  "kind": "LinkedField",
++  "name": "price",
++  "plural": false,
++  "selections": [
++    (v2/*: any*/),
++    (v3/*: any*/),
++    (v4/*: any*/),
++    (v5/*: any*/)
++  ],
++  "storageKey": null
++},
++v7 = {
++  "kind": "Literal",
++  "name": "first",
++  "value": 5
++},
++v8 = [
++  {
++    "alias": null,
++    "args": null,
++    "concreteType": "Asset",
++    "kind": "LinkedField",
++    "name": "nodes",
++    "plural": true,
++    "selections": [
++      (v5/*: any*/),
++      (v0/*: any*/),
++      {
++        "alias": null,
++        "args": null,
++        "kind": "ScalarField",
++        "name": "name",
++        "storageKey": null
++      },
++      {
++        "alias": null,
++        "args": null,
++        "kind": "ScalarField",
++        "name": "imageUrl",
++        "storageKey": null
++      },
++      {
++        "alias": null,
++        "args": null,
++        "kind": "ScalarField",
++        "name": "isInWatchlist",
++        "storageKey": null
++      },
++      (v6/*: any*/)
++    ],
++    "storageKey": null
++  }
++];
++return {
++  "fragment": {
++    "argumentDefinitions": [],
++    "kind": "Fragment",
++    "metadata": null,
++    "name": "DashboardContainerQuery",
++    "selections": [
++      {
++        "args": null,
++        "kind": "FragmentSpread",
++        "name": "DashboardTickerFragment_query"
++      },
++      {
++        "args": null,
++        "kind": "FragmentSpread",
++        "name": "DashboardFeaturedFragment_query"
++      },
++      {
++        "kind": "Defer",
++        "selections": [
++          {
++            "args": null,
++            "kind": "FragmentSpread",
++            "name": "DashboardSpotlightFragment_query"
++          }
++        ]
++      }
++    ],
++    "type": "Query",
++    "abstractKey": null
++  },
++  "kind": "Request",
++  "operation": {
++    "argumentDefinitions": [],
++    "kind": "Operation",
++    "name": "DashboardContainerQuery",
++    "selections": [
++      {
++        "alias": "ticker",
++        "args": [
++          {
++            "kind": "Literal",
++            "name": "first",
++            "value": 10
++          },
++          {
++            "kind": "Literal",
++            "name": "order",
++            "value": {
++              "price": {
++                "tradableMarketCapRank": "ASC"
++              }
++            }
++          }
++        ],
++        "concreteType": "AssetsConnection",
++        "kind": "LinkedField",
++        "name": "assets",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "Asset",
++            "kind": "LinkedField",
++            "name": "nodes",
++            "plural": true,
++            "selections": [
++              (v0/*: any*/),
++              (v1/*: any*/),
++              (v6/*: any*/),
++              (v5/*: any*/)
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": "assets(first:10,order:{\"price\":{\"tradableMarketCapRank\":\"ASC\"}})"
++      },
++      {
++        "alias": "featured",
++        "args": [
++          {
++            "kind": "Literal",
++            "name": "where",
++            "value": {
++              "symbol": {
++                "in": [
++                  "BTC",
++                  "ADA",
++                  "ALGO"
++                ]
++              }
++            }
++          }
++        ],
++        "concreteType": "AssetsConnection",
++        "kind": "LinkedField",
++        "name": "assets",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "Asset",
++            "kind": "LinkedField",
++            "name": "nodes",
++            "plural": true,
++            "selections": [
++              (v5/*: any*/),
++              (v0/*: any*/),
++              (v1/*: any*/),
++              {
++                "alias": null,
++                "args": null,
++                "concreteType": "AssetPrice",
++                "kind": "LinkedField",
++                "name": "price",
++                "plural": false,
++                "selections": [
++                  (v2/*: any*/),
++                  (v3/*: any*/),
++                  (v4/*: any*/),
++                  {
++                    "alias": null,
++                    "args": [
++                      {
++                        "kind": "Literal",
++                        "name": "span",
++                        "value": "DAY"
++                      }
++                    ],
++                    "concreteType": "AssetPriceChange",
++                    "kind": "LinkedField",
++                    "name": "change",
++                    "plural": false,
++                    "selections": [
++                      {
++                        "alias": null,
++                        "args": null,
++                        "concreteType": "HistoryConnection",
++                        "kind": "LinkedField",
++                        "name": "history",
++                        "plural": false,
++                        "selections": [
++                          {
++                            "alias": null,
++                            "args": null,
++                            "concreteType": "AssetPriceHistory",
++                            "kind": "LinkedField",
++                            "name": "nodes",
++                            "plural": true,
++                            "selections": [
++                              {
++                                "alias": null,
++                                "args": null,
++                                "kind": "ScalarField",
++                                "name": "epoch",
++                                "storageKey": null
++                              },
++                              {
++                                "alias": null,
++                                "args": null,
++                                "kind": "ScalarField",
++                                "name": "price",
++                                "storageKey": null
++                              }
++                            ],
++                            "storageKey": null
++                          }
++                        ],
++                        "storageKey": null
++                      },
++                      (v5/*: any*/)
++                    ],
++                    "storageKey": "change(span:\"DAY\")"
++                  },
++                  (v5/*: any*/)
++                ],
++                "storageKey": null
++              }
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": "assets(where:{\"symbol\":{\"in\":[\"BTC\",\"ADA\",\"ALGO\"]}})"
++      },
++      {
++        "if": null,
++        "kind": "Defer",
++        "label": "DashboardContainerQuery$defer$spotlight",
++        "selections": [
++          {
++            "alias": "gainers",
++            "args": [
++              (v7/*: any*/),
++              {
++                "kind": "Literal",
++                "name": "order",
++                "value": {
++                  "price": {
++                    "change24Hour": "DESC"
++                  }
++                }
++              },
++              {
++                "kind": "Literal",
++                "name": "where",
++                "value": {
++                  "price": {
++                    "change24Hour": {
++                      "gt": 0
++                    }
++                  }
++                }
++              }
++            ],
++            "concreteType": "AssetsConnection",
++            "kind": "LinkedField",
++            "name": "assets",
++            "plural": false,
++            "selections": [
++              {
++                "if": null,
++                "kind": "Defer",
++                "label": "DashboardSpotlightGainersFragment_query$defer$gainers",
++                "selections": (v8/*: any*/)
++              }
++            ],
++            "storageKey": "assets(first:5,order:{\"price\":{\"change24Hour\":\"DESC\"}},where:{\"price\":{\"change24Hour\":{\"gt\":0}}})"
++          },
++          {
++            "alias": "losers",
++            "args": [
++              (v7/*: any*/),
++              {
++                "kind": "Literal",
++                "name": "order",
++                "value": {
++                  "price": {
++                    "change24Hour": "ASC"
++                  }
++                }
++              },
++              {
++                "kind": "Literal",
++                "name": "where",
++                "value": {
++                  "price": {
++                    "change24Hour": {
++                      "lt": 0
++                    }
++                  }
++                }
++              }
++            ],
++            "concreteType": "AssetsConnection",
++            "kind": "LinkedField",
++            "name": "assets",
++            "plural": false,
++            "selections": [
++              {
++                "if": null,
++                "kind": "Defer",
++                "label": "DashboardSpotlightLosersFragment_query$defer$losers",
++                "selections": (v8/*: any*/)
++              }
++            ],
++            "storageKey": "assets(first:5,order:{\"price\":{\"change24Hour\":\"ASC\"}},where:{\"price\":{\"change24Hour\":{\"lt\":0}}})"
++          }
++        ]
++      }
++    ]
++  },
++  "params": {
++    "cacheID": "5aa9bb8b60967e07bdee05980b267adf",
++    "id": null,
++    "metadata": {},
++    "name": "DashboardContainerQuery",
++    "operationKind": "query",
++    "text": "query DashboardContainerQuery {\n  ...DashboardTickerFragment_query\n  ...DashboardFeaturedFragment_query\n  ...DashboardSpotlightFragment_query @defer(label: \"DashboardContainerQuery$defer$spotlight\")\n}\n\nfragment DashboardFeaturedCardFragment_asset on Asset {\n  symbol\n  color\n  price {\n    currency\n    lastPrice\n    change24Hour\n    change(span: DAY) {\n      history {\n        nodes {\n          epoch\n          price\n        }\n      }\n      id\n    }\n    id\n  }\n}\n\nfragment DashboardFeaturedFragment_query on Query {\n  featured: assets(where: {symbol: {in: [\"BTC\", \"ADA\", \"ALGO\"]}}) {\n    nodes {\n      id\n      ...DashboardFeaturedCardFragment_asset\n    }\n  }\n}\n\nfragment DashboardSpotlightCardFragment_asset on AssetsConnection {\n  nodes {\n    id\n    ...DashboardSpotlightItemFragment_asset\n  }\n}\n\nfragment DashboardSpotlightFragment_query on Query {\n  ...DashboardSpotlightGainersFragment_query\n  ...DashboardSpotlightLosersFragment_query\n}\n\nfragment DashboardSpotlightGainersFragment_query on Query {\n  gainers: assets(first: 5, where: {price: {change24Hour: {gt: 0}}}, order: {price: {change24Hour: DESC}}) {\n    ...DashboardSpotlightCardFragment_asset @defer(label: \"DashboardSpotlightGainersFragment_query$defer$gainers\")\n  }\n}\n\nfragment DashboardSpotlightItemFragment_asset on Asset {\n  id\n  symbol\n  name\n  imageUrl\n  isInWatchlist\n  price {\n    currency\n    lastPrice\n    change24Hour\n    id\n  }\n}\n\nfragment DashboardSpotlightLosersFragment_query on Query {\n  losers: assets(first: 5, where: {price: {change24Hour: {lt: 0}}}, order: {price: {change24Hour: ASC}}) {\n    ...DashboardSpotlightCardFragment_asset @defer(label: \"DashboardSpotlightLosersFragment_query$defer$losers\")\n  }\n}\n\nfragment DashboardTickerFragment_query on Query {\n  ticker: assets(first: 10, order: {price: {tradableMarketCapRank: ASC}}) {\n    nodes {\n      symbol\n      ...DashboardTickerItemFragment_asset\n      id\n    }\n  }\n}\n\nfragment DashboardTickerItemFragment_asset on Asset {\n  symbol\n  color\n  price {\n    currency\n    lastPrice\n    change24Hour\n    id\n  }\n}\n"
++  }
++};
++})();
++
++(node/*: any*/).hash = "f2e57f047fc88f56e08efc23ee3e6f43";
++
++export default node;
+diff --git a/crypto/frontend/scenes/settings/Group.js b/crypto/frontend/scenes/settings/Group.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..e083eb6997c21d97d563bd374c8e00293506cc6c
+--- /dev/null
++++ b/crypto/frontend/scenes/settings/Group.js
+@@ -0,0 +1,35 @@
++import {Accordion, AccordionSummary, Stack, Typography} from '@mui/material';
++
++import {ExpandLockedIcon, ExpandMoreIcon} from '@/icons';
++
++export const Group = ({
++  id,
++  icon: Icon,
++  title,
++  active,
++  disabled,
++  children,
++  onChange,
++}) => (
++  <Accordion
++    expanded={id === active}
++    disabled={disabled}
++    onChange={(event, expanded) => {
++      onChange(expanded ? id : false);
++    }}
++  >
++    <AccordionSummary
++      id={`panel-${id}-header`}
++      expandIcon={disabled ? <ExpandLockedIcon /> : <ExpandMoreIcon />}
++      aria-controls={`panel-${id}-content`}
++    >
++      <Stack direction="row" alignItems="center" gap={2}>
++        <Icon color="action" />
++        <Typography id={id} variant="h3">
++          {title}
++        </Typography>
++      </Stack>
++    </AccordionSummary>
++    {children}
++  </Accordion>
++);
+diff --git a/crypto/frontend/scenes/settings/SettingsProfile.js b/crypto/frontend/scenes/settings/SettingsProfile.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..8bb53a87c94978b5e7285eee838b04e6c5c13ec7
+--- /dev/null
++++ b/crypto/frontend/scenes/settings/SettingsProfile.js
+@@ -0,0 +1,199 @@
++import {
++  AccordionActions,
++  AccordionDetails,
++  Avatar,
++  Button,
++  IconButton,
++  Stack,
++  TextField,
++} from '@mui/material';
++import {memo, useCallback, useEffect, useRef, useState} from 'react';
++import {useDropzone} from 'react-dropzone';
++import {graphql, useFragment, useMutation} from 'react-relay';
++
++import {DeleteIcon, FileUploadIcon, ProfileIcon} from '@/icons';
++
++import {Group} from './Group';
++
++const useUpdateUserProfile = () => {
++  const [commit, isInFlight] = useMutation(graphql`
++    mutation SettingsProfileUUPMutation($input: UpdateUserProfileInput!) {
++      updateUserProfile(input: $input) {
++        updatedUser {
++          displayName
++          imageUrl
++        }
++      }
++    }
++  `);
++
++  const execute = useCallback(
++    ({id, displayName, image, previewUrl}) => {
++      commit({
++        variables: {
++          input: Object.assign({displayName}, image !== undefined && {image}),
++        },
++        optimisticUpdater(store) {
++          const record = store.get(id);
++
++          record.setValue(displayName, 'displayName');
++
++          if (previewUrl !== undefined) {
++            record.setValue(previewUrl, 'imageUrl');
++          }
++        },
++        onCompleted() {
++          console.log('profile was updated');
++        },
++        onError() {
++          console.log('there was a problem while updating the profile');
++        },
++      });
++    },
++    [commit],
++  );
++
++  return [execute, isInFlight];
++};
++
++export default memo(function SettingsProfile({active, onChange, fragmentRef}) {
++  const data = useFragment(
++    graphql`
++      fragment SettingsProfileFragment_query on Query {
++        me {
++          id
++          name
++          displayName
++          imageUrl
++        }
++      }
++    `,
++    fragmentRef,
++  );
++  const me = data.me;
++
++  const [updateUserProfile] = useUpdateUserProfile();
++
++  const [[image, previewUrl], setAvatar] = useState([]);
++
++  const {getRootProps, getInputProps, open} = useDropzone({
++    accept: 'image/*',
++    multiple: false,
++    maxFiles: 1,
++    maxSize: 1_024_000,
++    onDropAccepted: ([file]) => {
++      console.log('image drop accepted');
++
++      setAvatar([file, URL.createObjectURL(file)]);
++    },
++    onDropRejected: (fileRejections) => {
++      console.log('image drop rejected', fileRejections);
++    },
++  });
++
++  const displaynameRef = useRef(null);
++
++  useEffect(() => {
++    if (previewUrl) {
++      return () => {
++        URL.revokeObjectURL(previewUrl);
++      };
++    }
++  }, [previewUrl]);
++
++  return (
++    <Group
++      id="profile"
++      icon={ProfileIcon}
++      title="Profile"
++      active={active}
++      disabled={!me}
++      onChange={onChange}
++    >
++      {me && (
++        <form
++          name="links"
++          onSubmit={(e) => {
++            e.preventDefault();
++
++            const displayName = displaynameRef.current?.value || null;
++
++            updateUserProfile({
++              id: me.id,
++              displayName,
++              image,
++              previewUrl,
++            });
++          }}
++        >
++          <AccordionDetails id="panel-profile-content" sx={{p: 6}}>
++            <Stack direction="column" alignItems="center" gap={8}>
++              <input {...getInputProps()} />
++              <Avatar
++                src={previewUrl === undefined ? me.imageUrl : previewUrl}
++                sx={(theme) => ({
++                  width: 192,
++                  height: 192,
++                  border: `1px solid ${theme.palette.action.focus}`,
++                  backgroundColor: theme.palette.action.focus,
++                  outline: 0,
++                  '&:hover': {
++                    borderColor: theme.palette.text.primary,
++                  },
++                  '&:focus': {
++                    borderWidth: 2,
++                    borderColor: theme.palette.primary.main,
++                  },
++                })}
++                {...getRootProps()}
++              />
++              <Stack direction="row">
++                <IconButton
++                  size="medium"
++                  aria-label="remove image"
++                  disabled={!previewUrl && !me.imageUrl}
++                  onClick={() => {
++                    setAvatar([null, null]);
++                  }}
++                >
++                  <DeleteIcon fontSize="inherit" />
++                </IconButton>
++                <IconButton
++                  size="medium"
++                  aria-label="upload image"
++                  onClick={open}
++                >
++                  <FileUploadIcon fontSize="inherit" />
++                </IconButton>
++              </Stack>
++              <TextField
++                inputRef={displaynameRef}
++                label="Displayname"
++                defaultValue={me.displayName}
++                autoComplete="displayname"
++                helperText="Your name may appear around where you contribute or are mentioned. You can remove it at any time."
++                fullWidth
++              />
++            </Stack>
++          </AccordionDetails>
++          <AccordionActions
++            sx={{flexDirection: 'row-reverse', justifyContent: 'flex-start'}}
++          >
++            <Button type="submit" color="primary">
++              Save
++            </Button>
++            <Button
++              type="reset"
++              color="secondary"
++              onClick={() => {
++                setAvatar([]);
++              }}
++            >
++              Cancel
++            </Button>
++          </AccordionActions>
++        </form>
++      )}
++    </Group>
++  );
++});
+diff --git a/crypto/frontend/scenes/dashboard/DashboardSpotlightCard.js b/crypto/frontend/scenes/dashboard/DashboardSpotlightCard.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..11655100122c3685ffa93165171463dd6659affc
+--- /dev/null
++++ b/crypto/frontend/scenes/dashboard/DashboardSpotlightCard.js
+@@ -0,0 +1,74 @@
++import {
++  Card,
++  CardContent,
++  CardHeader,
++  IconButton,
++  Table,
++  TableBody,
++} from '@mui/material';
++import {useState} from 'react';
++import {graphql, useFragment} from 'react-relay';
++
++import {NoData} from '@/components';
++import {SwapIcon} from '@/icons';
++
++import DashboardSpotlightItem from './DashboardSpotlightItem';
++
++const Views = {
++  CHANGE: 'change',
++  PRICE: 'price',
++};
++
++export default function DashboardSpotlightCard({fragmentRef, avatar, title}) {
++  const data = useFragment(
++    graphql`
++      fragment DashboardSpotlightCardFragment_asset on AssetsConnection {
++        nodes {
++          id
++          ...DashboardSpotlightItemFragment_asset
++        }
++      }
++    `,
++    fragmentRef,
++  );
++  const assets = data?.nodes;
++
++  const [view, setView] = useState(Views.CHANGE);
++
++  return (
++    <Card elevation={0} sx={{minWidth: 250}}>
++      <CardHeader
++        sx={{p: 2}}
++        avatar={avatar}
++        title={title}
++        action={
++          <IconButton
++            aria-label={view}
++            onClick={() => {
++              setView(view === Views.CHANGE ? Views.PRICE : Views.CHANGE);
++            }}
++          >
++            <SwapIcon />
++          </IconButton>
++        }
++      />
++      <CardContent sx={{'&:last-child': {pt: 0, pb: 2, px: 4}}}>
++        {assets?.length ? (
++          <Table size="medium">
++            <TableBody>
++              {assets.map((node) => (
++                <DashboardSpotlightItem
++                  key={node.id}
++                  fragmentRef={node}
++                  view={view}
++                />
++              ))}
++            </TableBody>
++          </Table>
++        ) : (
++          <NoData />
++        )}
++      </CardContent>
++    </Card>
++  );
++}
+diff --git a/crypto/frontend/scenes/screener/ScreenerListItem.js b/crypto/frontend/scenes/screener/ScreenerListItem.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..1963f60f1dad26dd8e94568e66c00d2b184f1e0f
+--- /dev/null
++++ b/crypto/frontend/scenes/screener/ScreenerListItem.js
+@@ -0,0 +1,200 @@
++import {
++  Checkbox,
++  Link,
++  Stack,
++  TableCell,
++  TableRow,
++  Typography,
++} from '@mui/material';
++import NextLink from 'next/link';
++import {memo, useCallback} from 'react';
++import {graphql, useFragment, useMutation} from 'react-relay';
++
++import {CryptoIcon, WatchIcon, WatchedIcon} from '@/icons';
++import {
++  direction,
++  formatCurrency,
++  formatCurrencyUsingCompactNotation,
++  formatPercent,
++} from '@/utils';
++
++const useAddToWatchlist = () => {
++  const [commit, isInFlight] = useMutation(graphql`
++    mutation ScreenerListItemAATWMutation($input: AddAssetToWatchlistInput!) {
++      addAssetToWatchlist(input: $input) {
++        watchlist {
++          assets {
++            nodes {
++              isInWatchlist
++            }
++          }
++        }
++      }
++    }
++  `);
++
++  const execute = useCallback(
++    ({id, symbol}) => {
++      commit({
++        variables: {input: {symbol}},
++        optimisticUpdater(store) {
++          const record = store.get(id);
++
++          record.setValue(true, 'isInWatchlist');
++        },
++        onCompleted() {
++          console.log(`${symbol} was added to the watchlist`);
++        },
++        onError() {
++          console.log(
++            `there was a problem with ${symbol} while adding to the watchlist`,
++          );
++        },
++      });
++    },
++    [commit],
++  );
++
++  return [execute, isInFlight];
++};
++
++const useRemoveFromWatchlist = () => {
++  const [commit, isInFlight] = useMutation(graphql`
++    mutation ScreenerListItemRAFWMutation(
++      $input: RemoveAssetFromWatchlistInput!
++    ) {
++      removeAssetFromWatchlist(input: $input) {
++        removedAsset {
++          isInWatchlist
++        }
++      }
++    }
++  `);
++
++  const execute = useCallback(
++    ({id, symbol}) => {
++      commit({
++        variables: {input: {symbol}},
++        optimisticUpdater: (store) => {
++          const record = store.get(id);
++
++          record.setValue(false, 'isInWatchlist');
++        },
++        onCompleted: () => {
++          console.log(`${symbol} was removed from the watchlist`);
++        },
++        onError: () => {
++          console.log(
++            `there was a problem with ${symbol} while removing from the watchlist`,
++          );
++        },
++      });
++    },
++    [commit],
++  );
++
++  return [execute, isInFlight];
++};
++
++export default memo(function ScreenerListItem({fragmentRef, extended}) {
++  const asset = useFragment(
++    graphql`
++      fragment ScreenerListItemFragment_asset on Asset {
++        id
++        symbol
++        name
++        imageUrl
++        isInWatchlist
++        price {
++          currency
++          lastPrice
++          change24Hour
++          marketCap
++        }
++      }
++    `,
++    fragmentRef,
++  );
++  const {price} = asset;
++
++  const [addToWatchlist] = useAddToWatchlist();
++  const [removeFromWatchlist] = useRemoveFromWatchlist();
++
++  const labelId = `row:${asset.symbol}`;
++
++  return (
++    <TableRow
++      key={asset.symbol}
++      role="checkbox"
++      aria-checked={!!asset.isInWatchlist}
++      tabIndex={-1}
++      hover
++    >
++      <TableCell component="th" scope="row" sx={{width: 'auto'}}>
++        <NextLink
++          href="/currencies/[symbol]"
++          as={`/currencies/${asset.symbol}`}
++          passHref
++        >
++          <Link underline="none">
++            <Stack direction="row" alignItems="center" gap={2}>
++              <CryptoIcon src={asset.imageUrl} alt={asset.name} size="medium" />
++              <Stack direction="column">
++                <Typography id={labelId} variant="caption">
++                  {asset.name}
++                </Typography>
++                <Typography variant="caption" color="text.secondary">
++                  {asset.symbol}
++                </Typography>
++              </Stack>
++            </Stack>
++          </Link>
++        </NextLink>
++      </TableCell>
++      <TableCell
++        align="right"
++        sx={{width: 100, paddingLeft: 0, fontWeight: 600}}
++      >
++        {price && formatCurrency(price.lastPrice, {currency: price.currency})}
++      </TableCell>
++      <TableCell
++        align="right"
++        sx={(theme) => ({
++          width: 70,
++          paddingLeft: 0,
++          color: theme.palette.trend[direction(price?.change24Hour)],
++        })}
++      >
++        {price && formatPercent(price.change24Hour)}
++      </TableCell>
++      {extended && (
++        <TableCell align="right" sx={{width: 70, paddingLeft: 0}}>
++          {price &&
++            formatCurrencyUsingCompactNotation(price.marketCap, {
++              currency: price.currency,
++            })}
++        </TableCell>
++      )}
++      <TableCell align="right" sx={{width: 46, paddingLeft: 0}}>
++        <Checkbox
++          color="primary"
++          icon={<WatchIcon />}
++          checkedIcon={<WatchedIcon />}
++          checked={!!asset.isInWatchlist}
++          disabled={asset.isInWatchlist === null}
++          size="small"
++          inputProps={{
++            'aria-labelledby': labelId,
++          }}
++          onChange={(event) => {
++            if (event.target.checked) {
++              addToWatchlist(asset);
++            } else {
++              removeFromWatchlist(asset);
++            }
++          }}
++        />
++      </TableCell>
++    </TableRow>
++  );
++});
+diff --git a/crypto/frontend/scenes/dashboard/DashboardSpotlight.js b/crypto/frontend/scenes/dashboard/DashboardSpotlight.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..0e0c16bc1147b8da90c6294959e7656c15dde307
+--- /dev/null
++++ b/crypto/frontend/scenes/dashboard/DashboardSpotlight.js
+@@ -0,0 +1,81 @@
++import {Divider} from '@mui/material';
++import {Suspense, SuspenseList, memo} from 'react';
++import {graphql, useFragment} from 'react-relay';
++
++import {BearishIcon, BullishIcon} from '@/icons';
++
++import DashboardSpotlightCard from './DashboardSpotlightCard';
++
++const Gainers = ({fragmentRef}) => {
++  const data = useFragment(
++    graphql`
++      fragment DashboardSpotlightGainersFragment_query on Query {
++        gainers: assets(
++          first: 5
++          where: {price: {change24Hour: {gt: 0}}}
++          order: {price: {change24Hour: DESC}}
++        ) {
++          ...DashboardSpotlightCardFragment_asset @defer(label: "gainers")
++        }
++      }
++    `,
++    fragmentRef,
++  );
++
++  return (
++    <DashboardSpotlightCard
++      fragmentRef={data.gainers}
++      title="Top Gainers"
++      avatar={<BullishIcon />}
++    />
++  );
++};
++
++const Losers = ({fragmentRef}) => {
++  const data = useFragment(
++    graphql`
++      fragment DashboardSpotlightLosersFragment_query on Query {
++        losers: assets(
++          first: 5
++          where: {price: {change24Hour: {lt: 0}}}
++          order: {price: {change24Hour: ASC}}
++        ) {
++          ...DashboardSpotlightCardFragment_asset @defer(label: "losers")
++        }
++      }
++    `,
++    fragmentRef,
++  );
++
++  return (
++    <DashboardSpotlightCard
++      fragmentRef={data.losers}
++      title="Top Losers"
++      avatar={<BearishIcon />}
++    />
++  );
++};
++
++export default memo(function DashboardSpotlight({fragmentRef}) {
++  const data = useFragment(
++    graphql`
++      fragment DashboardSpotlightFragment_query on Query {
++        ...DashboardSpotlightGainersFragment_query
++        ...DashboardSpotlightLosersFragment_query
++      }
++    `,
++    fragmentRef,
++  );
++
++  return (
++    <SuspenseList revealOrder="forwards">
++      <Suspense fallback={false}>
++        <Gainers fragmentRef={data} />
++      </Suspense>
++      <Divider />
++      <Suspense fallback={false}>
++        <Losers fragmentRef={data} />
++      </Suspense>
++    </SuspenseList>
++  );
++});
+diff --git a/crypto/frontend/generated/ScreenerListItemRAFWMutation.graphql.js b/crypto/frontend/generated/ScreenerListItemRAFWMutation.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..64808c17ca443756498630016658487f351396cd
+--- /dev/null
++++ b/crypto/frontend/generated/ScreenerListItemRAFWMutation.graphql.js
+@@ -0,0 +1,140 @@
++/**
++ * @generated SignedSource<<c5eb4793e2d60ddd130ac05af470677f>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { ConcreteRequest, Mutation } from 'relay-runtime';
++export type RemoveAssetFromWatchlistInput = {|
++  symbol: string,
++|};
++export type ScreenerListItemRAFWMutation$variables = {|
++  input: RemoveAssetFromWatchlistInput,
++|};
++export type ScreenerListItemRAFWMutation$data = {|
++  +removeAssetFromWatchlist: {|
++    +removedAsset: ?{|
++      +isInWatchlist: ?boolean,
++    |},
++  |},
++|};
++export type ScreenerListItemRAFWMutation = {|
++  variables: ScreenerListItemRAFWMutation$variables,
++  response: ScreenerListItemRAFWMutation$data,
++|};
++*/
++
++var node/*: ConcreteRequest*/ = (function(){
++var v0 = [
++  {
++    "defaultValue": null,
++    "kind": "LocalArgument",
++    "name": "input"
++  }
++],
++v1 = [
++  {
++    "kind": "Variable",
++    "name": "input",
++    "variableName": "input"
++  }
++],
++v2 = {
++  "alias": null,
++  "args": null,
++  "kind": "ScalarField",
++  "name": "isInWatchlist",
++  "storageKey": null
++};
++return {
++  "fragment": {
++    "argumentDefinitions": (v0/*: any*/),
++    "kind": "Fragment",
++    "metadata": null,
++    "name": "ScreenerListItemRAFWMutation",
++    "selections": [
++      {
++        "alias": null,
++        "args": (v1/*: any*/),
++        "concreteType": "RemoveAssetFromWatchlistPayload",
++        "kind": "LinkedField",
++        "name": "removeAssetFromWatchlist",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "Asset",
++            "kind": "LinkedField",
++            "name": "removedAsset",
++            "plural": false,
++            "selections": [
++              (v2/*: any*/)
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": null
++      }
++    ],
++    "type": "Mutation",
++    "abstractKey": null
++  },
++  "kind": "Request",
++  "operation": {
++    "argumentDefinitions": (v0/*: any*/),
++    "kind": "Operation",
++    "name": "ScreenerListItemRAFWMutation",
++    "selections": [
++      {
++        "alias": null,
++        "args": (v1/*: any*/),
++        "concreteType": "RemoveAssetFromWatchlistPayload",
++        "kind": "LinkedField",
++        "name": "removeAssetFromWatchlist",
++        "plural": false,
++        "selections": [
++          {
++            "alias": null,
++            "args": null,
++            "concreteType": "Asset",
++            "kind": "LinkedField",
++            "name": "removedAsset",
++            "plural": false,
++            "selections": [
++              (v2/*: any*/),
++              {
++                "alias": null,
++                "args": null,
++                "kind": "ScalarField",
++                "name": "id",
++                "storageKey": null
++              }
++            ],
++            "storageKey": null
++          }
++        ],
++        "storageKey": null
++      }
++    ]
++  },
++  "params": {
++    "cacheID": "8f4fbd331c56b6b11416e78d9953b777",
++    "id": null,
++    "metadata": {},
++    "name": "ScreenerListItemRAFWMutation",
++    "operationKind": "mutation",
++    "text": "mutation ScreenerListItemRAFWMutation(\n  $input: RemoveAssetFromWatchlistInput!\n) {\n  removeAssetFromWatchlist(input: $input) {\n    removedAsset {\n      isInWatchlist\n      id\n    }\n  }\n}\n"
++  }
++};
++})();
++
++(node/*: any*/).hash = "78b9068838766c01e8a280b4a5da78df";
++
++export default node;
+diff --git a/crypto/frontend/pages/dashboard.js b/crypto/frontend/pages/dashboard.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..f5b3bfcc5a809b3d23c30b8a2d16fc34f5eabf4a
+--- /dev/null
++++ b/crypto/frontend/pages/dashboard.js
+@@ -0,0 +1 @@
++export {Dashboard as default} from '@/scenes';
+diff --git a/crypto/frontend/scenes/screener/index.js b/crypto/frontend/scenes/screener/index.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..a9db0150267df425ddffb4ee8554c5c277a8c214
+--- /dev/null
++++ b/crypto/frontend/scenes/screener/index.js
+@@ -0,0 +1,15 @@
++import {Suspense} from 'react';
++
++import {ActivityIndicator, ErrorBoundaryWithRetry} from '@/components';
++
++import ScreenerContainer from './ScreenerContainer';
++
++export const Screener = () => (
++  <ErrorBoundaryWithRetry>
++    {({cacheBuster}) => (
++      <Suspense fallback={<ActivityIndicator />}>
++        <ScreenerContainer cacheBuster={cacheBuster} />
++      </Suspense>
++    )}
++  </ErrorBoundaryWithRetry>
++);
+diff --git a/crypto/frontend/scenes/dashboard/DashboardTicker.js b/crypto/frontend/scenes/dashboard/DashboardTicker.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..b2a0ca9b89db07890c4f4be7710227f568220817
+--- /dev/null
++++ b/crypto/frontend/scenes/dashboard/DashboardTicker.js
+@@ -0,0 +1,34 @@
++import {memo} from 'react';
++import {graphql, useFragment} from 'react-relay';
++
++import {Ticker} from '@/components';
++
++import DashboardTickerItem from './DashboardTickerItem';
++
++export default memo(function DashboardTicker({fragmentRef}) {
++  const data = useFragment(
++    graphql`
++      fragment DashboardTickerFragment_query on Query {
++        ticker: assets(
++          first: 10
++          order: {price: {tradableMarketCapRank: ASC}}
++        ) {
++          nodes {
++            symbol
++            ...DashboardTickerItemFragment_asset
++          }
++        }
++      }
++    `,
++    fragmentRef,
++  );
++  const assets = data.ticker?.nodes;
++
++  return (
++    <Ticker>
++      {assets?.map((asset) => (
++        <DashboardTickerItem key={asset.symbol} fragmentRef={asset} />
++      ))}
++    </Ticker>
++  );
++});
+diff --git a/crypto/frontend/scenes/settings/index.js b/crypto/frontend/scenes/settings/index.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..decad83e3475289c4703057a581da1dbc0656752
+--- /dev/null
++++ b/crypto/frontend/scenes/settings/index.js
+@@ -0,0 +1,15 @@
++import {Suspense} from 'react';
++
++import {ActivityIndicator, ErrorBoundaryWithRetry} from '@/components';
++
++import SettingsContainer from './SettingsContainer';
++
++export const Settings = ({symbol}) => (
++  <ErrorBoundaryWithRetry key={symbol}>
++    {({cacheBuster}) => (
++      <Suspense fallback={<ActivityIndicator />}>
++        <SettingsContainer cacheBuster={cacheBuster} />
++      </Suspense>
++    )}
++  </ErrorBoundaryWithRetry>
++);
+diff --git a/crypto/frontend/generated/DashboardSpotlightGainersFragment_query.graphql.js b/crypto/frontend/generated/DashboardSpotlightGainersFragment_query.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..ab9e02739c156a149e47c3a8973968c72f70540d
+--- /dev/null
++++ b/crypto/frontend/generated/DashboardSpotlightGainersFragment_query.graphql.js
+@@ -0,0 +1,90 @@
++/**
++ * @generated SignedSource<<585f443e588ef03ec417afb17cac1f02>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { Fragment, ReaderFragment } from 'relay-runtime';
++import type { DashboardSpotlightCardFragment_asset$fragmentType } from "./DashboardSpotlightCardFragment_asset.graphql";
++import type { FragmentType } from "relay-runtime";
++declare export opaque type DashboardSpotlightGainersFragment_query$fragmentType: FragmentType;
++export type DashboardSpotlightGainersFragment_query$data = {|
++  +gainers: ?{|
++    +$fragmentSpreads: DashboardSpotlightCardFragment_asset$fragmentType,
++  |},
++  +$fragmentType: DashboardSpotlightGainersFragment_query$fragmentType,
++|};
++export type DashboardSpotlightGainersFragment_query$key = {
++  +$data?: DashboardSpotlightGainersFragment_query$data,
++  +$fragmentSpreads: DashboardSpotlightGainersFragment_query$fragmentType,
++  ...
++};
++*/
++
++var node/*: ReaderFragment*/ = {
++  "argumentDefinitions": [],
++  "kind": "Fragment",
++  "metadata": null,
++  "name": "DashboardSpotlightGainersFragment_query",
++  "selections": [
++    {
++      "alias": "gainers",
++      "args": [
++        {
++          "kind": "Literal",
++          "name": "first",
++          "value": 5
++        },
++        {
++          "kind": "Literal",
++          "name": "order",
++          "value": {
++            "price": {
++              "change24Hour": "DESC"
++            }
++          }
++        },
++        {
++          "kind": "Literal",
++          "name": "where",
++          "value": {
++            "price": {
++              "change24Hour": {
++                "gt": 0
++              }
++            }
++          }
++        }
++      ],
++      "concreteType": "AssetsConnection",
++      "kind": "LinkedField",
++      "name": "assets",
++      "plural": false,
++      "selections": [
++        {
++          "kind": "Defer",
++          "selections": [
++            {
++              "args": null,
++              "kind": "FragmentSpread",
++              "name": "DashboardSpotlightCardFragment_asset"
++            }
++          ]
++        }
++      ],
++      "storageKey": "assets(first:5,order:{\"price\":{\"change24Hour\":\"DESC\"}},where:{\"price\":{\"change24Hour\":{\"gt\":0}}})"
++    }
++  ],
++  "type": "Query",
++  "abstractKey": null
++};
++
++(node/*: any*/).hash = "8524be778a4196c5e8b8d56d8d8bfee7";
++
++export default node;
+diff --git a/crypto/frontend/generated/ScreenerListFragment_query.graphql.js b/crypto/frontend/generated/ScreenerListFragment_query.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..60fc7b7ea24caa9c41d51a73a16ef575d61c799c
+--- /dev/null
++++ b/crypto/frontend/generated/ScreenerListFragment_query.graphql.js
+@@ -0,0 +1,196 @@
++/**
++ * @generated SignedSource<<c866ceaa670456f3132d1c1c04c0533b>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { ReaderFragment, RefetchableFragment } from 'relay-runtime';
++import type { ScreenerListItemFragment_asset$fragmentType } from "./ScreenerListItemFragment_asset.graphql";
++import type { FragmentType } from "relay-runtime";
++declare export opaque type ScreenerListFragment_query$fragmentType: FragmentType;
++import type { ScreenerListRefetchableQuery$variables } from "./ScreenerListRefetchableQuery.graphql";
++export type ScreenerListFragment_query$data = {|
++  +assets: ?{|
++    +edges: ?$ReadOnlyArray<{|
++      +node: {|
++        +id: string,
++        +$fragmentSpreads: ScreenerListItemFragment_asset$fragmentType,
++      |},
++    |}>,
++  |},
++  +$fragmentType: ScreenerListFragment_query$fragmentType,
++|};
++export type ScreenerListFragment_query$key = {
++  +$data?: ScreenerListFragment_query$data,
++  +$fragmentSpreads: ScreenerListFragment_query$fragmentType,
++  ...
++};
++*/
++
++import ScreenerListRefetchableQuery_graphql from './ScreenerListRefetchableQuery.graphql';
++var node/*: ReaderFragment*/ = (function(){
++var v0 = [
++  "assets"
++];
++return {
++  "argumentDefinitions": [
++    {
++      "defaultValue": 10,
++      "kind": "LocalArgument",
++      "name": "count"
++    },
++    {
++      "defaultValue": null,
++      "kind": "LocalArgument",
++      "name": "cursor"
++    },
++    {
++      "defaultValue": {
++        "price": {
++          "marketCap": "DESC"
++        }
++      },
++      "kind": "LocalArgument",
++      "name": "order"
++    },
++    {
++      "defaultValue": null,
++      "kind": "LocalArgument",
++      "name": "where"
++    }
++  ],
++  "kind": "Fragment",
++  "metadata": {
++    "connection": [
++      {
++        "count": "count",
++        "cursor": "cursor",
++        "direction": "forward",
++        "path": (v0/*: any*/)
++      }
++    ],
++    "refetch": {
++      "connection": {
++        "forward": {
++          "count": "count",
++          "cursor": "cursor"
++        },
++        "backward": null,
++        "path": (v0/*: any*/)
++      },
++      "fragmentPathInResult": [],
++      "operation": ScreenerListRefetchableQuery_graphql
++    }
++  },
++  "name": "ScreenerListFragment_query",
++  "selections": [
++    {
++      "alias": "assets",
++      "args": [
++        {
++          "kind": "Variable",
++          "name": "order",
++          "variableName": "order"
++        },
++        {
++          "kind": "Variable",
++          "name": "where",
++          "variableName": "where"
++        }
++      ],
++      "concreteType": "AssetsConnection",
++      "kind": "LinkedField",
++      "name": "__ScreenerList_assets_connection",
++      "plural": false,
++      "selections": [
++        {
++          "alias": null,
++          "args": null,
++          "concreteType": "AssetsEdge",
++          "kind": "LinkedField",
++          "name": "edges",
++          "plural": true,
++          "selections": [
++            {
++              "alias": null,
++              "args": null,
++              "concreteType": "Asset",
++              "kind": "LinkedField",
++              "name": "node",
++              "plural": false,
++              "selections": [
++                {
++                  "alias": null,
++                  "args": null,
++                  "kind": "ScalarField",
++                  "name": "id",
++                  "storageKey": null
++                },
++                {
++                  "args": null,
++                  "kind": "FragmentSpread",
++                  "name": "ScreenerListItemFragment_asset"
++                },
++                {
++                  "alias": null,
++                  "args": null,
++                  "kind": "ScalarField",
++                  "name": "__typename",
++                  "storageKey": null
++                }
++              ],
++              "storageKey": null
++            },
++            {
++              "alias": null,
++              "args": null,
++              "kind": "ScalarField",
++              "name": "cursor",
++              "storageKey": null
++            }
++          ],
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": null,
++          "concreteType": "PageInfo",
++          "kind": "LinkedField",
++          "name": "pageInfo",
++          "plural": false,
++          "selections": [
++            {
++              "alias": null,
++              "args": null,
++              "kind": "ScalarField",
++              "name": "endCursor",
++              "storageKey": null
++            },
++            {
++              "alias": null,
++              "args": null,
++              "kind": "ScalarField",
++              "name": "hasNextPage",
++              "storageKey": null
++            }
++          ],
++          "storageKey": null
++        }
++      ],
++      "storageKey": null
++    }
++  ],
++  "type": "Query",
++  "abstractKey": null
++};
++})();
++
++(node/*: any*/).hash = "35a34d660d7155895c77082e8a7c5436";
++
++export default node;
+diff --git a/crypto/frontend/generated/ScreenerListItemFragment_asset.graphql.js b/crypto/frontend/generated/ScreenerListItemFragment_asset.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..042623f52602b17ab7630125ba10887cbef70e85
+--- /dev/null
++++ b/crypto/frontend/generated/ScreenerListItemFragment_asset.graphql.js
+@@ -0,0 +1,124 @@
++/**
++ * @generated SignedSource<<ba02547f5e8c391d70bcf1a897c486c3>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { Fragment, ReaderFragment } from 'relay-runtime';
++import type { FragmentType } from "relay-runtime";
++declare export opaque type ScreenerListItemFragment_asset$fragmentType: FragmentType;
++export type ScreenerListItemFragment_asset$data = {|
++  +id: string,
++  +symbol: string,
++  +name: string,
++  +imageUrl: ?string,
++  +isInWatchlist: ?boolean,
++  +price: {|
++    +currency: string,
++    +lastPrice: number,
++    +change24Hour: number,
++    +marketCap: number,
++  |},
++  +$fragmentType: ScreenerListItemFragment_asset$fragmentType,
++|};
++export type ScreenerListItemFragment_asset$key = {
++  +$data?: ScreenerListItemFragment_asset$data,
++  +$fragmentSpreads: ScreenerListItemFragment_asset$fragmentType,
++  ...
++};
++*/
++
++var node/*: ReaderFragment*/ = {
++  "argumentDefinitions": [],
++  "kind": "Fragment",
++  "metadata": null,
++  "name": "ScreenerListItemFragment_asset",
++  "selections": [
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "id",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "symbol",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "name",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "imageUrl",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "isInWatchlist",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "concreteType": "AssetPrice",
++      "kind": "LinkedField",
++      "name": "price",
++      "plural": false,
++      "selections": [
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "currency",
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "lastPrice",
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "change24Hour",
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "marketCap",
++          "storageKey": null
++        }
++      ],
++      "storageKey": null
++    }
++  ],
++  "type": "Asset",
++  "abstractKey": null
++};
++
++(node/*: any*/).hash = "6c877bd800e40314811a0a7b3881aaad";
++
++export default node;
+diff --git a/crypto/frontend/generated/DashboardSpotlightItemFragment_asset.graphql.js b/crypto/frontend/generated/DashboardSpotlightItemFragment_asset.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..c64ce5197ee4e2316c42044a98dac3a6c3f7943f
+--- /dev/null
++++ b/crypto/frontend/generated/DashboardSpotlightItemFragment_asset.graphql.js
+@@ -0,0 +1,116 @@
++/**
++ * @generated SignedSource<<c098c3feb820bdbd8d7af8890a4e2ce4>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { Fragment, ReaderFragment } from 'relay-runtime';
++import type { FragmentType } from "relay-runtime";
++declare export opaque type DashboardSpotlightItemFragment_asset$fragmentType: FragmentType;
++export type DashboardSpotlightItemFragment_asset$data = {|
++  +id: string,
++  +symbol: string,
++  +name: string,
++  +imageUrl: ?string,
++  +isInWatchlist: ?boolean,
++  +price: {|
++    +currency: string,
++    +lastPrice: number,
++    +change24Hour: number,
++  |},
++  +$fragmentType: DashboardSpotlightItemFragment_asset$fragmentType,
++|};
++export type DashboardSpotlightItemFragment_asset$key = {
++  +$data?: DashboardSpotlightItemFragment_asset$data,
++  +$fragmentSpreads: DashboardSpotlightItemFragment_asset$fragmentType,
++  ...
++};
++*/
++
++var node/*: ReaderFragment*/ = {
++  "argumentDefinitions": [],
++  "kind": "Fragment",
++  "metadata": null,
++  "name": "DashboardSpotlightItemFragment_asset",
++  "selections": [
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "id",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "symbol",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "name",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "imageUrl",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "kind": "ScalarField",
++      "name": "isInWatchlist",
++      "storageKey": null
++    },
++    {
++      "alias": null,
++      "args": null,
++      "concreteType": "AssetPrice",
++      "kind": "LinkedField",
++      "name": "price",
++      "plural": false,
++      "selections": [
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "currency",
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "lastPrice",
++          "storageKey": null
++        },
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "change24Hour",
++          "storageKey": null
++        }
++      ],
++      "storageKey": null
++    }
++  ],
++  "type": "Asset",
++  "abstractKey": null
++};
++
++(node/*: any*/).hash = "497b1dca0502fc8e3adcdf7bd9c11e6b";
++
++export default node;
+diff --git a/crypto/frontend/scenes/dashboard/DashboardFeatured.js b/crypto/frontend/scenes/dashboard/DashboardFeatured.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..209b1a08a7dbbab3f12c28c9cee9df9bab608f47
+--- /dev/null
++++ b/crypto/frontend/scenes/dashboard/DashboardFeatured.js
+@@ -0,0 +1,33 @@
++import {memo} from 'react';
++import {graphql, useFragment} from 'react-relay';
++
++import {Carousel} from '@/components';
++
++import DashboardFeaturedCard from './DashboardFeaturedCard';
++
++export default memo(function DashboardFeatured({fragmentRef}) {
++  const data = useFragment(
++    graphql`
++      fragment DashboardFeaturedFragment_query on Query {
++        featured: assets(where: {symbol: {in: ["BTC", "ADA", "ALGO"]}}) {
++          nodes {
++            id
++            ...DashboardFeaturedCardFragment_asset
++          }
++        }
++      }
++    `,
++    fragmentRef,
++  );
++  const assets = data.featured?.nodes;
++
++  return (
++    !!assets?.length && (
++      <Carousel py={4}>
++        {assets.map((node) => (
++          <DashboardFeaturedCard key={node.id} fragmentRef={node} />
++        ))}
++      </Carousel>
++    )
++  );
++});
+diff --git a/crypto/frontend/generated/DashboardFeaturedFragment_query.graphql.js b/crypto/frontend/generated/DashboardFeaturedFragment_query.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..d6c52f4f6678255fa66a3c2681f5f90c721e622b
+--- /dev/null
++++ b/crypto/frontend/generated/DashboardFeaturedFragment_query.graphql.js
+@@ -0,0 +1,94 @@
++/**
++ * @generated SignedSource<<75dd1791443c3509f90e19b2f5b1dd97>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { Fragment, ReaderFragment } from 'relay-runtime';
++import type { DashboardFeaturedCardFragment_asset$fragmentType } from "./DashboardFeaturedCardFragment_asset.graphql";
++import type { FragmentType } from "relay-runtime";
++declare export opaque type DashboardFeaturedFragment_query$fragmentType: FragmentType;
++export type DashboardFeaturedFragment_query$data = {|
++  +featured: ?{|
++    +nodes: ?$ReadOnlyArray<{|
++      +id: string,
++      +$fragmentSpreads: DashboardFeaturedCardFragment_asset$fragmentType,
++    |}>,
++  |},
++  +$fragmentType: DashboardFeaturedFragment_query$fragmentType,
++|};
++export type DashboardFeaturedFragment_query$key = {
++  +$data?: DashboardFeaturedFragment_query$data,
++  +$fragmentSpreads: DashboardFeaturedFragment_query$fragmentType,
++  ...
++};
++*/
++
++var node/*: ReaderFragment*/ = {
++  "argumentDefinitions": [],
++  "kind": "Fragment",
++  "metadata": null,
++  "name": "DashboardFeaturedFragment_query",
++  "selections": [
++    {
++      "alias": "featured",
++      "args": [
++        {
++          "kind": "Literal",
++          "name": "where",
++          "value": {
++            "symbol": {
++              "in": [
++                "BTC",
++                "ADA",
++                "ALGO"
++              ]
++            }
++          }
++        }
++      ],
++      "concreteType": "AssetsConnection",
++      "kind": "LinkedField",
++      "name": "assets",
++      "plural": false,
++      "selections": [
++        {
++          "alias": null,
++          "args": null,
++          "concreteType": "Asset",
++          "kind": "LinkedField",
++          "name": "nodes",
++          "plural": true,
++          "selections": [
++            {
++              "alias": null,
++              "args": null,
++              "kind": "ScalarField",
++              "name": "id",
++              "storageKey": null
++            },
++            {
++              "args": null,
++              "kind": "FragmentSpread",
++              "name": "DashboardFeaturedCardFragment_asset"
++            }
++          ],
++          "storageKey": null
++        }
++      ],
++      "storageKey": "assets(where:{\"symbol\":{\"in\":[\"BTC\",\"ADA\",\"ALGO\"]}})"
++    }
++  ],
++  "type": "Query",
++  "abstractKey": null
++};
++
++(node/*: any*/).hash = "0d35e9ce37c11408c4a6bbc1e0b27d9a";
++
++export default node;
+diff --git a/crypto/frontend/schema/server.graphql b/crypto/frontend/schema/server.graphql
+new file mode 100644
+index 0000000000000000000000000000000000000000..00445f2105c0f48d9fcb8b073182e2292d5414ba
+--- /dev/null
++++ b/crypto/frontend/schema/server.graphql
+@@ -0,0 +1,999 @@
++"""
++The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`.
++"""
++directive @defer(
++  """
++  Deferred when true.
++  """
++  if: Boolean
++
++  """
++  If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to.
++  """
++  label: String
++) on FRAGMENT_SPREAD | INLINE_FRAGMENT
++
++"""
++The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`.
++"""
++directive @stream(
++  """
++  Streamed when true.
++  """
++  if: Boolean
++
++  """
++  The initial elements that shall be send down to the consumer.
++  """
++  initialCount: Int! = 0
++
++  """
++  If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to.
++  """
++  label: String
++) on FIELD
++
++input AddAssetToWatchlistInput {
++  symbol: String!
++}
++
++type AddAssetToWatchlistPayload {
++  addedAsset: Asset
++  watchlist: Watchlist
++}
++
++input AddAssetsToWatchlistInput {
++  symbols: [String!]!
++}
++
++type AddAssetsToWatchlistPayload {
++  addedAssets(
++    """
++    Returns the elements in the list that come after the specified cursor.
++    """
++    after: String
++
++    """
++    Returns the elements in the list that come before the specified cursor.
++    """
++    before: String
++
++    """
++    Returns the first _n_ elements from the list.
++    """
++    first: Int
++
++    """
++    Returns the last _n_ elements from the list.
++    """
++    last: Int
++  ): AddedAssetsConnection
++  watchlist: Watchlist
++}
++
++"""
++A connection to a list of items.
++"""
++type AddedAssetsConnection {
++  """
++  A list of edges.
++  """
++  edges: [AddedAssetsEdge!]
++
++  """
++  A flattened list of the nodes.
++  """
++  nodes: [Asset!]
++
++  """
++  Information to aid in pagination.
++  """
++  pageInfo: PageInfo!
++}
++
++"""
++An edge in a connection.
++"""
++type AddedAssetsEdge {
++  """
++  A cursor for use in pagination.
++  """
++  cursor: String!
++
++  """
++  The item at the end of the edge.
++  """
++  node: Asset!
++}
++
++type Alert implements Node {
++  asset: Asset!
++  currency: String!
++  id: ID!
++  percentageChange: Float!
++  recurring: Boolean!
++  targetPrice: Float!
++  username: String!
++}
++
++type Asset implements Node {
++  alerts(
++    """
++    Returns the elements in the list that come after the specified cursor.
++    """
++    after: String
++
++    """
++    Returns the elements in the list that come before the specified cursor.
++    """
++    before: String
++
++    """
++    Returns the first _n_ elements from the list.
++    """
++    first: Int
++
++    """
++    Returns the last _n_ elements from the list.
++    """
++    last: Int
++  ): AssetAlertsConnection
++  color: String!
++  description: String
++  hasAlerts: Boolean!
++  id: ID!
++  imageUrl: String
++  isInWatchlist: Boolean
++  name: String!
++  price: AssetPrice!
++  slug: String!
++  symbol: String!
++  website: String
++  whitePaper: String
++}
++
++"""
++A connection to a list of items.
++"""
++type AssetAlertsConnection {
++  """
++  A list of edges.
++  """
++  edges: [AssetAlertsEdge!]
++
++  """
++  A flattened list of the nodes.
++  """
++  nodes: [Alert!]
++
++  """
++  Information to aid in pagination.
++  """
++  pageInfo: PageInfo!
++  totalCount: Int!
++}
++
++"""
++An edge in a connection.
++"""
++type AssetAlertsEdge {
++  """
++  A cursor for use in pagination.
++  """
++  cursor: String!
++
++  """
++  The item at the end of the edge.
++  """
++  node: Alert!
++}
++
++input AssetFilterInput {
++  and: [AssetFilterInput!]
++  description: StringOperationFilterInput
++  name: StringOperationFilterInput
++  or: [AssetFilterInput!]
++  price: AssetPriceFilterInput
++  slug: StringOperationFilterInput
++  symbol: StringOperationFilterInput
++  website: StringOperationFilterInput
++}
++
++type AssetPrice implements Node {
++  asset: Asset!
++  change(span: ChangeSpan!): AssetPriceChange
++  change24Hour: Float!
++  circulatingSupply: Float!
++  currency: String!
++  high24Hour: Float!
++  id: ID!
++  lastPrice: Float!
++  low24Hour: Float!
++  marketCap: Float!
++  maxSupply: Float!
++  modifiedAt: DateTime
++  open24Hour: Float!
++  symbol: String!
++  tradableMarketCapRank: Float!
++  tradingActivity: Float!
++  volume24Hour: Float!
++  volumePercentChange24Hour: Float!
++}
++
++type AssetPriceChange implements Node {
++  history(
++    """
++    Returns the elements in the list that come after the specified cursor.
++    """
++    after: String
++
++    """
++    Returns the elements in the list that come before the specified cursor.
++    """
++    before: String
++
++    """
++    Returns the first _n_ elements from the list.
++    """
++    first: Int
++
++    """
++    Returns the last _n_ elements from the list.
++    """
++    last: Int
++  ): HistoryConnection
++  id: ID!
++  percentageChange: Float!
++}
++
++input AssetPriceFilterInput {
++  and: [AssetPriceFilterInput!]
++  asset: AssetFilterInput
++  assetId: ComparableInt32OperationFilterInput
++  change24Hour: ComparableDoubleOperationFilterInput
++  circulatingSupply: ComparableDoubleOperationFilterInput
++  currency: StringOperationFilterInput
++  high24Hour: ComparableDoubleOperationFilterInput
++  id: ComparableInt32OperationFilterInput
++  lastPrice: ComparableDoubleOperationFilterInput
++  low24Hour: ComparableDoubleOperationFilterInput
++  marketCap: ComparableDoubleOperationFilterInput
++  maxSupply: ComparableDoubleOperationFilterInput
++  modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
++  open24Hour: ComparableDoubleOperationFilterInput
++  or: [AssetPriceFilterInput!]
++  symbol: StringOperationFilterInput
++  tradableMarketCapRank: ComparableDoubleOperationFilterInput
++  tradingActivity: ComparableDoubleOperationFilterInput
++  volume24Hour: ComparableDoubleOperationFilterInput
++  volumePercentChange24Hour: ComparableDoubleOperationFilterInput
++}
++
++type AssetPriceHistory {
++  epoch: Int!
++  price: Float!
++}
++
++input AssetPriceSortInput {
++  asset: AssetSortInput
++  assetId: SortEnumType
++  change24Hour: SortEnumType
++  circulatingSupply: SortEnumType
++  currency: SortEnumType
++  high24Hour: SortEnumType
++  id: SortEnumType
++  lastPrice: SortEnumType
++  low24Hour: SortEnumType
++  marketCap: SortEnumType
++  maxSupply: SortEnumType
++  modifiedAt: SortEnumType
++  open24Hour: SortEnumType
++  symbol: SortEnumType
++  tradableMarketCapRank: SortEnumType
++  tradingActivity: SortEnumType
++  volume24Hour: SortEnumType
++  volumePercentChange24Hour: SortEnumType
++}
++
++input AssetSortInput {
++  name: SortEnumType
++  price: AssetPriceSortInput
++  slug: SortEnumType
++  symbol: SortEnumType
++}
++
++"""
++A connection to a list of items.
++"""
++type AssetsConnection {
++  """
++  A list of edges.
++  """
++  edges: [AssetsEdge!]
++
++  """
++  A flattened list of the nodes.
++  """
++  nodes: [Asset!]
++
++  """
++  Information to aid in pagination.
++  """
++  pageInfo: PageInfo!
++}
++
++"""
++An edge in a connection.
++"""
++type AssetsEdge {
++  """
++  A cursor for use in pagination.
++  """
++  cursor: String!
++
++  """
++  The item at the end of the edge.
++  """
++  node: Asset!
++}
++
++union ChangeAssetPositionInWatchlistError =
++    IndexOutOfRangeError
++  | NotAuthenticatedError
++  | UnknownAssetError
++  | UnknownWatchlistError
++
++input ChangeAssetPositionInWatchlistInput {
++  index: Int!
++  symbol: String!
++}
++
++type ChangeAssetPositionInWatchlistPayload {
++  errors: [ChangeAssetPositionInWatchlistError!]
++  watchlist: Watchlist
++}
++
++enum ChangeSpan {
++  ALL
++  DAY
++  HOUR
++  MONTH
++  WEEK
++  YEAR
++}
++
++input ComparableDoubleOperationFilterInput {
++  eq: Float
++  gt: Float
++  gte: Float
++  in: [Float!]
++  lt: Float
++  lte: Float
++  neq: Float
++  ngt: Float
++  ngte: Float
++  nin: [Float!]
++  nlt: Float
++  nlte: Float
++}
++
++input ComparableInt32OperationFilterInput {
++  eq: Int
++  gt: Int
++  gte: Int
++  in: [Int!]
++  lt: Int
++  lte: Int
++  neq: Int
++  ngt: Int
++  ngte: Int
++  nin: [Int!]
++  nlt: Int
++  nlte: Int
++}
++
++input ComparableNullableOfDateTimeOperationFilterInput {
++  eq: DateTime
++  gt: DateTime
++  gte: DateTime
++  in: [DateTime]
++  lt: DateTime
++  lte: DateTime
++  neq: DateTime
++  ngt: DateTime
++  ngte: DateTime
++  nin: [DateTime]
++  nlt: DateTime
++  nlte: DateTime
++}
++
++union CreateAlertError = InvalidTargetPriceError | UnknownCurrencyError
++
++input CreateAlertInput {
++  currency: String = "USD"
++  recurring: Boolean! = false
++  symbol: String!
++  targetPrice: Float!
++}
++
++type CreateAlertPayload {
++  createdAlert: Alert
++  errors: [CreateAlertError!]
++}
++
++"""
++The `DateTime` scalar represents an ISO-8601 compliant date time type.
++"""
++scalar DateTime
++
++union DeleteAlertError = EntityNotFoundError
++
++input DeleteAlertInput {
++  alertId: ID!
++}
++
++type DeleteAlertPayload {
++  deletedAlert: Alert
++  errors: [DeleteAlertError!]
++}
++
++union DeleteNotificationError = UnknownNotificationError
++
++input DeleteNotificationInput {
++  notificationId: ID!
++}
++
++type DeleteNotificationPayload {
++  deletedNotification: Notification
++  errors: [DeleteNotificationError!]
++}
++
++union DeleteNotificationsError = UnknownNotificationError
++
++input DeleteNotificationsInput {
++  notificationIds: [ID!]!
++}
++
++type DeleteNotificationsPayload {
++  deletedNotifications: [Notification!]
++  errors: [DeleteNotificationsError!]
++}
++
++type EntityNotFoundError implements Error {
++  id: Int!
++  message: String!
++}
++
++interface Error {
++  message: String!
++}
++
++"""
++A connection to a list of items.
++"""
++type HistoryConnection {
++  """
++  A list of edges.
++  """
++  edges: [HistoryEdge!]
++
++  """
++  A flattened list of the nodes.
++  """
++  nodes: [AssetPriceHistory]
++
++  """
++  Information to aid in pagination.
++  """
++  pageInfo: PageInfo!
++}
++
++"""
++An edge in a connection.
++"""
++type HistoryEdge {
++  """
++  A cursor for use in pagination.
++  """
++  cursor: String!
++
++  """
++  The item at the end of the edge.
++  """
++  node: AssetPriceHistory
++}
++
++input ImportAssetInput {
++  symbol: String!
++}
++
++type ImportAssetPayload {
++  importedAsset: Asset
++}
++
++input ImportAssetsInput {
++  symbols: [String!]!
++}
++
++type ImportAssetsPayload {
++  importedAssets: [Asset!]
++}
++
++type IndexOutOfRangeError implements Error {
++  message: String!
++}
++
++type InvalidTargetPriceError implements Error {
++  message: String!
++  targetPrice: Float!
++}
++
++union MarkNotificationReadError = UnknownNotificationError
++
++input MarkNotificationReadInput {
++  notificationId: ID!
++}
++
++type MarkNotificationReadPayload {
++  errors: [MarkNotificationReadError!]
++  readNotification: Notification
++}
++
++union MarkNotificationsReadError = UnknownNotificationError
++
++input MarkNotificationsReadInput {
++  notificationIds: [ID!]!
++}
++
++type MarkNotificationsReadPayload {
++  errors: [MarkNotificationsReadError!]
++  readNotifications: [Notification!]
++}
++
++type Mutation {
++  addAssetToWatchlist(
++    input: AddAssetToWatchlistInput!
++  ): AddAssetToWatchlistPayload!
++  addAssetsToWatchlist(
++    input: AddAssetsToWatchlistInput!
++  ): AddAssetsToWatchlistPayload!
++  changeAssetPositionInWatchlist(
++    input: ChangeAssetPositionInWatchlistInput!
++  ): ChangeAssetPositionInWatchlistPayload!
++  createAlert(input: CreateAlertInput!): CreateAlertPayload!
++  deleteAlert(input: DeleteAlertInput!): DeleteAlertPayload!
++  deleteNotification(
++    input: DeleteNotificationInput!
++  ): DeleteNotificationPayload!
++  deleteNotifications(
++    input: DeleteNotificationsInput!
++  ): DeleteNotificationsPayload!
++  importAsset(input: ImportAssetInput!): ImportAssetPayload!
++  importAssets(input: ImportAssetsInput!): ImportAssetsPayload!
++  markNotificationRead(
++    input: MarkNotificationReadInput!
++  ): MarkNotificationReadPayload!
++  markNotificationsRead(
++    input: MarkNotificationsReadInput!
++  ): MarkNotificationsReadPayload!
++  removeAssetFromWatchlist(
++    input: RemoveAssetFromWatchlistInput!
++  ): RemoveAssetFromWatchlistPayload!
++  removeAssetsFromWatchlist(
++    input: RemoveAssetsFromWatchlistInput!
++  ): RemoveAssetsFromWatchlistPayload!
++  updateAssetPrice(input: UpdateAssetPriceInput!): UpdateAssetPricePayload!
++  updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
++}
++
++"""
++The node interface is implemented by entities that have a global unique identifier.
++"""
++interface Node {
++  id: ID!
++}
++
++type NotAuthenticatedError implements Error {
++  message: String!
++}
++
++type Notification implements Node {
++  asset: Asset!
++  id: ID!
++  message: String
++  read: Boolean!
++  username: String!
++}
++
++type NotificationUpdate {
++  notification: Notification
++  unreadNotifications: Int!
++}
++
++"""
++A connection to a list of items.
++"""
++type NotificationsConnection {
++  """
++  A list of edges.
++  """
++  edges: [NotificationsEdge!]
++
++  """
++  A flattened list of the nodes.
++  """
++  nodes: [Notification!]
++
++  """
++  Information to aid in pagination.
++  """
++  pageInfo: PageInfo!
++  totalCount: Int!
++}
++
++"""
++An edge in a connection.
++"""
++type NotificationsEdge {
++  """
++  A cursor for use in pagination.
++  """
++  cursor: String!
++
++  """
++  The item at the end of the edge.
++  """
++  node: Notification!
++}
++
++"""
++Information about pagination in a connection.
++"""
++type PageInfo {
++  """
++  When paginating forwards, the cursor to continue.
++  """
++  endCursor: String
++
++  """
++  Indicates whether more edges exist following the set defined by the clients arguments.
++  """
++  hasNextPage: Boolean!
++
++  """
++  Indicates whether more edges exist prior the set defined by the clients arguments.
++  """
++  hasPreviousPage: Boolean!
++
++  """
++  When paginating backwards, the cursor to continue.
++  """
++  startCursor: String
++}
++
++type Query {
++  assetById(id: ID!): Asset
++  assetBySlug(slug: String!): Asset
++  assetBySymbol(symbol: String!): Asset
++  assets(
++    """
++    Returns the elements in the list that come after the specified cursor.
++    """
++    after: String
++
++    """
++    Returns the elements in the list that come before the specified cursor.
++    """
++    before: String
++
++    """
++    Returns the first _n_ elements from the list.
++    """
++    first: Int
++
++    """
++    Returns the last _n_ elements from the list.
++    """
++    last: Int
++    order: [AssetSortInput!]
++    where: AssetFilterInput
++  ): AssetsConnection
++  assetsById(ids: [ID!]!): [Asset]!
++  assetsBySlug(slugs: [String!]!): [Asset]!
++  assetsBySymbol(symbols: [String!]!): [Asset]!
++  me: User
++
++  """
++  Fetches an object given its ID.
++  """
++  node(
++    """
++    ID of the object.
++    """
++    id: ID!
++  ): Node
++
++  """
++  Lookup nodes by a list of IDs.
++  """
++  nodes(
++    """
++    The list of node IDs.
++    """
++    ids: [ID!]!
++  ): [Node]!
++}
++
++enum ReadStatus {
++  ALL
++  READ
++  UNREAD
++}
++
++input RemoveAssetFromWatchlistInput {
++  symbol: String!
++}
++
++type RemoveAssetFromWatchlistPayload {
++  removedAsset: Asset
++  watchlist: Watchlist
++}
++
++input RemoveAssetsFromWatchlistInput {
++  symbols: [String!]!
++}
++
++type RemoveAssetsFromWatchlistPayload {
++  removedAssets(
++    """
++    Returns the elements in the list that come after the specified cursor.
++    """
++    after: String
++
++    """
++    Returns the elements in the list that come before the specified cursor.
++    """
++    before: String
++
++    """
++    Returns the first _n_ elements from the list.
++    """
++    first: Int
++
++    """
++    Returns the last _n_ elements from the list.
++    """
++    last: Int
++  ): RemovedAssetsConnection
++  watchlist: Watchlist
++}
++
++"""
++A connection to a list of items.
++"""
++type RemovedAssetsConnection {
++  """
++  A list of edges.
++  """
++  edges: [RemovedAssetsEdge!]
++
++  """
++  A flattened list of the nodes.
++  """
++  nodes: [Asset!]
++
++  """
++  Information to aid in pagination.
++  """
++  pageInfo: PageInfo!
++}
++
++"""
++An edge in a connection.
++"""
++type RemovedAssetsEdge {
++  """
++  A cursor for use in pagination.
++  """
++  cursor: String!
++
++  """
++  The item at the end of the edge.
++  """
++  node: Asset!
++}
++
++enum SortEnumType {
++  ASC
++  DESC
++}
++
++input StringOperationFilterInput {
++  and: [StringOperationFilterInput!]
++  contains: String
++  endsWith: String
++  eq: String
++  in: [String]
++  ncontains: String
++  nendsWith: String
++  neq: String
++  nin: [String]
++  nstartsWith: String
++  or: [StringOperationFilterInput!]
++  startsWith: String
++}
++
++type Subscription {
++  onNotification: NotificationUpdate!
++  onPriceChange(symbols: [String!]): AssetPrice!
++}
++
++type UnknownAssetError implements Error {
++  message: String!
++  symbols: [String!]!
++}
++
++type UnknownCurrencyError implements Error {
++  currency: String!
++  message: String!
++}
++
++type UnknownNotificationError implements Error {
++  message: String!
++  notificationIds: [Int!]!
++}
++
++type UnknownWatchlistError implements Error {
++  message: String!
++  username: String!
++}
++
++union UpdateAssetPriceError = UnknownAssetError
++
++input UpdateAssetPriceInput {
++  change24Hour: Int! = 0
++  circulatingSupply: Int! = 0
++  currency: String!
++  high24Hour: Int! = 0
++  lastPrice: Float!
++  low24Hour: Int! = 0
++  marketCap: Int! = 0
++  maxSupply: Int! = 0
++  open24Hour: Int! = 0
++  symbol: String!
++  tradableMarketCapRank: Int! = 0
++  tradingActivity: Int! = 0
++  volume24Hour: Int! = 0
++  volumePercentChange24Hour: Int! = 0
++}
++
++type UpdateAssetPricePayload {
++  errors: [UpdateAssetPriceError!]
++  updatedPrice: AssetPrice
++}
++
++input UpdateUserProfileInput {
++  displayName: String
++  image: Upload
++}
++
++type UpdateUserProfilePayload {
++  updatedUser: User
++}
++
++"""
++The `Upload` scalar type represents a file upload.
++"""
++scalar Upload
++
++type User {
++  alerts(
++    """
++    Returns the elements in the list that come after the specified cursor.
++    """
++    after: String
++
++    """
++    Returns the elements in the list that come before the specified cursor.
++    """
++    before: String
++
++    """
++    Returns the first _n_ elements from the list.
++    """
++    first: Int
++
++    """
++    Returns the last _n_ elements from the list.
++    """
++    last: Int
++  ): UserAlertConnection
++  displayName: String
++  id: ID!
++  imageUrl: String
++  name: String!
++  notifications(
++    """
++    Returns the elements in the list that come after the specified cursor.
++    """
++    after: String
++
++    """
++    Returns the elements in the list that come before the specified cursor.
++    """
++    before: String
++
++    """
++    Returns the first _n_ elements from the list.
++    """
++    first: Int
++
++    """
++    Returns the last _n_ elements from the list.
++    """
++    last: Int
++    status: ReadStatus! = ALL
++  ): NotificationsConnection
++  watchlist: Watchlist
++}
++
++"""
++A connection to a list of items.
++"""
++type UserAlertConnection {
++  """
++  A list of edges.
++  """
++  edges: [UserAlertEdge!]
++
++  """
++  A flattened list of the nodes.
++  """
++  nodes: [Alert!]
++
++  """
++  Information to aid in pagination.
++  """
++  pageInfo: PageInfo!
++}
++
++"""
++An edge in a connection.
++"""
++type UserAlertEdge {
++  """
++  A cursor for use in pagination.
++  """
++  cursor: String!
++
++  """
++  The item at the end of the edge.
++  """
++  node: Alert!
++}
++
++type Watchlist implements Node {
++  assets(
++    """
++    Returns the elements in the list that come after the specified cursor.
++    """
++    after: String
++
++    """
++    Returns the elements in the list that come before the specified cursor.
++    """
++    before: String
++
++    """
++    Returns the first _n_ elements from the list.
++    """
++    first: Int
++
++    """
++    Returns the last _n_ elements from the list.
++    """
++    last: Int
++  ): AssetsConnection
++  id: ID!
++  user: User!
++}
+diff --git a/crypto/frontend/generated/DashboardSpotlightCardFragment_asset.graphql.js b/crypto/frontend/generated/DashboardSpotlightCardFragment_asset.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..35755050da8978bcdb47f4b029cd5c35d7e85a28
+--- /dev/null
++++ b/crypto/frontend/generated/DashboardSpotlightCardFragment_asset.graphql.js
+@@ -0,0 +1,67 @@
++/**
++ * @generated SignedSource<<b9603f99a0755ed76039a7bffd7f2a5d>>
++ * @flow
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++/*::
++import type { Fragment, ReaderFragment } from 'relay-runtime';
++import type { DashboardSpotlightItemFragment_asset$fragmentType } from "./DashboardSpotlightItemFragment_asset.graphql";
++import type { FragmentType } from "relay-runtime";
++declare export opaque type DashboardSpotlightCardFragment_asset$fragmentType: FragmentType;
++export type DashboardSpotlightCardFragment_asset$data = {|
++  +nodes: ?$ReadOnlyArray<{|
++    +id: string,
++    +$fragmentSpreads: DashboardSpotlightItemFragment_asset$fragmentType,
++  |}>,
++  +$fragmentType: DashboardSpotlightCardFragment_asset$fragmentType,
++|};
++export type DashboardSpotlightCardFragment_asset$key = {
++  +$data?: DashboardSpotlightCardFragment_asset$data,
++  +$fragmentSpreads: DashboardSpotlightCardFragment_asset$fragmentType,
++  ...
++};
++*/
++
++var node/*: ReaderFragment*/ = {
++  "argumentDefinitions": [],
++  "kind": "Fragment",
++  "metadata": null,
++  "name": "DashboardSpotlightCardFragment_asset",
++  "selections": [
++    {
++      "alias": null,
++      "args": null,
++      "concreteType": "Asset",
++      "kind": "LinkedField",
++      "name": "nodes",
++      "plural": true,
++      "selections": [
++        {
++          "alias": null,
++          "args": null,
++          "kind": "ScalarField",
++          "name": "id",
++          "storageKey": null
++        },
++        {
++          "args": null,
++          "kind": "FragmentSpread",
++          "name": "DashboardSpotlightItemFragment_asset"
++        }
++      ],
++      "storageKey": null
++    }
++  ],
++  "type": "AssetsConnection",
++  "abstractKey": null
++};
++
++(node/*: any*/).hash = "1af28335a4d097776754c36ec2e715de";
++
++export default node;
+diff --git a/crypto/frontend/scenes/settings/SettingsLinks.js b/crypto/frontend/scenes/settings/SettingsLinks.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..dddbc6b955a09eb7629f54827e29b853f482e3fa
+--- /dev/null
++++ b/crypto/frontend/scenes/settings/SettingsLinks.js
+@@ -0,0 +1,76 @@
++import {
++  AccordionActions,
++  AccordionDetails,
++  Button,
++  Stack,
++  TextField,
++} from '@mui/material';
++import {memo, useRef} from 'react';
++
++import {Config, syncWithStorage} from '@/config';
++import {LinksIcon} from '@/icons';
++
++import {Group} from './Group';
++
++export default memo(function SettingsLinks({active, onChange}) {
++  const httpRef = useRef(null);
++  const wsRef = useRef(null);
++
++  return (
++    <Group
++      id="links"
++      icon={LinksIcon}
++      title="Links"
++      active={active}
++      onChange={onChange}
++    >
++      <form
++        name="links"
++        onSubmit={(e) => {
++          e.preventDefault();
++
++          const http = httpRef.current?.value;
++          const ws = wsRef.current?.value;
++
++          syncWithStorage({
++            HTTP_ENDPOINT: http,
++            WS_ENDPOINT: ws,
++          });
++        }}
++      >
++        <AccordionDetails id="panel-links-content" sx={{p: 6}}>
++          <Stack direction="column" gap={8}>
++            <TextField
++              inputRef={httpRef}
++              label="HTTP Endpoint"
++              defaultValue={Config.HTTP_ENDPOINT}
++              autoComplete="http"
++              helperText="The URL of the server to send GraphQL queries over HTTP."
++              required
++              fullWidth
++            />
++            <TextField
++              inputRef={wsRef}
++              label="WS Endpoint"
++              defaultValue={Config.WS_ENDPOINT}
++              autoComplete="ws"
++              helperText="The URL of the server to send GraphQL queries over WebSocket."
++              required
++              fullWidth
++            />
++          </Stack>
++        </AccordionDetails>
++        <AccordionActions
++          sx={{flexDirection: 'row-reverse', justifyContent: 'flex-start'}}
++        >
++          <Button type="submit" color="primary">
++            Save
++          </Button>
++          <Button type="reset" color="secondary">
++            Cancel
++          </Button>
++        </AccordionActions>
++      </form>
++    </Group>
++  );
++});

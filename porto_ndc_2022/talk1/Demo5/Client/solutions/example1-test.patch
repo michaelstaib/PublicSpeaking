@@ -1,0 +1,110 @@
+diff --git a/crypto/frontend/scenes/Greetings.test.js b/crypto/frontend/scenes/Greetings.test.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..3f84b472034eb611b7f49d072badc747c0ac4b92
+--- /dev/null
++++ b/crypto/frontend/scenes/Greetings.test.js
+@@ -0,0 +1,104 @@
++import {act, render, waitFor} from '@testing-library/react';
++import {Component, Suspense} from 'react';
++import {RelayEnvironmentProvider} from 'react-relay';
++import {MockPayloadGenerator, createMockEnvironment} from 'relay-test-utils';
++
++import Greetings from './Greetings';
++
++describe('<Greetings />', () => {
++  const errorSpy = jest.spyOn(console, 'error').mockImplementation();
++
++  let environment;
++  const name = 'foo';
++
++  class ErrorBoundary extends Component {
++    static getDerivedStateFromError(error) {
++      return {error};
++    }
++
++    state = {error: false};
++
++    render() {
++      const {children, fallback} = this.props;
++      const {error} = this.state;
++
++      return error ? fallback : children;
++    }
++  }
++
++  const TestRenderer = () => (
++    <RelayEnvironmentProvider environment={environment}>
++      <ErrorBoundary fallback="error">
++        <Suspense fallback="loading">
++          <Greetings name={name} />
++        </Suspense>
++      </ErrorBoundary>
++    </RelayEnvironmentProvider>
++  );
++
++  beforeEach(() => {
++    environment = createMockEnvironment();
++  });
++
++  afterEach(() => {
++    errorSpy.mockReset();
++  });
++
++  afterAll(() => {
++    errorSpy.mockRestore();
++  });
++
++  it('should handle loading state', () => {
++    const {getByText} = render(<TestRenderer />);
++
++    expect(getByText('loading')).toBeInTheDocument();
++  });
++
++  it('should handle data state with automatic mock', async () => {
++    const {getByText} = render(<TestRenderer />);
++
++    act(() => {
++      environment.mock.resolveMostRecentOperation((operation) =>
++        MockPayloadGenerator.generate(operation),
++      );
++    });
++
++    await waitFor(() => {
++      expect(
++        getByText('<mock-value-for-field-"greetings">'),
++      ).toBeInTheDocument();
++    });
++  });
++
++  it('should handle data state with custom mock', async () => {
++    const {getByText} = render(<TestRenderer />);
++
++    act(() => {
++      environment.mock.resolveMostRecentOperation((operation) =>
++        MockPayloadGenerator.generate(operation, {
++          Query() {
++            return {
++              greetings: `hello, ${name}!`,
++            };
++          },
++        }),
++      );
++    });
++
++    await waitFor(() => {
++      expect(getByText(`hello, ${name}!`)).toBeInTheDocument();
++    });
++  });
++
++  it('should handle error state', async () => {
++    const {getByText} = render(<TestRenderer />);
++
++    act(() => {
++      environment.mock.rejectMostRecentOperation(new Error('Uh-oh'));
++    });
++
++    await waitFor(() => {
++      expect(getByText('error')).toBeInTheDocument();
++    });
++  });
++});

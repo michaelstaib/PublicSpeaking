@@ -1,0 +1,60 @@
+{
+  "name": "crypto",
+  "private": true,
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "workspaces": [
+    ".proactive/*"
+  ],
+  "packageManager": "yarn@3.2.0",
+  "dependencies": {
+    "@emotion/cache": "latest",
+    "@emotion/css": "latest",
+    "@emotion/react": "latest",
+    "@emotion/server": "latest",
+    "@emotion/styled": "latest",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest",
+    "d3-array": "^3.1.1",
+    "d3-ease": "^3.0.1",
+    "d3-interpolate-path": "^2.2.3",
+    "d3-scale": "^4.0.2",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.1.0",
+    "d3-transition": "^3.0.1",
+    "extract-files": "latest",
+    "graphql-ws": "latest",
+    "lodash": "latest",
+    "meros": "latest",
+    "next": "canary",
+    "react": "experimental",
+    "react-dom": "experimental",
+    "react-dropzone": "latest",
+    "react-relay": "main"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "latest",
+    "@graphql-codegen/schema-ast": "latest",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@types/react": "latest",
+    "babel-jest": "latest",
+    "babel-plugin-relay": "main",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "jest": "latest",
+    "prettier": "latest",
+    "relay-compiler": "main",
+    "relay-test-utils": "main"
+  },
+  "scripts": {
+    "build": "next build",
+    "relay": "graphql-codegen && relay-compiler",
+    "dev": "next dev",
+    "export": "next export",
+    "lint": "next lint",
+    "prettify": "prettier . --write --ignore-unknown",
+    "start": "next start"
+  }
+}

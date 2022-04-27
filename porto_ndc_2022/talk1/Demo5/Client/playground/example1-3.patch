@@ -1,0 +1,207 @@
+diff --git a/crypto/frontend/scenes/Greetings.js b/crypto/frontend/scenes/Greetings.js
+index 0000000000000000000000000000000000000000..f9c304c239e2e56a2c32fe1b74ef835342278763 100644
+--- a/crypto/frontend/scenes/Greetings.js
++++ b/crypto/frontend/scenes/Greetings.js
+@@ -1,44 +1,14 @@
+-import {useEffect, useState} from 'react';
+-
+-const fetchGraphQL = async (query, variables) => {
+-  const response = await fetch('http://localhost:5000/graphql', {
+-    method: 'POST',
+-    headers: {
+-      'Content-Type': 'application/json',
+-    },
+-    body: JSON.stringify({
+-      query,
+-      variables,
+-    }),
+-  });
+-
+-  return await response.json();
+-};
+-
+-export default function Greetings() {
+-  const [greetings, setGreetings] = useState(null);
+-
+-  useEffect(() => {
+-    let mounted = true;
+-
+-    fetchGraphQL(`
+-      query GreetingsQuery {
+-        greetings
+-      }
+-    `)
+-      .then((response) => {
+-        if (mounted) {
+-          setGreetings(response.data.greetings);
+-        }
+-      })
+-      .catch((error) => {
+-        console.error(error);
+-      });
+-
+-    return () => {
+-      mounted = false;
+-    };
+-  }, []);
+-
+-  return <div>{greetings}</div>;
+-}
++import {graphql, useLazyLoadQuery} from 'react-relay';
++
++export default function Greetings() {
++  const data = useLazyLoadQuery(
++    graphql`
++      query GreetingsQuery {
++        greetings
++      }
++    `,
++    {},
++  );
++
++  return <div>{data.greetings}</div>;
++}
+diff --git a/crypto/frontend/pages/index.js b/crypto/frontend/pages/index.js
+index 8b3e2fa25f805f5e59f6da3bc19b8f1365bbb124..42d3e7af4acdbae8a74eb45f9365f5f5820562a4 100644
+--- a/crypto/frontend/pages/index.js
++++ b/crypto/frontend/pages/index.js
+@@ -1 +1,37 @@
+-export {default} from '@/scenes/Greetings';
++import {Suspense} from 'react';
++import {RelayEnvironmentProvider} from 'react-relay';
++import {Environment, Network, RecordSource, Store} from 'relay-runtime';
++
++import {default as Greetings} from '@/scenes/Greetings';
++
++const fetchGraphQL = async (query, variables) => {
++  const response = await fetch('http://localhost:5000/graphql', {
++    method: 'POST',
++    headers: {
++      'Content-Type': 'application/json',
++    },
++    body: JSON.stringify({
++      query,
++      variables,
++    }),
++  });
++
++  return await response.json();
++};
++
++const fetchFn = (params, variables) => fetchGraphQL(params.text, variables);
++
++const environment = new Environment({
++  network: Network.create(fetchFn),
++  store: new Store(new RecordSource()),
++});
++
++export default function Main() {
++  return (
++    <RelayEnvironmentProvider environment={environment}>
++      <Suspense fallback="Loading...">
++        <Greetings />
++      </Suspense>
++    </RelayEnvironmentProvider>
++  );
++}
+diff --git a/crypto/frontend/generated/GreetingsQuery.graphql.js b/crypto/frontend/generated/GreetingsQuery.graphql.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..7c5956fe3651dd396d39459bcc7415df2c4d269b
+--- /dev/null
++++ b/crypto/frontend/generated/GreetingsQuery.graphql.js
+@@ -0,0 +1,51 @@
++/**
++ * @generated SignedSource<<a2de065d887a05e8af1910bdf9c3b51d>>
++ * @lightSyntaxTransform
++ * @nogrep
++ */
++
++/* eslint-disable */
++
++'use strict';
++
++
++var node = (function(){
++var v0 = [
++  {
++    "alias": null,
++    "args": null,
++    "kind": "ScalarField",
++    "name": "greetings",
++    "storageKey": null
++  }
++];
++return {
++  "fragment": {
++    "argumentDefinitions": [],
++    "kind": "Fragment",
++    "metadata": null,
++    "name": "GreetingsQuery",
++    "selections": (v0/*: any*/),
++    "type": "Query",
++    "abstractKey": null
++  },
++  "kind": "Request",
++  "operation": {
++    "argumentDefinitions": [],
++    "kind": "Operation",
++    "name": "GreetingsQuery",
++    "selections": (v0/*: any*/)
++  },
++  "params": {
++    "cacheID": "acbfaea45bca09685fc5691a1903f78a",
++    "id": null,
++    "metadata": {},
++    "name": "GreetingsQuery",
++    "operationKind": "query",
++    "text": "query GreetingsQuery {\n  greetings\n}\n"
++  }
++};
++})();
++
++node.hash = "613f3ef79740dc8be3c71bb5b04d5e2f";
++export default node;
+diff --git a/crypto/frontend/schema/server.graphql b/crypto/frontend/schema/server.graphql
+new file mode 100644
+index 0000000000000000000000000000000000000000..f8d6abc88acdb140458f0cf9dc13433ac41ba4c9
+--- /dev/null
++++ b/crypto/frontend/schema/server.graphql
+@@ -0,0 +1,38 @@
++"""
++The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`.
++"""
++directive @defer(
++  """
++  Deferred when true.
++  """
++  if: Boolean
++
++  """
++  If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to.
++  """
++  label: String
++) on FRAGMENT_SPREAD | INLINE_FRAGMENT
++
++"""
++The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`.
++"""
++directive @stream(
++  """
++  Streamed when true.
++  """
++  if: Boolean
++
++  """
++  The initial elements that shall be send down to the consumer.
++  """
++  initialCount: Int! = 0
++
++  """
++  If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to.
++  """
++  label: String
++) on FIELD
++
++type Query {
++  greetings(name: String! = "World"): String!
++}

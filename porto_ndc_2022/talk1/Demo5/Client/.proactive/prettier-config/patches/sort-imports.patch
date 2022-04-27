@@ -1,0 +1,80 @@
+diff --git a/lib/src/index.js b/lib/src/index.js
+index bab4d705b25455c61c59d72841b0f5e8a10a828e..0e1c7ff30fe86652a61abf73e9986d5b7d0b68d1 100644
+--- a/lib/src/index.js
++++ b/lib/src/index.js
+@@ -20,7 +20,12 @@ var options = {
+         type: 'path',
+         category: 'Global',
+         array: true,
+-        default: [{ value: [] }],
++        default: [{ value: [
++            '^@swisslife/(.*)$',
++            '^@sl/(.*)$',
++            '@/(.*)$',
++            '^[./]',
++        ] }],
+         description: 'Provide an order to sort imports.',
+     },
+     importOrderCaseInsensitive: {
+@@ -41,13 +46,13 @@ var options = {
+     importOrderSeparation: {
+         type: 'boolean',
+         category: 'Global',
+-        default: false,
++        default: true,
+         description: 'Should imports be separated by new line?',
+     },
+     importOrderSortSpecifiers: {
+         type: 'boolean',
+         category: 'Global',
+-        default: false,
++        default: true,
+         description: 'Should specifiers be sorted?',
+     },
+ };
+diff --git a/package.json b/package.json
+index 8211969caad373e7eb87234b7e47f94f9808075a..1387f8e43780d6c335491882264a752b12a1bbb6 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+-  "name": "@trivago/prettier-plugin-sort-imports",
+-  "version": "3.1.1",
++  "name": "@sl/rdk.prettier-plugin-sort-imports",
++  "version": "3.1.1-0",
+   "description": "A prettier plugins to sort imports in provided RegEx order",
+   "main": "lib/src/index.js",
+   "repository": {
+@@ -8,15 +8,6 @@
+     "type": "git"
+   },
+   "homepage": "https://github.com/trivago/prettier-plugin-sort-imports#readme",
+-  "scripts": {
+-    "prepare": "yarn run compile",
+-    "compile": "tsc",
+-    "preexample": "yarn run compile",
+-    "example": "prettier --config .prettierrc --plugin lib/src/index.js",
+-    "test": "jest -i",
+-    "type-check": "tsc --noEmit",
+-    "prepublishOnly": "npm run compile && npm run test"
+-  },
+   "keywords": [
+     "prettier",
+     "plugin",
+@@ -40,16 +31,6 @@
+     "javascript-natural-sort": "0.7.1",
+     "lodash": "4.17.21"
+   },
+-  "devDependencies": {
+-    "@types/chai": "4.2.15",
+-    "@types/jest": "26.0.20",
+-    "@types/node": "14.14.34",
+-    "@types/lodash": "4.14.168",
+-    "jest": "26.6.3",
+-    "prettier": "2.3.1",
+-    "ts-jest": "26.5.3",
+-    "typescript": "4.2.3"
+-  },
+   "peerDependencies": {
+     "prettier": "2.x"
+   }

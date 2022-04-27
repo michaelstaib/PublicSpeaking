@@ -1,0 +1,9 @@
+schema: https://api-crypto-workshop.chillicream.com/graphql
+generates:
+  schema/server.graphql:
+    plugins:
+      - schema-ast
+
+hooks:
+  afterOneFileWrite:
+    - prettier --write

@@ -1,0 +1,14 @@
+# dependencies
+node_modules/
+
+# generated
+generated/
+
+# temporary
+tmp/
+*.tmp
+
+# misc
+.DS_Store
+.*/
+*.log*
