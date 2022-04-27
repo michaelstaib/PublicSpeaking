@@ -1,5 +1,6 @@
 using Demo.Data;
 using Demo.DataLoader;
+using Demo.Types.Errors;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Types.Assets;
@@ -30,6 +31,20 @@ public sealed class AssetNode
         }
 
         return $"{scheme}://{host}/images/{asset.ImageKey}";
+    }
+
+    public async Task<double> GetQuote(
+        [Parent] Asset asset,
+        AssetPriceBySymbolDataLoader priceBySymbol,
+        CancellationToken cancellationToken)
+    {
+        if (asset.Description is null)
+        {
+            throw new QuoteException();
+        }
+
+        AssetPrice price = await priceBySymbol.LoadAsync(asset.Symbol!, cancellationToken);
+        return price.LastPrice;
     }
 
     public async Task<bool?> IsInWatchlistAsync(
@@ -65,7 +80,7 @@ public sealed class AssetNode
     public Task<Alert[]> GetAlerts(
         [Parent] Asset asset,
         AlertBySymbolDataLoader alertBySymbol,
-        CancellationToken cancellationToken) 
+        CancellationToken cancellationToken)
         => alertBySymbol.LoadAsync(asset.Symbol!, cancellationToken);
 
     [NodeResolver]

@@ -1,3 +1,5 @@
+using Demo.Types.Errors;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
@@ -24,6 +26,14 @@ builder.Services
     .AddSorting()
     .AddInMemorySubscriptions()
     .RegisterDbContext<AssetContext>(DbContextKind.Pooled)
+    .AddErrorFilter(error =>
+    {
+        if (error.Exception is QuoteException)
+        {
+            return error.WithMessage("Quote service is not available!");
+        }
+        return error;
+    })
     .InitializeOnStartup();
 
 var app = builder.Build();
