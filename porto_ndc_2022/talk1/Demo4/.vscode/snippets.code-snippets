@@ -1,0 +1,46 @@
+{
+    "_OnPriceChange": {
+        "prefix": "_OnPriceChange",
+        "body": [
+            "[Subscribe]",
+            "public async Task<AssetPrice> OnPriceChangeAsync(",
+            "    AssetPriceBySymbolDataLoader assetPriceBySymbol,",
+            "    [EventMessage] string symbol,",
+            "    CancellationToken cancellationToken)",
+            "    => await assetPriceBySymbol.LoadAsync(symbol, cancellationToken);"
+        ],
+        "description": "_OnPriceChange"
+    },
+    "_CreateStream": {
+        "prefix": "_CreateStream",
+        "body": [
+            "public async IAsyncEnumerable<string> CreatePriceChangeStreamAsync(",
+            "    [Service] IPriceChangeService priceChangeService,",
+            "    [EnumeratorCancellation] CancellationToken cancellationToken)",
+            "{",
+            "    await foreach (var symbol in priceChangeService.ReadAsync(cancellationToken))",
+            "    {",
+            "        yield return symbol;",
+            "    }",
+            "}"
+        ],
+        "description": "_CreateStream"
+    },
+    "_AssetSubscriptions": {
+        "prefix": "_AssetSubscriptions",
+        "body": [
+            "using System.Runtime.CompilerServices;",
+            "",
+            "namespace Demo.Types.Assets;",
+            "",
+            "[ExtendObjectType(OperationTypeNames.Subscription)]",
+            "public sealed class AssetSubscriptions",
+            "{",
+            "",
+            "",
+            "",
+            "}"
+        ],
+        "description": "_AssetSubscriptions"
+    }
+}
