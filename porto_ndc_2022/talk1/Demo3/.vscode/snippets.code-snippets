@@ -1,0 +1,31 @@
+{
+    "_AssetPriceChange": {
+        "prefix": "_AssetPriceChange",
+        "body": [
+            "type AssetPriceChange {",
+            "    percentageChange: Float! @fromJson",
+            "}"
+        ],
+        "description": "_AssetPriceChange"
+    },
+    "_GetChangeAsync": {
+        "prefix": "_GetChangeAsync",
+        "body": [
+            "[GraphQLType(\"AssetPriceChange\")]",
+            "public async Task<JsonElement> GetChangeAsync(",
+            "    ChangeSpan span,",
+            "    [Parent] AssetPrice parent,",
+            "    AssetPriceChangeDataLoader assetPriceBySymbol,",
+            "    CancellationToken cancellationToken)",
+            "    => await assetPriceBySymbol.LoadAsync(new KeyAndSpan(parent.Symbol!, span), cancellationToken);"
+        ],
+        "description": "_GetChangeAsync"
+    },
+    "_AddGraphQL": {
+        "prefix": "_AddGraphQL",
+        "body": [
+            ".AddDocumentFromFile(\"./Types/Assets/AssetPriceChangeType.graphql\")"
+        ],
+        "description": "_AddGraphQL"
+    }
+}
