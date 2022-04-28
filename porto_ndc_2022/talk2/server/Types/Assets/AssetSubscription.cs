@@ -1,4 +1,6 @@
 using System.Runtime.CompilerServices;
+using Demo.Data;
+using Demo.DataLoader;
 using HotChocolate.Execution;
 using HotChocolate.Subscriptions;
 
@@ -26,6 +28,7 @@ public sealed class AssetSubscriptions
     }
 
     [Subscribe(With = nameof(PriceChangeStreamAsync))]
+    [Topic(Constants.OnPriceChange)]
     public async Task<AssetPrice> OnPriceChangeAsync(
         string[]? symbols,
         AssetPriceBySymbolDataLoader assetPriceBySymbol,

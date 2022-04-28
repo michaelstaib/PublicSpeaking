@@ -1,4 +1,6 @@
+using Demo.Data;
 using HotChocolate.Subscriptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Types.Notifications;
 

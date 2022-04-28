@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Demo.Data;
+
 namespace Demo.DataLoader;
 
 public sealed class WatchlistByUserDataLoader : CacheDataLoader<string, HashSet<string>?>

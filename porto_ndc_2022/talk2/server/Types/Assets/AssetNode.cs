@@ -1,4 +1,6 @@
-using Newtonsoft.Json.Serialization;
+using Demo.Data;
+using Demo.DataLoader;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Types.Assets;
 
@@ -51,10 +53,20 @@ public sealed class AssetNode
         return symbols.Contains(asset.Symbol!);
     }
 
-    [NodeResolver]
-    public static async Task<Asset> GetByIdAsync(
-        int id,
-        AssetByIdDataLoader assetById,
+    public Task<bool> HasAlertsAsync(
+        [Parent] Asset asset,
+        AlertExistsBySymbolDataLoader alertExistsBySymbol,
         CancellationToken cancellationToken)
-        => await assetById.LoadAsync(id, cancellationToken);
+        => alertExistsBySymbol.LoadAsync(asset.Symbol!, cancellationToken);
+
+    [UsePaging(IncludeTotalCount = true, ConnectionName = "AssetAlerts")]
+    public Task<Alert[]> GetAlerts(
+        [Parent] Asset asset,
+        AlertBySymbolDataLoader alertBySymbol,
+        CancellationToken cancellationToken) 
+        => alertBySymbol.LoadAsync(asset.Symbol!, cancellationToken);
+
+    [NodeResolver]
+    public static Task<Asset?> GetById(int id, AssetContext context)
+        => context.Assets.FirstOrDefaultAsync(a => a.Id == id);
 }

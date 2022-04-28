@@ -1,4 +1,6 @@
 using System.Text.Json;
+using Demo.Data;
+using Demo.DataLoader;
 
 namespace Demo.Types.Assets;
 
@@ -6,11 +8,17 @@ namespace Demo.Types.Assets;
 [ExtendObjectType(typeof(AssetPrice), IgnoreProperties = new[] { nameof(AssetPrice.AssetId) })]
 public sealed class AssetPriceNode
 {
-    public async Task<Asset> GetAssetAsync(
+    [GraphQLType(typeof(AssetPriceChangeType))]
+    public async Task<JsonElement> GetChangeAsync(
+        ChangeSpan span,
+        [ScopedState("span")] SetState<ChangeSpan> setSpan,
         [Parent] AssetPrice parent,
-        AssetBySymbolDataLoader assetBySymbol,
+        AssetPriceChangeDataLoader assetPriceBySymbol,
         CancellationToken cancellationToken)
-        => await assetBySymbol.LoadAsync(parent.Symbol!, cancellationToken);
+    {
+        setSpan(span);
+        return await assetPriceBySymbol.LoadAsync(new KeyAndSpan(parent.Symbol!, span), cancellationToken);
+    }
 
     [GraphQLType(typeof(AssetPriceChangeType))]
     public async Task<JsonElement> GetChangeAsync(
@@ -33,7 +41,7 @@ public sealed class AssetPriceNode
     }
 
     [NodeResolver]
-    public static Task<AssetPrice> GetByIdAsyncAsync(
+    public static Task<AssetPrice> GetByIdAsync(
         int id,
         AssetPriceByIdDataLoader dataLoader,
         CancellationToken cancellationToken)

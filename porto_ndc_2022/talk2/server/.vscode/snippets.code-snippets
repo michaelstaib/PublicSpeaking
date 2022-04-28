@@ -1,0 +1,61 @@
+{
+    "_api": {
+        "prefix": "_api",
+        "body": [
+            "var api = ResourceBuilder.CreateEmpty()",
+            "    .AddService(\"Coin-API\", \"Demo\", \"2.0.0\")",
+            "    .AddAttributes(new KeyValuePair<string, object>[]",
+            "    {",
+            "        new(\"deployment.environment\", \"development\"),",
+            "        new(\"telemetry.sdk.name\", \"dotnet\"),",
+            "        new(\"telemetry.sdk.version\", \"6.0.0\")",
+            "    });"
+        ],
+        "description": "_api"
+    },
+    "_tracing": {
+        "prefix": "_tracing",
+        "body": [
+            "builder.Services.AddOpenTelemetryTracing(",
+            "    b =>",
+            "    {",
+            "        b.AddHttpClientInstrumentation();",
+            "        b.AddAspNetCoreInstrumentation();",
+            "        b.AddHotChocolateInstrumentation();",
+            "        b.SetResourceBuilder(api);",
+            "        b.AddOtlpExporter(c =>",
+            "        {",
+            "            c.Endpoint = new Uri(\"https://ndc-demo.apm.westeurope.azure.elastic-cloud.com\");",
+            "            c.Headers = Constants.Headers;",
+            "        });",
+            "    });",
+            ""
+        ],
+        "description": "_tracing"
+    },
+    "_metrics": {
+        "prefix": "_metrics",
+        "body": [
+            "builder.Services.AddOpenTelemetryMetrics(",
+            "    b =>",
+            "    {",
+            "        b.AddHttpClientInstrumentation();",
+            "        b.AddAspNetCoreInstrumentation();",
+            "        b.SetResourceBuilder(api);",
+            "        b.AddOtlpExporter(c =>",
+            "        {",
+            "            c.Endpoint = new Uri(\"https://ndc-demo.apm.westeurope.azure.elastic-cloud.com\");",
+            "            c.Headers = Constants.Headers;",
+            "        });",
+            "    });"
+        ],
+        "description": "_metrics"
+    },
+    "_apollo": {
+        "prefix": "_apollo",
+        "body": [
+            ".AddApolloTracing(TracingPreference.Always)"
+        ],
+        "description": "_apollo"
+    }
+}

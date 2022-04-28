@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Demo.DataLoader;
 using HotChocolate.Resolvers;
 using HotChocolate.Types.Pagination;
 using HotChocolate.Types.Pagination.Extensions;
@@ -12,6 +13,10 @@ public sealed class AssetPriceChangeType : ObjectType
         descriptor
             .Name("AssetPriceChange")
             .IsOfType(IsAssetPriceChangeType);
+
+        descriptor
+            .ImplementsNode()
+            .ResolveNodeWith<Resolvers>(t => t.ResolveNodeAsync(default!, default!, default!));
 
         descriptor
             .Field("id")
@@ -53,6 +58,16 @@ public sealed class AssetPriceChangeType : ObjectType
             string symbol = parent.GetProperty("symbol").GetString()!;
             JsonElement history = await dataLoader.LoadAsync(new KeyAndSpan(symbol, span), cancellationToken);
             return await history.GetProperty("entries").EnumerateArray().ToArray().ApplyCursorPaginationAsync(context, cancellationToken: cancellationToken);
+        }
+
+        public async Task<JsonElement?> ResolveNodeAsync(
+            string id,
+            AssetPriceChangeDataLoader dataLoader,
+            CancellationToken cancellationToken)
+        {
+            string[] parts = id.Split(':');
+            ChangeSpan span = Enum.Parse<ChangeSpan>(parts[1]);
+            return await dataLoader.LoadAsync(new KeyAndSpan(parts[0], span), cancellationToken);
         }
     }
 }

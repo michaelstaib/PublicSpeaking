@@ -1,3 +1,4 @@
+using Demo.Data;
 using HotChocolate.Data.Sorting;
 
 namespace Demo.Types.Assets;

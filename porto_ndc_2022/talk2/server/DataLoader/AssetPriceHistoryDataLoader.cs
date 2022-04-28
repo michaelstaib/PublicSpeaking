@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Demo.Types.Assets;
 
 namespace Demo.DataLoader;
 

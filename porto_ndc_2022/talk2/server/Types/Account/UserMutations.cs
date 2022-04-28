@@ -7,11 +7,11 @@ public sealed class UserMutations
 {
     [UseMutationConvention(PayloadFieldName = "updatedUser")]
     public async Task<User?> UpdateUserProfile(
-        [GlobalState] string username,
-        UpdateUserProfileInput input,
-        IFileStorage storage,
-        AssetContext context,
-        CancellationToken cancellationToken)
+       [GlobalState] string username,
+       UpdateUserProfileInput input,
+       IFileStorage storage,
+       AssetContext context,
+       CancellationToken cancellationToken)
     {
         if (username is null)
         {
@@ -43,3 +43,5 @@ public sealed class UserMutations
         return await storage.UploadAsync(iconStream, cancellationToken);
     }
 }
+
+public record UpdateUserProfileInput(Optional<string?> DisplayName, Optional<IFile?> Image);

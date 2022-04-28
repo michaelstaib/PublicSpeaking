@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Demo.Data;
+
 namespace Demo.DataLoader;
 
 public sealed class AssetPriceByIdDataLoader : BatchDataLoader<int, AssetPrice>

@@ -1,3 +1,6 @@
+using Demo.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace Demo.Types.Account;
 
 [ExtendObjectType(OperationTypeNames.Query)]

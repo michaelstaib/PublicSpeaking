@@ -1,3 +1,4 @@
+using Demo.Data;
 using HotChocolate.Data.Filters;
 
 namespace Demo.Types.Assets;
@@ -10,6 +11,7 @@ public sealed class AssetFilterInputType : FilterInputType<Asset>
         descriptor.Field(t => t.Symbol);
         descriptor.Field(t => t.Slug);
         descriptor.Field(t => t.Name);
+        descriptor.Field(t => t.Description);
         descriptor.Field(t => t.Price);
     }
 }

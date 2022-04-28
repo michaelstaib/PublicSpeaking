@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Demo.Data;
 using HotChocolate.Execution;
 
 namespace Demo.DataLoader;

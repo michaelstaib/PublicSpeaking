@@ -1,3 +1,6 @@
+using Demo.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace Demo.Types.Notifications;
 
 public sealed class NotificationUpdate

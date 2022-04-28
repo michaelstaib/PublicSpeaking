@@ -7,6 +7,9 @@
     <LangVersion>Preview</LangVersion>
     <OpenTelemetryExporter>1.2.0-rc4</OpenTelemetryExporter>
     <OpenTelemetry>1.0.0-rc9.1</OpenTelemetry>
+    
+    <!--EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,13 +23,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HotChocolate.AspNetCore" Version="13.0.0-preview.15" />
-    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.0.0-preview.15" />
-    <PackageReference Include="HotChocolate.PersistedQueries.FileSystem" Version="13.0.0-preview.15" />
-    <PackageReference Include="HotChocolate.Types.Json" Version="13.0.0-preview.15" />
-    <PackageReference Include="HotChocolate.Diagnostics" Version="13.0.0-preview.15" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="13.0.0-preview.18" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.0.0-preview.18" />
+    <PackageReference Include="HotChocolate.PersistedQueries.FileSystem" Version="13.0.0-preview.18" />
+    <PackageReference Include="HotChocolate.Types.Json" Version="13.0.0-preview.18" />
+    <PackageReference Include="HotChocolate.Diagnostics" Version="13.0.0-preview.18" />
 
-    <PackageReference Include="HotChocolate.Types.Analyzers" Version="13.0.0-preview.15">
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="13.0.0-preview.18">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -38,8 +41,8 @@
     </PackageReference>
 
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="$(OpenTelemetryExporter)" />
-    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="$(OpenTelemetry)" />
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="$(OpenTelemetry)" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="$(OpenTelemetry)" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="$(OpenTelemetry)" />
   </ItemGroup>
 
