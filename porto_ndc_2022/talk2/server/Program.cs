@@ -28,17 +28,12 @@ builder.Services
     .AddMutationType()
     .AddSubscriptionType()
     .AddAssetTypes()
-    .AddType<UploadType>() // this should be nicer ... maybe even automatic
+    .AddType<UploadType>()
     .AddGlobalObjectIdentification()
     .AddMutationConventions()
     .AddFiltering()
     .AddSorting()
     .AddInMemorySubscriptions()
-    .AddInstrumentation(o =>
-    {
-        o.RenameRootActivity = true;
-        o.IncludeDocument = true;
-    })
     .RegisterDbContext<AssetContext>(DbContextKind.Pooled)
     .InitializeOnStartup();
 

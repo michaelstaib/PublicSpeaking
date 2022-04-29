@@ -66,16 +66,4 @@ public sealed class CustomSocketSessionInterceptor : DefaultSocketSessionInterce
 
         return base.OnRequestAsync(session, operationSessionId, requestBuilder, cancellationToken);
     }
-
-    public override ValueTask OnPongAsync(ISocketSession session, IOperationMessagePayload pongMessage, CancellationToken cancellationToken = default)
-    {
-        Console.WriteLine("Pong");
-        return base.OnPongAsync(session, pongMessage, cancellationToken);
-    }
-
-    public override ValueTask OnCloseAsync(ISocketSession session, CancellationToken cancellationToken = default)
-    {
-        Console.WriteLine("Closed socket");
-        return base.OnCloseAsync(session, cancellationToken);
-    }
 }

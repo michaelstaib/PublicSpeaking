@@ -57,5 +57,36 @@
             ".AddApolloTracing(TracingPreference.Always)"
         ],
         "description": "_apollo"
+    },
+    "_LogInterceptor": {
+        "prefix": "_LogInterceptor",
+        "body": [
+            "using HotChocolate.Execution.Instrumentation;",
+            "using HotChocolate.Resolvers;",
+            "",
+            "namespace Demo;",
+            "",
+            "public sealed class LogInterceptor : ExecutionDiagnosticEventListener",
+            "{",
+            "    ",
+            "}"
+        ],
+        "description": "_LogInterceptor"
+    },
+    "_CustomActivityEnricher": {
+        "prefix": "_CustomActivityEnricher",
+        "body": [
+            "using System.Text;",
+            "using HotChocolate.Diagnostics;",
+            "using Microsoft.Extensions.ObjectPool;",
+            "",
+            "namespace Demo;",
+            "",
+            "public sealed class CustomActivityEnricher : ActivityEnricher",
+            "{",
+            "",
+            "}"
+        ],
+        "description": "_CustomActivityEnricher"
     }
 }
