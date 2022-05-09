@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Diagnostics.Metrics;
 using System.Reflection.Metadata;
 using System.Text;
 using HotChocolate.Diagnostics;
@@ -9,15 +8,6 @@ using OpenTelemetry.Exporter;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-
-var api = ResourceBuilder.CreateEmpty()
-    .AddService("Coin-API", "Demo", "2.0.0")
-    .AddAttributes(new KeyValuePair<string, object>[]
-    {
-        new("deployment.environment", "development"),
-        new("telemetry.sdk.name", "dotnet"),
-        new("telemetry.sdk.version", "6.0.0")
-    });
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,51 +34,8 @@ builder.Services
     .AddFiltering()
     .AddSorting()
     .AddInMemorySubscriptions()
-    .AddInstrumentation(o =>
-    {
-        o.RenameRootActivity = true;
-        o.IncludeDocument = true;
-    })
-    .ModifyRequestOptions(o =>
-    {
-        o.Complexity.Enable = true;
-        o.Complexity.MaximumAllowed = 5;
-    })
     .RegisterDbContext<AssetContext>(DbContextKind.Pooled)
     .InitializeOnStartup();
-
-builder.Services.AddSingleton<ActivityEnricher, CustomActivityEnricher>();
-
-builder.Services.AddOpenTelemetryTracing(
-    b =>
-    {
-        b.AddHttpClientInstrumentation();
-        b.AddAspNetCoreInstrumentation();
-        b.AddHotChocolateInstrumentation();
-        b.SetResourceBuilder(api);
-        b.AddOtlpExporter(c =>
-        {
-            c.Endpoint = new Uri("https://ndc-demo.apm.westeurope.azure.elastic-cloud.com");
-            c.Headers = Constants.Headers;
-        });
-    });
-
-builder.Services.AddOpenTelemetryMetrics(
-    b =>
-    {
-        b.AddHttpClientInstrumentation();
-        b.AddAspNetCoreInstrumentation();
-        b.SetResourceBuilder(api);
-        b.AddOtlpExporter(c =>
-        {
-            c.Endpoint = new Uri("https://ndc-demo.apm.westeurope.azure.elastic-cloud.com");
-            c.Headers = Constants.Headers;
-        });
-    });
-
-Meter meter = new Meter("Foo.Bar");
-
-
 
 var app = builder.Build();
 
@@ -98,4 +45,3 @@ app.UseStaticFiles();
 app.MapGraphQL();
 
 app.Run();
-

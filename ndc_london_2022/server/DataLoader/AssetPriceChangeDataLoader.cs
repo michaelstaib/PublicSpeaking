@@ -25,7 +25,7 @@ public sealed class AssetPriceChangeDataLoader : HttpBatchDataLoader<KeyAndSpan>
             string symbols = string.Join(",", group.Select(t => t.Symbol));
             using var request = new HttpRequestMessage(
                 HttpMethod.Get, 
-                $"api/asset/price/change?symbols={symbols}&span={group.Key}");
+                $"api/asset/price/change/v2?symbols={symbols}&span={group.Key}");
             using var response = await client.SendAsync(request, cancellationToken);
             response.EnsureSuccessStatusCode();
 
