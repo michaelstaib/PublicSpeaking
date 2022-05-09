@@ -1,0 +1,1 @@
+All contents in this folder are considered out of scope for the current example.
