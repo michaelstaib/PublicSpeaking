@@ -88,5 +88,28 @@
             "}"
         ],
         "description": "_CustomActivityEnricher"
+    },
+    "_Meter": {
+        "prefix": "_Meter",
+        "body": [
+            "using System.Diagnostics.Metrics;",
+            "using HotChocolate.Execution;",
+            "using HotChocolate.Execution.Instrumentation;",
+            "",
+            "namespace Demo;",
+            "",
+            "public class MetricsDiagnosticEventListener : ExecutionDiagnosticEventListener",
+            "{",
+            "    private static readonly Meter _meter = new Meter(\"Demo.GraphQL\", \"1.0.0\");",
+            "    private static readonly Counter<int> _requestExecuted = _meter.CreateCounter<int>(\"requests\");",
+            "",
+            "    public override IDisposable ExecuteRequest(IRequestContext context)",
+            "    {",
+            "        _requestExecuted.Add(1);",
+            "        return base.ExecuteRequest(context);",
+            "    }",
+            "}"
+        ],
+        "description": "_Meter"
     }
 }

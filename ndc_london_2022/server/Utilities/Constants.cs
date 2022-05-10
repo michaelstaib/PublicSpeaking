@@ -10,5 +10,5 @@ public static class Constants
     public const string OnPriceChangeProcessing = nameof(OnPriceChangeProcessing);
     public static string OnNotification(string username)
         => $"OnNotification({username})";
-    public const string Headers = "Authorization=ApiKey dmhkWFVvQUJHVVNZOUs1MVEtM3k6V3dLYnZBeEFTeFNCemhGZmdnSldfUQ==";
+    public const string Headers = "Authorization=ApiKey dFZzRnJZQUJHVVNZOUs1MUJGbmo6OUJwRlRUekJRVmVzQjJ4c2VYaTRwQQ==";
 }
