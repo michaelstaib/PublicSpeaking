@@ -1,0 +1,115 @@
+{
+    "_api": {
+        "prefix": "_api",
+        "body": [
+            "var api = ResourceBuilder.CreateEmpty()",
+            "    .AddService(\"Coin-API\", \"Demo\", \"2.0.0\")",
+            "    .AddAttributes(new KeyValuePair<string, object>[]",
+            "    {",
+            "        new(\"deployment.environment\", \"development\"),",
+            "        new(\"telemetry.sdk.name\", \"dotnet\"),",
+            "        new(\"telemetry.sdk.version\", \"6.0.0\")",
+            "    });"
+        ],
+        "description": "_api"
+    },
+    "_tracing": {
+        "prefix": "_tracing",
+        "body": [
+            "builder.Services.AddOpenTelemetryTracing(",
+            "    b =>",
+            "    {",
+            "        b.AddHttpClientInstrumentation();",
+            "        b.AddAspNetCoreInstrumentation();",
+            "        b.AddHotChocolateInstrumentation();",
+            "        b.SetResourceBuilder(api);",
+            "        b.AddOtlpExporter(c =>",
+            "        {",
+            "            c.Endpoint = new Uri(\"https://ndc-demo.apm.westeurope.azure.elastic-cloud.com\");",
+            "            c.Headers = Constants.Headers;",
+            "        });",
+            "    });",
+            ""
+        ],
+        "description": "_tracing"
+    },
+    "_metrics": {
+        "prefix": "_metrics",
+        "body": [
+            "builder.Services.AddOpenTelemetryMetrics(",
+            "    b =>",
+            "    {",
+            "        b.AddHttpClientInstrumentation();",
+            "        b.AddAspNetCoreInstrumentation();",
+            "        b.SetResourceBuilder(api);",
+            "        b.AddOtlpExporter(c =>",
+            "        {",
+            "            c.Endpoint = new Uri(\"https://ndc-demo.apm.westeurope.azure.elastic-cloud.com\");",
+            "            c.Headers = Constants.Headers;",
+            "        });",
+            "    });"
+        ],
+        "description": "_metrics"
+    },
+    "_apollo": {
+        "prefix": "_apollo",
+        "body": [
+            ".AddApolloTracing(TracingPreference.Always)"
+        ],
+        "description": "_apollo"
+    },
+    "_LogInterceptor": {
+        "prefix": "_LogInterceptor",
+        "body": [
+            "using HotChocolate.Execution.Instrumentation;",
+            "using HotChocolate.Resolvers;",
+            "",
+            "namespace Demo;",
+            "",
+            "public sealed class LogInterceptor : ExecutionDiagnosticEventListener",
+            "{",
+            "    ",
+            "}"
+        ],
+        "description": "_LogInterceptor"
+    },
+    "_CustomActivityEnricher": {
+        "prefix": "_CustomActivityEnricher",
+        "body": [
+            "using System.Text;",
+            "using HotChocolate.Diagnostics;",
+            "using Microsoft.Extensions.ObjectPool;",
+            "",
+            "namespace Demo;",
+            "",
+            "public sealed class CustomActivityEnricher : ActivityEnricher",
+            "{",
+            "",
+            "}"
+        ],
+        "description": "_CustomActivityEnricher"
+    },
+    "_Meter": {
+        "prefix": "_Meter",
+        "body": [
+            "using System.Diagnostics.Metrics;",
+            "using HotChocolate.Execution;",
+            "using HotChocolate.Execution.Instrumentation;",
+            "",
+            "namespace Demo;",
+            "",
+            "public class MetricsDiagnosticEventListener : ExecutionDiagnosticEventListener",
+            "{",
+            "    private static readonly Meter _meter = new Meter(\"Demo.GraphQL\", \"1.0.0\");",
+            "    private static readonly Counter<int> _requestExecuted = _meter.CreateCounter<int>(\"requests\");",
+            "",
+            "    public override IDisposable ExecuteRequest(IRequestContext context)",
+            "    {",
+            "        _requestExecuted.Add(1);",
+            "        return base.ExecuteRequest(context);",
+            "    }",
+            "}"
+        ],
+        "description": "_Meter"
+    }
+}

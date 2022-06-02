@@ -1,0 +1,113 @@
+# https://github.com/elastic/apm-server/blob/main/docker-compose.yml
+# https://www.elastic.co/guide/en/elastic-stack-get-started/current/get-started-stack-docker.html
+version: '3.7'
+services:
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.1.1
+    ports:
+      - 9200:9200
+    healthcheck:
+      test: ["CMD-SHELL","curl -s -u elastic:elastic http://localhost:9200 | grep -q 'You Know, for Search'"]
+      retries: 300
+      interval: 1s
+    command: bash -c "bin/elasticsearch-users useradd admin -p elastic -r superuser,kibana_system,apm_system,ingest_admin && /usr/local/bin/docker-entrypoint.sh"
+    environment:
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - "network.host="
+      - "transport.host=127.0.0.1"
+      - "http.host=0.0.0.0"
+      - "cluster.routing.allocation.disk.threshold_enabled=false"
+      - "discovery.type=single-node"
+      - "ELASTIC_PASSWORD=elastic"
+      - "xpack.security.authc.anonymous.roles=remote_monitoring_collector"
+      - "xpack.security.enabled=true"
+      - "xpack.security.authc.token.enabled=true"
+      - "xpack.security.authc.api_key.enabled=true"
+      - "logger.org.elasticsearch=warn"
+    volumes:
+      - ./.elastic/elasticsearch:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.1.1
+    ports:
+      - 5601:5601
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:5601/api/status | grep -q 'All services are available'"]
+      retries: 300
+      interval: 1s
+    environment:
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+      ELASTICSEARCH_USERNAME: "admin"
+      ELASTICSEARCH_PASSWORD: "elastic"
+      XPACK_FLEET_AGENTS_FLEET_SERVER_HOSTS: '["https://fleet-server:8220"]'
+      XPACK_FLEET_AGENTS_ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+      XPACK_FLEET_REGISTRYURL: "https://epr.elastic.co/"
+    depends_on:
+      elasticsearch: { condition: service_healthy }
+    volumes:
+      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+
+  fleet-server:
+    image: docker.elastic.co/beats/elastic-agent:8.1.1
+    ports:
+      - 8220:8220
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -k https://localhost:8220/api/status | grep -q 'HEALTHY'"]
+      retries: 300
+      interval: 1s
+    environment:
+      FLEET_SERVER_ENABLE: "1"
+      FLEET_SERVER_POLICY_ID: "fleet-server-apm"
+      FLEET_SERVER_ELASTICSEARCH_HOST: http://elasticsearch:9200
+      FLEET_SERVER_ELASTICSEARCH_USERNAME: "admin"
+      FLEET_SERVER_ELASTICSEARCH_PASSWORD: "elastic"
+      FLEET_URL: https://fleet-server:8220
+      KIBANA_FLEET_SETUP: "true"
+      KIBANA_FLEET_HOST: "http://kibana:5601"
+      KIBANA_FLEET_USERNAME: "admin"
+      KIBANA_FLEET_PASSWORD: "elastic"
+    depends_on:
+      elasticsearch: { condition: service_healthy }
+      kibana: { condition: service_healthy }
+
+  apm:
+    image: docker.elastic.co/apm/apm-server:8.1.1
+    ports:
+      - 8200:8200
+    healthcheck:
+      test: curl -s http://localhost:8200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 1s
+      retries: 300
+    command: >
+      apm-server -e
+        -E apm-server.rum.enabled=true
+        -E logging.level=debug
+        -E setup.kibana.host=http://kibana:5601
+        -E setup.template.settings.index.number_of_replicas=0
+        -E apm-server.kibana.enabled=true
+        -E apm-server.kibana.host=http://kibana:5601
+        -E apm-server.kibana.protocol=http
+        -E apm-server.kibana.username=admin
+        -E apm-server.kibana.password=elastic
+        -E apm-server.kibana.ssl.enabled=false
+        -E output.elasticsearch.hosts=http://elasticsearch:9200
+        -E output.elasticsearch.protocol=http
+        -E output.elasticsearch.username=admin
+        -E output.elasticsearch.password=elastic
+        -E output.elasticsearch.ssl.enabled=false
+    depends_on:
+      fleet-server: { condition: service_healthy }
+      kibana: { condition: service_healthy }
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.47.0
+    ports:
+      - 13133:13133 # health_check extension
+      - 4317:4317   # OTLP gRPC receiver
+      - 5679:5679 # zpages extension
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    depends_on:
+      apm: { condition: service_healthy }
