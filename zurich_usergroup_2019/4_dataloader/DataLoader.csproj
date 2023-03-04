@@ -21,7 +21,7 @@
     <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.1.1" />
     <PackageReference Include="HotChocolate.Types.Filters" Version="10.1.1" />
     <PackageReference Include="HotChocolate.Types.Sorting" Version="10.1.1" />
-    <PackageReference Include="MongoDB.Driver" Version="2.7.3" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
   </ItemGroup>
 
 </Project>
