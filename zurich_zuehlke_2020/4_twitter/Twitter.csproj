@@ -24,7 +24,7 @@
     <PackageReference Include="HotChocolate.PersistedQueries.FileSystem" Version="10.3.5" />
     <PackageReference Include="System.Threading.Channels" Version="4.6.0" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.9.3" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
   </ItemGroup>
 
 </Project>
